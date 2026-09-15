@@ -5,11 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b0f1a" />
   <meta name="description" content="Arango Code / Camilo Arango. Herramientas de desarrollo, herramientas de IA y prompts listos para usar." />
+  <link rel="canonical" href="https://arangocode.com/" />
+
   <meta property="og:title" content="ArangoCode — recursos para developers y creadores" />
-  <meta property="og:description" content="Herramientas curadas, IA y prompts prácticos listos para usar." />
+  <meta property="og:description" content="Herramientas, IA y prompts prácticos listos para usar." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/img/code.png" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://arangocode.com/" />
+  <meta property="og:site_name" content="ArangoCode" />
+  <meta property="og:image" content="https://arangocode.com/assets/img/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="es_CO" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ArangoCode — recursos para developers y creadores" />
+  <meta name="twitter:description" content="Herramientas, IA y prompts prácticos listos para usar." />
+  <meta name="twitter:image" content="https://arangocode.com/assets/img/og-image.png" />
+
   <title>ArangoCode / Camilo Arango</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,6 +29,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="icon" type="image/png" href="assets/img/code.png" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Camilo Arango",
+    "alternateName": "ArangoCode",
+    "url": "https://arangocode.com/",
+    "image": "https://arangocode.com/assets/img/og-image.png",
+    "jobTitle": "Estudiante de Ingeniería de Sistemas",
+    "sameAs": [
+      "https://github.com/camilo55arango",
+      "https://x.com/Soy_Breve",
+      "https://instagram.com/arangoypunto"
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#content">Saltar al contenido</a>
@@ -28,10 +59,19 @@
     <span class="grid-lines"></span>
   </div>
 
-  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
-    <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
-    <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
-  </button>
+  <div class="top-actions">
+    <a class="top-actions__btn" id="favoritesToggle" href="#/favoritos" aria-label="Mis guardados">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.3l-6.16 3.6 1.64-7L2 9.3l7.1-.6L12 2.2l2.9 6.5 7.1.6-5.48 4.6 1.64 7z"/></svg>
+      <span class="top-actions__count" id="favoritesCount" hidden>0</span>
+    </a>
+    <button class="top-actions__btn" id="cmdPaletteToggle" type="button" aria-label="Buscar en todo el sitio (Ctrl/Cmd + K)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    </button>
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
 
   <main class="shell">
 
@@ -56,10 +96,11 @@
       <p class="profile__tagline">Demasiado cuerdo para ser artista, <br> Demasiado loco para ser normal</p>
       <p class="profile__tagline">Estudiante de Ingenieria de Sistemas 🧑🏼‍💻</p>
 
-      <p class="profile__value">Recursos curados para construir, aprender y crear con IA.</p>
+      <p class="profile__value">Recursos para construir, aprender y crear con IA.</p>
       <div class="profile__actions" aria-label="Accesos rápidos">
-        <a class="profile__cta profile__cta--primary" href="#/dev">Explorar herramientas</a>
-        <a class="profile__cta" href="#/prompts">Ver prompts</a>
+        <a class="profile__cta" data-route="dev" href="#/dev">Explorar herramientas</a>
+        <a class="profile__cta" data-route="ia" href="#/ia">Herramientas IA</a>
+        <a class="profile__cta" data-route="prompts" href="#/prompts">Ver prompts</a>
         <a class="profile__cta" href="https://github.com/camilo55arango" target="_blank" rel="noopener noreferrer">Ver mi GitHub</a>
       </div>
 
@@ -87,6 +128,10 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input type="search" id="searchInput" placeholder="Buscar..." aria-label="Buscar" autocomplete="off" />
       </div>
+      <div class="view-head__actions">
+        <a class="text-link" id="suggestLink" href="#" target="_blank" rel="noopener noreferrer">+ Sugerir herramienta</a>
+        <button class="text-link" id="shortcutsToggle" type="button">Atajos de teclado</button>
+      </div>
     </section>
 
     <!--Contenido-->
@@ -107,6 +152,7 @@
       <span class="modal__tag" id="modalTag"></span>
       <h3 class="modal__title" id="modalTitle"></h3>
       <p class="modal__desc" id="modalDesc"></p>
+      <div class="modal__vars" id="modalVars" hidden></div>
       <div class="modal__codewrap">
         <pre class="modal__code" id="modalCode" contenteditable="true" spellcheck="false" aria-label="Prompt editable"></pre>
       </div>
@@ -122,6 +168,41 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Volver arriba" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <!--Command palette-->
+  <div class="cmdk" id="cmdPalette" hidden>
+    <div class="cmdk__backdrop" data-close-cmdk></div>
+    <div class="cmdk__box" role="dialog" aria-modal="true" aria-label="Buscar en todo el sitio">
+      <div class="cmdk__search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="cmdkInput" placeholder="Buscar herramientas, IA o prompts..." aria-label="Buscar en todo el sitio" autocomplete="off" />
+        <kbd>Esc</kbd>
+      </div>
+      <div class="cmdk__results" id="cmdkResults"></div>
+    </div>
+  </div>
+
+  <!--Atajos de teclado-->
+  <div class="modal" id="shortcutsModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box modal__box--sm" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle" tabindex="-1">
+      <button class="modal__close" type="button" data-close aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h3 class="modal__title" id="shortcutsTitle">Atajos de teclado</h3>
+      <ul class="shortcuts-list">
+        <li><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd><span>Buscar en todo el sitio</span></li>
+        <li><kbd>/</kbd><span>Enfocar el buscador de la sección</span></li>
+        <li><kbd>?</kbd><span>Mostrar esta ayuda</span></li>
+        <li><kbd>Esc</kbd><span>Cerrar ventana o modal abierto</span></li>
+        <li><kbd>Enter</kbd><span>Abrir prompt seleccionado</span></li>
+      </ul>
+    </div>
+  </div>
 
   <script src="assets/js/data.js"></script>
   <script src="assets/js/app.js"></script>

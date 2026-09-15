@@ -6,6 +6,9 @@ const SOCIALS = {
   instagram: 'https://instagram.com/arangoypunto'
 };
 
+const LAST_UPDATED = 'septiembre de 2026';
+const ISSUES_URL = 'https://github.com/camilo55arango/ArangoCode/issues/new';
+
 
 const SECTIONS = [
   {

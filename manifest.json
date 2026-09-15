@@ -1,0 +1,16 @@
+{
+  "name": "ArangoCode — Camilo Arango",
+  "short_name": "ArangoCode",
+  "description": "Recursos curados para construir, aprender y crear con IA: herramientas de desarrollo, herramientas de IA y prompts listos para usar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#070b14",
+  "theme_color": "#070b14",
+  "lang": "es",
+  "icons": [
+    { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
