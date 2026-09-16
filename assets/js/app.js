@@ -246,10 +246,10 @@
     const favorite = favorites.has(favKey(kind, it.name));
     const favBtn = `<button class="card__favorite" type="button" data-favorite="${esc(it.name)}" data-kind="${kind}" aria-pressed="${favorite}" aria-label="${favorite ? 'Quitar de guardados' : 'Guardar'} ${esc(it.name)}">★</button>`;
 
-    const copyHref = isPrompt
-      ? `${location.origin}${location.pathname}#/prompts?prompt=${encodeURIComponent(it.name)}`
-      : (it.url || '');
-    const copyBtn = `<button class="card__copylink" type="button" data-copylink="${esc(copyHref)}" aria-label="Copiar enlace de ${esc(it.name)}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button>`;
+    const copyIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>';
+    const copyBtn = isPrompt
+      ? `<button class="card__copylink" type="button" data-copyprompt="${esc(it.name)}" aria-label="Copiar prompt de ${esc(it.name)}">${copyIcon}</button>`
+      : (it.url ? `<button class="card__copylink" type="button" data-copylink="${esc(it.url)}" aria-label="Copiar enlace de ${esc(it.name)}">${copyIcon}</button>` : '');
 
     const badgeImg = (!isPrompt && it.url)
       ? `<img class="card__badge-img" src="${esc(faviconUrl(it.url))}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" />`
@@ -385,6 +385,19 @@
       }, 2200);
     } else {
       showToast('No se pudo copiar. Selecciona el texto manualmente.');
+    }
+  }
+
+  async function copyPromptFromCard(el) {
+    const p = PROMPTS.find((x) => x.name === el.dataset.copyprompt);
+    if (!p) return;
+    const ok = await copyText(p.text);
+    if (ok) {
+      el.classList.add('is-done');
+      showToast('Prompt copiado al portapapeles');
+      setTimeout(() => el.classList.remove('is-done'), 1500);
+    } else {
+      showToast('No se pudo copiar el prompt.');
     }
   }
 
@@ -568,6 +581,13 @@
   });
 
   content.addEventListener('click', (e) => {
+    const copyprompt = e.target.closest('[data-copyprompt]');
+    if (copyprompt) {
+      e.preventDefault();
+      e.stopPropagation();
+      copyPromptFromCard(copyprompt);
+      return;
+    }
     const copylink = e.target.closest('[data-copylink]');
     if (copylink) {
       e.preventDefault();

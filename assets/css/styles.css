@@ -644,7 +644,7 @@ body:not([data-view="home"]) .profile__back { display: inline-flex; }
 .modal__codewrap {
   margin-top: 16px;
   flex: 1;
-  min-height: 0;
+  min-height: 110px;
   overflow: auto;
   border-radius: var(--radius-sm);
   background: rgba(0, 0, 0, .32);
@@ -803,7 +803,14 @@ kbd {
 .shortcuts-list li span { margin-left: auto; text-align: right; }
 
 /* Variables de prompt */
-.modal__vars { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.modal__vars {
+  margin-top: 14px;
+  flex: 0 1 auto;
+  max-height: 34vh;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px;
+  padding-right: 4px;
+}
 .modal__vars[hidden] { display: none; }
 .var-field { display: flex; flex-direction: column; gap: 4px; }
 .var-field label { font-size: .72rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--text-dim); }
