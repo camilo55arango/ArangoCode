@@ -1,5 +1,5 @@
 import { SOCIALS, LAST_UPDATED, ISSUES_URL, SECTIONS, PALETTE, DEV_TOOLS, AI_TOOLS, PROMPTS } from './data.js';
-import { LAB_TOOLS } from '../../src/lab/tools.js';
+import { READY_TOOLS } from '../../src/lab/tools.js';
 
 (function () {
   'use strict';
@@ -474,7 +474,7 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
 
   /* Command palette */
   const SEARCH_INDEX = [
-    ...LAB_TOOLS.map((t) => ({ item: { name: t.name, desc: `${t.task} ${t.desc}`, cat: t.cat, url: `/estudio/${t.slug}` }, kind: 'lab' })),
+    ...READY_TOOLS.map((t) => ({ item: { name: t.name, desc: `${t.task} ${t.desc}`, cat: t.cat, url: `/estudio/${t.slug}` }, kind: 'lab' })),
     ...DEV_TOOLS.map((item) => ({ item, kind: 'dev' })),
     ...AI_TOOLS.map((item) => ({ item, kind: 'ia' })),
     ...PROMPTS.map((item) => ({ item, kind: 'prompts' }))

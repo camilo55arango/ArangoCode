@@ -3,7 +3,7 @@
  * HTML (no con JS en el navegador) las metaetiquetas, el JSON-LD, la guía de uso y las preguntas frecuentes.
  */
 
-import { SITE, LAB_TOOLS, LAB_SECTION, toolGridMarkup } from './tools.js';
+import { SITE, READY_TOOLS, LAB_SECTION, toolGridMarkup } from './tools.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -21,7 +21,7 @@ const crumbs = (items) => ({
 const itemList = () => ({
   '@type': 'ItemList',
   name: LAB_SECTION.title,
-  itemListElement: LAB_TOOLS.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: toolUrl(t) }))
+  itemListElement: READY_TOOLS.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: toolUrl(t) }))
 });
 
 function social({ title, desc, url }) {
@@ -55,9 +55,9 @@ export function toolHead(t) {
         name: t.name,
         url,
         description: t.seoDesc,
-        applicationCategory: t.cat === 'Audio' ? 'MultimediaApplication' : 'UtilitiesApplication',
+        applicationCategory: { Audio: 'MultimediaApplication', Documentos: 'BusinessApplication' }[t.cat] ?? 'UtilitiesApplication',
         operatingSystem: 'Cualquiera (navegador web)',
-        browserRequirements: 'Requiere un navegador moderno con WebAssembly; WebGPU opcional',
+        browserRequirements: t.model ? 'Requiere un navegador moderno con WebAssembly; WebGPU opcional' : 'Requiere un navegador moderno con WebAssembly',
         inLanguage: 'es',
         isAccessibleForFree: true,
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -137,7 +137,7 @@ export function homeJsonLd() {
 /** Sustituye los marcadores <!--seo:*--> y <!--estudio:*--> de cada HTML. */
 export function renderPlaceholders(html) {
   const slug = html.match(/<body[^>]*data-tool="([^"]+)"/)?.[1];
-  const tool = slug && LAB_TOOLS.find((t) => t.slug === slug);
+  const tool = slug && READY_TOOLS.find((t) => t.slug === slug);
   return html
     .replace('<!--seo:tool-head-->', tool ? toolHead(tool) : '')
     .replace('<!--seo:tool-info-->', tool ? toolInfo(tool) : '')

@@ -1,10 +1,10 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-import { LAB_TOOLS } from './src/lab/tools.js';
+import { READY_TOOLS } from './src/lab/tools.js';
 import { renderPlaceholders } from './src/lab/seo.js';
 
 const root = import.meta.dirname;
-const ESTUDIO_PAGES = ['index', ...LAB_TOOLS.map((t) => t.slug)];
+const ESTUDIO_PAGES = ['index', ...READY_TOOLS.map((t) => t.slug)];
 
 /** Escribe en el HTML las metaetiquetas, el JSON-LD y las fichas del Estudio (ver src/lab/seo.js). */
 const estudioSeo = {
@@ -50,7 +50,11 @@ export default defineConfig({
   optimizeDeps: {
     // Igual que runonweb: estas librerías cargan sus .wasm por URL y no deben pre-empaquetarse.
     // runonweb publica .ts sin compilar: el pre-empaquetado lo leería como JS.
-    exclude: ['runonweb', '@huggingface/transformers', 'onnxruntime-web', 'paddleocr', 'phonemizer']
+    exclude: [
+      'runonweb', '@huggingface/transformers', 'onnxruntime-web', 'paddleocr', 'phonemizer',
+      // jSquash resuelve sus .wasm con `new URL(..., import.meta.url)`.
+      '@jsquash/jpeg', '@jsquash/webp', '@jsquash/avif', '@jsquash/oxipng'
+    ]
   },
   server: {
     // En desarrollo aislamos todo el sitio para probar WASM multihilo en /estudio.

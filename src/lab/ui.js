@@ -33,6 +33,12 @@ export function createStatus(root, { mode = 'files' } = {}) {
       text.textContent = msg;
       root.dataset.kind = kind;
     },
+    /** Como `set`, pero con marcado propio (enlaces a otra herramienta). Nunca con texto del usuario. */
+    html(markup, kind = '') {
+      bar.hidden = true;
+      text.innerHTML = markup;
+      root.dataset.kind = kind;
+    },
     error(err) {
       console.error(err);
       bar.hidden = true;
@@ -77,26 +83,40 @@ export function showDevice(el, device, { threads: canThread = true } = {}) {
   el.hidden = false;
 }
 
-/** Zona para soltar / elegir / pegar un archivo. */
-export function bindDropzone(zone, onFile) {
+/**
+ * Zona para soltar / elegir / pegar archivos. Con `multiple`, `onFile` recibe un array.
+ * `accept` admite tipos MIME (`image/*`) y extensiones (`.heic`): algunos navegadores no dan tipo a los HEIC.
+ */
+export function bindDropzone(zone, onFile, { multiple = false } = {}) {
   const input = $('input[type="file"]', zone);
-  const accept = (input.accept || '').split(',').map((s) => s.trim()).filter(Boolean);
-  const ok = (file) => !accept.length || accept.some((a) => a.endsWith('/*') ? file.type.startsWith(a.slice(0, -1)) : file.type === a);
-  const pick = (file) => { if (file && ok(file)) onFile(file); };
+  const accept = (input.accept || '').split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+  const ok = (file) => !accept.length || accept.some((a) => {
+    if (a.startsWith('.')) return file.name.toLowerCase().endsWith(a);
+    return a.endsWith('/*') ? file.type.startsWith(a.slice(0, -1)) : file.type === a;
+  });
+  const pick = (files) => {
+    const valid = [...files].filter((f) => f && ok(f));
+    if (!valid.length) return;
+    onFile(multiple ? valid : valid[0]);
+  };
 
-  input.addEventListener('change', () => { pick(input.files[0]); input.value = ''; });
+  if (multiple) input.multiple = true;
+  input.addEventListener('change', () => { pick(input.files); input.value = ''; });
   zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('is-over'); });
   zone.addEventListener('dragleave', () => zone.classList.remove('is-over'));
   zone.addEventListener('drop', (e) => {
     e.preventDefault();
     zone.classList.remove('is-over');
-    pick(e.dataTransfer.files[0]);
+    pick(e.dataTransfer.files);
   });
   document.addEventListener('paste', (e) => {
-    const item = [...(e.clipboardData?.items ?? [])].find((i) => i.kind === 'file');
-    if (item) pick(item.getAsFile());
+    if (e.target.closest?.('input, textarea')) return;
+    const files = [...(e.clipboardData?.items ?? [])].filter((i) => i.kind === 'file').map((i) => i.getAsFile());
+    if (files.length) pick(files);
   });
 }
+
+export { formatBytes as formatSize };
 
 export function downloadBlob(blob, name) {
   const url = URL.createObjectURL(blob);

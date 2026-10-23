@@ -174,3 +174,71 @@
 .lab-faq summary::after { content: '+'; font-family: var(--hand); font-size: 1.8rem; line-height: 1; color: var(--tool-ink); transition: transform .25s var(--ease); }
 .lab-faq details[open] summary::after { transform: rotate(45deg); }
 .lab-faq p { padding: 0 2px 16px; color: var(--text-soft); max-width: 64ch; }
+
+/* --- Controles de las herramientas de archivos (PDF e imágenes) --- */
+.lab-status a { color: var(--tool-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+.lab-range { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: .88rem; color: var(--text-soft); }
+.lab-range input { flex: 1 1 180px; max-width: 360px; accent-color: var(--tool); }
+.lab-range output { min-width: 2.5ch; font-family: var(--mono); font-size: .85rem; color: var(--text); }
+
+.lab-input {
+  flex: 1 1 220px; min-width: 0; min-height: 42px; padding: 8px 12px;
+  font: inherit; color: var(--text);
+  background: var(--paper); border: 1px solid var(--border-strong); border-radius: 10px;
+}
+.lab-input:focus { outline: 2px solid var(--tool); outline-offset: -1px; }
+.lab-password { display: grid; gap: 8px; padding: 14px; border: 1.5px dashed var(--tool); border-radius: 10px; font-size: .9rem; color: var(--text-soft); }
+
+.lab-batch { display: grid; gap: 12px; justify-items: start; }
+.lab-files { list-style: none; display: grid; gap: 8px; width: 100%; }
+.lab-file {
+  position: relative;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px;
+  padding: 10px 12px 12px;
+  background: var(--paper); border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden;
+}
+.lab-file__name { font-weight: 600; font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lab-file__meta { grid-column: 1; font-family: var(--mono); font-size: .74rem; color: var(--text-dim); }
+.lab-file__meta b { color: var(--text); font-weight: 500; }
+.lab-file__meta em { font-style: normal; color: var(--text-soft); }
+.lab-file__delta { color: var(--text-soft); }
+.lab-file.is-smaller .lab-file__delta { color: var(--ok); font-weight: 600; }
+.lab-file .btn { grid-column: 2; grid-row: 1 / span 2; }
+.lab-file__bar { position: absolute; left: 0; bottom: 0; height: 3px; width: var(--saved, 0%); background: var(--tool); }
+
+/* --- Unir PDF: lista reordenable --- */
+.lab-merge { display: grid; gap: 10px; }
+.lab-hint { font-size: .84rem; color: var(--text-dim); }
+.lab-order { list-style: none; display: grid; gap: 6px; }
+.lab-order__item {
+  display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto auto; align-items: center; gap: 10px;
+  min-height: 52px; padding: 6px 8px 6px 10px;
+  background: var(--paper); border: 1px solid var(--border-strong); border-left: 3px solid var(--tool); border-radius: 8px;
+  cursor: grab; user-select: none;
+  transition: box-shadow .2s, opacity .2s;
+}
+.lab-order__item:hover { box-shadow: var(--shadow-sm); }
+.lab-order__item.is-dragging { opacity: .45; border-style: dashed; }
+.lab-order__grip { color: var(--text-dim); letter-spacing: -2px; font-weight: 700; }
+.lab-order__num {
+  width: 28px; height: 28px; display: grid; place-items: center;
+  font-family: var(--hand); font-size: 1.3rem; font-weight: 700; line-height: 1;
+  color: var(--tool-ink); border: 2px solid var(--tool); border-radius: 50% 46% 52% 48%;
+}
+.lab-order__name { font-weight: 600; font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lab-order__size { font-family: var(--mono); font-size: .72rem; color: var(--text-dim); white-space: nowrap; }
+.lab-order__actions { display: flex; gap: 4px; }
+.lab-order__actions button {
+  width: 36px; height: 36px; display: grid; place-items: center;
+  color: var(--text-soft); background: var(--paper-2); border: 1px solid var(--border); border-radius: 8px;
+}
+.lab-order__actions button:hover:not([disabled]) { color: var(--text); border-color: var(--tool); }
+.lab-order__actions button[disabled] { opacity: .3; cursor: default; }
+.lab-order__actions svg { width: 15px; height: 15px; }
+.lab-order__actions [data-act="remove"]:hover { color: var(--err); border-color: var(--err); }
+@media (max-width: 560px) {
+  .lab-order__item { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .lab-order__grip, .lab-order__size { display: none; }
+}

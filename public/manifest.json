@@ -1,7 +1,7 @@
 {
   "name": "ArangoCode — Estudio Creativo",
   "short_name": "ArangoCode",
-  "description": "Herramientas gratis que funcionan en tu navegador (imagen a texto, quitar fondo, audio a texto, traductor) y directorios de herramientas, IA y prompts.",
+  "description": "Herramientas gratis que funcionan en tu navegador: unir PDF, PDF a Word, desbloquear PDF, quitar fondo, convertir y comprimir imágenes, traductor y más. Además, directorios de herramientas, IA y prompts.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -10,13 +10,59 @@
   "theme_color": "#15171d",
   "lang": "es",
   "icons": [
-    { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    {
+      "src": "assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ],
   "shortcuts": [
-    { "name": "Imagen a texto", "url": "/estudio/imagen-a-texto", "icons": [{ "src": "assets/img/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Quitar fondo", "url": "/estudio/quitar-fondo", "icons": [{ "src": "assets/img/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Audio a texto", "url": "/estudio/audio-a-texto", "icons": [{ "src": "assets/img/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Traductor", "url": "/estudio/traductor", "icons": [{ "src": "assets/img/icon-192.png", "sizes": "192x192" }] }
+    {
+      "name": "Unir PDF",
+      "url": "/estudio/unir-pdf",
+      "icons": [
+        {
+          "src": "assets/img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "PDF a Word",
+      "url": "/estudio/pdf-a-word",
+      "icons": [
+        {
+          "src": "assets/img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Desbloquear PDF",
+      "url": "/estudio/desbloquear-pdf",
+      "icons": [
+        {
+          "src": "assets/img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Quitar fondo",
+      "url": "/estudio/quitar-fondo",
+      "icons": [
+        {
+          "src": "assets/img/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }
