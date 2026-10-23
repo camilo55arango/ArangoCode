@@ -1,5 +1,5 @@
 import { SOCIALS, LAST_UPDATED, ISSUES_URL, SECTIONS, PALETTE, DEV_TOOLS, AI_TOOLS, PROMPTS } from './data.js';
-import { READY_TOOLS } from '../../src/lab/tools.js';
+import { LAB_TOOLS } from '../../src/lab/tools.js';
 
 (function () {
   'use strict';
@@ -474,7 +474,7 @@ import { READY_TOOLS } from '../../src/lab/tools.js';
 
   /* Command palette */
   const SEARCH_INDEX = [
-    ...READY_TOOLS.map((t) => ({ item: { name: t.name, desc: `${t.task} ${t.desc}`, cat: t.cat, url: `/estudio/${t.slug}` }, kind: 'lab' })),
+    ...LAB_TOOLS.filter((t) => !t.soon).map((t) => ({ item: { name: t.name, desc: `${t.task} ${t.desc}`, cat: t.cat, url: t.external ?? `/estudio/${t.slug}`, external: Boolean(t.external) }, kind: 'lab' })),
     ...DEV_TOOLS.map((item) => ({ item, kind: 'dev' })),
     ...AI_TOOLS.map((item) => ({ item, kind: 'ia' })),
     ...PROMPTS.map((item) => ({ item, kind: 'prompts' }))
@@ -531,7 +531,7 @@ import { READY_TOOLS } from '../../src/lab/tools.js';
     if (!match) return;
     closeCmdPalette();
     if (match.kind === 'prompts') location.hash = `#/prompts?prompt=${encodeURIComponent(match.item.name)}`;
-    else if (match.kind === 'lab') location.href = match.item.url;
+    else if (match.kind === 'lab' && !match.item.external) location.href = match.item.url;
     else window.open(match.item.url, '_blank', 'noopener,noreferrer');
   }
 

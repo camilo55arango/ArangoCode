@@ -27,26 +27,50 @@ export const LAB_TOOLS = [
     ]
   },
   {
+    slug: 'dividir-pdf',
+    name: 'Dividir PDF',
+    task: 'Dividir',
+    cat: 'Documentos',
+    color: '#2bb3a3',
+    desc: 'Separa un PDF por rangos o extrae las páginas que necesites.',
+    foot: 'Motor ~1.3 MB',
+    credits: [['qpdf', 'https://github.com/qpdf/qpdf', 'Apache-2.0'], ['qpdf-wasm', 'https://github.com/neslinesli93/qpdf-wasm', 'ISC'], ['PDF.js', 'https://github.com/mozilla/pdf.js', 'Apache-2.0']],
+    seoTitle: 'Dividir PDF gratis: separa por rangos o extrae páginas',
+    seoDesc: 'Divide un PDF por rangos de páginas, cada cierto número de páginas o extrae las páginas que elijas, gratis y sin subirlo a ningún servidor. Descarga cada parte o todo en un ZIP.',
+    steps: [
+      'Suelta o elige el PDF que quieres dividir y mira sus páginas en miniatura.',
+      'Elige rangos personalizados, partes de un número fijo de páginas, o las páginas a extraer.',
+      'Pulsa Dividir y descarga cada parte, todas en un ZIP o unidas en un solo PDF.'
+    ],
+    faq: [
+      ['¿Es gratis?', 'Sí. Sin registro, sin límite de páginas y sin marcas de agua.'],
+      ['¿Mi PDF se sube a internet?', 'No. La división ocurre en tu navegador con qpdf: el archivo nunca sale de tu dispositivo.'],
+      ['¿Puedo sacar solo algunas páginas?', 'Sí. En «Páginas», escribe las que quieres (por ejemplo 1, 3, 5-8) o haz clic en sus miniaturas. Puedes descargarlas por separado o unidas en un solo PDF.'],
+      ['¿Qué pasa con la calidad?', 'Nada cambia: las páginas se copian tal cual, con su texto, imágenes y enlaces.']
+    ]
+  },
+  {
     slug: 'pdf-a-word',
     name: 'PDF a Word',
     task: 'Convertir',
     cat: 'Documentos',
     color: '#4f8cf7',
-    desc: 'Convierte un PDF en un documento de Word (.docx) editable.',
-    foot: 'Motor ~1 MB',
-    credits: [['PDF.js', 'https://github.com/mozilla/pdf.js', 'Apache-2.0'], ['docx', 'https://github.com/dolanmiu/docx', 'MIT']],
-    seoTitle: 'PDF a Word gratis: convierte PDF a DOCX editable',
-    seoDesc: 'Convierte PDF a Word (.docx) gratis, sin registro y sin subir tu archivo. El texto, los párrafos, los títulos y las negritas pasan a un documento editable.',
+    desc: 'Convierte un PDF en un Word editable que se ve igual que el original.',
+    foot: 'Con OCR gratis',
+    credits: [['PDF.js', 'https://github.com/mozilla/pdf.js', 'Apache-2.0'], ['docx', 'https://github.com/dolanmiu/docx', 'MIT'], ['PP-OCRv6', 'https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_onnx', 'Apache-2.0']],
+    seoTitle: 'PDF a Word gratis, con el mismo diseño y OCR',
+    seoDesc: 'Convierte PDF a Word (.docx) gratis conservando el diseño: tablas, casillas, logos y firmas en su sitio y el texto editable. Con OCR para PDF escaneados y sin subir tu archivo.',
     steps: [
-      'Suelta o elige tu archivo PDF.',
-      'El texto de cada página se extrae en tu navegador, con párrafos, títulos y negritas.',
-      'Descarga el documento .docx y edítalo en Word, Google Docs o LibreOffice.'
+      'Elige si quieres conservar el diseño o solo el texto, y activa OCR si el PDF es escaneado.',
+      'Suelta tu PDF: cada página se reconstruye en tu navegador con su texto, líneas e imágenes.',
+      'Descarga el .docx y edítalo en Word o LibreOffice.'
     ],
     faq: [
       ['¿Es gratis?', 'Sí. Sin registro, sin límite de páginas y sin marcas de agua.'],
       ['¿Mi PDF se sube a internet?', 'No. La conversión ocurre en tu navegador: el documento nunca sale de tu dispositivo.'],
-      ['¿Conserva el diseño exacto?', 'Conserva el texto, los párrafos, los títulos, las negritas, las cursivas y los saltos de página. Las tablas, columnas e imágenes complejas se convierten en texto simple.'],
-      ['¿Funciona con PDF escaneados?', 'Un PDF escaneado es una imagen, no tiene texto. Para esos usa la herramienta Imagen a texto.']
+      ['¿Conserva el diseño?', 'Sí, con «Conservar diseño»: el tamaño de página, las tablas, casillas, líneas, logos y firmas quedan en su sitio, y cada línea de texto queda editable en su posición, con su fuente, tamaño y negrita. Si prefieres párrafos que fluyan para reescribir mucho texto, elige «Solo texto».'],
+      ['¿Funciona con PDF escaneados?', 'Sí. Activa OCR: reconoce el texto de las páginas escaneadas y lo deja editable sobre la imagen original. El OCR también es gratis y funciona en tu dispositivo.'],
+      ['¿Se ve igual en Google Docs?', 'Para el diseño exacto, abre el archivo en Microsoft Word o LibreOffice. Google Docs no respeta los elementos posicionados y los acomoda en una columna.']
     ]
   },
   {
@@ -76,9 +100,12 @@ export const LAB_TOOLS = [
     slug: 'descargar-videos',
     name: 'Descargar videos',
     task: 'Video',
-    cat: 'Video',
-    soon: true,
-    desc: 'Pega el enlace de YouTube, Instagram, Facebook o X y guarda el video.'
+    cat: 'Externo',
+    color: '#5b8def',
+    desc: 'Pega el enlace de YouTube, Instagram, Facebook o X y guarda el video.',
+    // Mientras se construye la herramienta propia, se abre SaveFrom en una pestaña nueva.
+    external: 'https://es.savefrom.net/267hP/',
+    foot: 'Abre SaveFrom.net'
   },
   {
     slug: 'quitar-fondo',
@@ -258,8 +285,8 @@ export const LAB_TOOLS = [
   }
 ];
 
-/* Herramientas con página propia (las que tienen `soon` solo se anuncian). */
-export const READY_TOOLS = LAB_TOOLS.filter((t) => !t.soon);
+/* Herramientas con página propia (las `soon` solo se anuncian y las `external` abren otro sitio). */
+export const READY_TOOLS = LAB_TOOLS.filter((t) => !t.soon && !t.external);
 
 export const LAB_SECTION = {
   id: 'lab',
@@ -279,6 +306,7 @@ const ICONS = {
   'comprimir-imagen': '<path d="M0 0h64v56H0z" opacity=".35"/><path d="M28 4h8v14h8L32 30 20 18h8zM28 52h8V38h8L32 26 20 38h8z"/>',
   'convertir-imagen': '<path d="M0 6h28v24H0z" opacity=".6"/><path d="M36 26h28v24H36z"/><path d="M34 8h14v8h6l-10 10-10-10h6z" opacity=".8"/>',
   'unir-pdf': '<path d="M0 4h26v34H0z" opacity=".45"/><path d="M38 4h26v34H38z" opacity=".45"/><path d="M6 12h14v3H6zM6 19h14v3H6zM44 12h14v3H44zM44 19h14v3H44z" opacity=".8"/><path d="M10 38h8v6h28v-6h8v12H10z"/><path d="M28 30h8v8h6l-10 10-10-10h6z"/>',
+  'dividir-pdf': '<path d="M14 6h36v44H14z" opacity=".35"/><path d="M20 14h24v3H20zM20 21h24v3H20z" opacity=".8"/><path d="M8 28h4v2H8zM16 28h6v2h-6zM26 28h6v2h-6zM36 28h6v2h-6zM46 28h6v2h-6zM56 28h4v2h-4z"/><path d="M20 35h24v3H20zM20 42h16v3H20z" opacity=".8"/>',
   'desbloquear-pdf': '<path d="M8 0h32l16 16v40H8z" opacity=".35"/><path d="M22 22h6v-6a8 8 0 0 1 16 0h-6a2 2 0 0 0-4 0v6h6v6H22z" opacity=".7"/><path d="M18 28h28v20H18z"/><path d="M30 34h4v8h-4z" opacity=".35"/>',
   'descargar-videos': '<path d="M0 8h64v40H0z" opacity=".35"/><path d="M0 8h6v6H0zM0 22h6v6H0zM0 36h6v6H0zM58 8h6v6h-6zM58 22h6v6h-6zM58 36h6v6h-6z" opacity=".7"/><path d="M28 14h8v14h8L32 42 20 28h8z"/>'
 };
@@ -299,6 +327,10 @@ export function toolCardMarkup(t, { h = 'h2', i = 0 } = {}) {
   if (soon) {
     return `<div class="tool-card tool-card--soon" style="--i:${i}">${icon}<span class="tool-card__body">${body}</span>
       <span class="tool-card__foot"><span class="tool-card__soon">Muy pronto</span></span></div>`;
+  }
+  if (t.external) {
+    return `<a class="tool-card tool-card--external" href="${escHtml(t.external)}" target="_blank" rel="noopener noreferrer" style="--tool:${t.color};--i:${i}">${icon}<span class="tool-card__body">${body}</span>
+    <span class="tool-card__foot"><span>${escHtml(t.foot)}</span><span class="tool-card__go">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg><span class="sr-only"> (se abre en una pestaña nueva)</span></span></span></a>`;
   }
   return `<a class="tool-card" href="/estudio/${t.slug}" style="--tool:${t.color};--i:${i}">${icon}<span class="tool-card__body">${body}</span>
     <span class="tool-card__foot"><span>${escHtml(t.foot ?? `Descarga ${t.size}`)}</span><span class="tool-card__go">Abrir <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></span></a>`;
