@@ -1,5 +1,5 @@
 import { SOCIALS, LAST_UPDATED, ISSUES_URL, SECTIONS, PALETTE, DEV_TOOLS, AI_TOOLS, PROMPTS } from './data.js';
-import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
+import { LAB_TOOLS } from '../../src/lab/tools.js';
 
 (function () {
   'use strict';
@@ -63,7 +63,7 @@ import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
     catch (e) { return ''; }
   }
 
-  const KIND_LABEL = { dev: 'Dev', ia: 'IA', prompts: 'Prompt', lab: 'Lab' };
+  const KIND_LABEL = { dev: 'Herramientas', ia: 'IA', prompts: 'Prompt', lab: 'Estudio' };
   function dataFor(kind) {
     if (kind === 'dev') return DEV_TOOLS;
     if (kind === 'ia') return AI_TOOLS;
@@ -128,10 +128,8 @@ import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
   avatarImg.addEventListener('error', () => avatar.classList.add('is-fallback'));
   if (avatarImg.complete && avatarImg.naturalWidth === 0) avatar.classList.add('is-fallback');
 
+  /* El tema inicial lo fija un script en línea del <head> para evitar el parpadeo. */
   const themeBtn = $('#themeToggle');
-  const savedTheme = localStorage.getItem('ac-theme');
-  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
-
   themeBtn.addEventListener('click', () => {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     const next = isLight ? 'dark' : 'light';
@@ -140,24 +138,30 @@ import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
   });
 
 
-  const COUNTS = { dev: DEV_TOOLS.length, ia: AI_TOOLS.length, prompts: PROMPTS.length, lab: LAB_TOOLS.length };
-  const LABELS = { dev: 'herramientas', ia: 'herramientas', prompts: 'prompts', lab: 'herramientas locales' };
+  const COUNTS = { dev: DEV_TOOLS.length, ia: AI_TOOLS.length, prompts: PROMPTS.length };
+  const LABELS = { dev: 'enlaces', ia: 'enlaces', prompts: 'prompts' };
 
+  /* Índice de la libreta: el Estudio va arriba (en el HTML); aquí, el resto de secciones. */
   function renderHome() {
     viewHead.hidden = true;
     quickFilters.innerHTML = '';
     document.body.dataset.view = 'home';
 
-    content.innerHTML = '<div class="grid-home">' + [...SECTIONS, LAB_SECTION].map((s, i) => `
-      <a class="hero-card" href="${s.href ?? '#/' + s.id}"style="--grad:${s.grad};--glow:${s.glow};animation-delay:${i * 90}ms">
-        <span class="hero-card__icon">${s.icon}</span>
-        <span class="hero-card__title">${esc(s.title)}</span>
-        <span class="hero-card__desc">${esc(s.desc)}</span>
-        <span class="hero-card__foot">
-          <span class="hero-card__count">${COUNTS[s.id]} ${LABELS[s.id]}</span>
-          <svg class="hero-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-        </span>
-      </a>`).join('') + '</div>';
+    content.innerHTML = `
+      <h2 class="note-title">Más recursos</h2>
+      <ol class="index-list">${SECTIONS.map((s, i) => `
+        <li style="--tab:${s.color};animation-delay:${i * 80}ms">
+          <a class="index-item" href="#/${s.id}">
+            <span class="index-item__icon">${s.icon}</span>
+            <span class="index-item__body">
+              <span class="index-item__title">${esc(s.title)}</span>
+              <span class="index-item__desc">${esc(s.desc)}</span>
+            </span>
+            <span class="index-item__leader" aria-hidden="true"></span>
+            <span class="index-item__count">${COUNTS[s.id]} ${LABELS[s.id]}</span>
+          </a>
+        </li>`).join('')}
+      </ol>`;
   }
 
 
@@ -199,7 +203,7 @@ import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
     document.body.dataset.view = 'favoritos';
     viewHead.hidden = false;
     viewTitle.textContent = 'Mis guardados';
-    viewDesc.textContent = 'Todo lo que marcaste con ★ en herramientas, IA y prompts, en un solo lugar.';
+    viewDesc.textContent = 'Todo lo que marcaste con ★ en los directorios y los prompts, en un solo lugar.';
     viewMeta.textContent = '';
     searchInput.placeholder = 'Buscar en tus guardados...';
     chipsBox.innerHTML = '';
@@ -429,11 +433,11 @@ import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
     if (location.hash !== newHash) history.replaceState(null, '', newHash);
   }
 
-  const profileCtas = document.querySelectorAll('.profile__cta[data-route]');
+  const profileCtas = document.querySelectorAll('.tab[data-route]');
   function updateProfileActions() {
     profileCtas.forEach((el) => {
       const active = el.dataset.route === state.view;
-      el.classList.toggle('profile__cta--primary', active);
+      el.classList.toggle('is-active', active);
       if (active) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
     });
   }
@@ -470,10 +474,10 @@ import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
 
   /* Command palette */
   const SEARCH_INDEX = [
+    ...LAB_TOOLS.map((t) => ({ item: { name: t.name, desc: `${t.task} ${t.desc}`, cat: t.cat, url: `/estudio/${t.slug}` }, kind: 'lab' })),
     ...DEV_TOOLS.map((item) => ({ item, kind: 'dev' })),
     ...AI_TOOLS.map((item) => ({ item, kind: 'ia' })),
-    ...PROMPTS.map((item) => ({ item, kind: 'prompts' })),
-    ...LAB_TOOLS.map((t) => ({ item: { name: `${t.name} · ${t.task}`, desc: t.desc, cat: t.cat, url: `/lab/${t.slug}` }, kind: 'lab' }))
+    ...PROMPTS.map((item) => ({ item, kind: 'prompts' }))
   ];
   let cmdkItems = [];
   let cmdkIndex = -1;

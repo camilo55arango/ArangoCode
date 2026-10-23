@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0f1a" />
-  <meta name="description" content="Arango Code / Camilo Arango. Herramientas de desarrollo, herramientas de IA y prompts listos para usar." />
+  <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
+  <title>Estudio Creativo: herramientas gratis en tu navegador | ArangoCode</title>
+  <meta name="description" content="Pasa una imagen a texto, quita el fondo de una foto, transcribe audio y traduce gratis, sin registro y sin subir tus archivos. Además: directorios de herramientas, IA y prompts." />
   <link rel="canonical" href="https://arangocode.com/" />
 
-  <meta property="og:title" content="ArangoCode — recursos para developers y creadores" />
-  <meta property="og:description" content="Herramientas, IA y prompts prácticos listos para usar." />
+  <meta property="og:title" content="ArangoCode · Estudio Creativo: herramientas gratis en tu navegador" />
+  <meta property="og:description" content="Imagen a texto, quitar fondo, audio a texto y traductor. Gratis, sin registro y sin subir tus archivos." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://arangocode.com/" />
   <meta property="og:site_name" content="ArangoCode" />
@@ -18,46 +20,25 @@
   <meta property="og:locale" content="es_CO" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ArangoCode — recursos para developers y creadores" />
-  <meta name="twitter:description" content="Herramientas, IA y prompts prácticos listos para usar." />
+  <meta name="twitter:title" content="ArangoCode · Estudio Creativo: herramientas gratis en tu navegador" />
+  <meta name="twitter:description" content="Imagen a texto, quitar fondo, audio a texto y traductor. Gratis, sin registro y sin subir tus archivos." />
   <meta name="twitter:image" content="https://arangocode.com/assets/img/og-image.png" />
 
-  <title>ArangoCode / Camilo Arango</title>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
   <link rel="icon" type="image/png" href="/assets/img/code.png" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Camilo Arango",
-    "alternateName": "ArangoCode",
-    "url": "https://arangocode.com/",
-    "image": "https://arangocode.com/assets/img/og-image.png",
-    "jobTitle": "Estudiante de Ingeniería de Sistemas",
-    "sameAs": [
-      "https://github.com/camilo55arango",
-      "https://x.com/Soy_Breve",
-      "https://instagram.com/arangoypunto"
-    ]
-  }
-  </script>
+  <!--seo:home-->
 </head>
 <body>
   <a class="skip-link" href="#content">Saltar al contenido</a>
-  <!--Fondo decorativo-->
-  <div class="bg-fx" aria-hidden="true">
-    <span class="blob blob--1"></span>
-    <span class="blob blob--2"></span>
-    <span class="blob blob--3"></span>
-    <span class="grid-lines"></span>
-  </div>
+  <div class="bg-fx" aria-hidden="true"></div>
 
   <div class="top-actions">
     <a class="top-actions__btn" id="favoritesToggle" href="#/favoritos" aria-label="Mis guardados">
@@ -82,40 +63,39 @@
         <span>Volver</span>
       </a>
 
-      <div class="avatar">
-        <div class="avatar__ring"></div>
-        <img id="avatarImg" src="/assets/img/perfil.JPG" alt="Foto de Camilo Arango" />
-        <span class="avatar__fallback" id="avatarFallback" aria-hidden="true">CA</span>
+      <div class="profile__id">
+        <div class="avatar">
+          <img id="avatarImg" src="/assets/img/perfil.JPG" alt="Foto de Camilo Arango" width="56" height="56" />
+          <span class="avatar__fallback" id="avatarFallback" aria-hidden="true">CA</span>
+        </div>
+        <div>
+          <p class="profile__name">Camilo Arango</p>
+          <p class="profile__brand"><span class="dot"></span>ArangoCode</p>
+        </div>
       </div>
-
-      <h1 class="profile__name">Camilo Arango</h1>
-      <p class="profile__brand">
-        <span class="dot"></span>
-        ArangoCode
-      </p>
-      <p class="profile__tagline">Demasiado cuerdo para ser artista, <br> Demasiado loco para ser normal</p>
-      <p class="profile__tagline">Estudiante de Ingenieria de Sistemas 🧑🏼‍💻</p>
-
-      <p class="profile__value">Recursos para construir, aprender y crear con IA.</p>
-      <div class="profile__actions" aria-label="Accesos rápidos">
-        <a class="profile__cta" data-route="dev" href="#/dev">Explorar herramientas</a>
-        <a class="profile__cta" data-route="ia" href="#/ia">Herramientas IA</a>
-        <a class="profile__cta" data-route="prompts" href="#/prompts">Ver prompts</a>
-        <a class="profile__cta" href="/lab/">IA en tu navegador</a>
-      </div>
-
-      <nav class="socials" aria-label="Redes sociales">
-        <a class="social social--gh" id="linkGithub" href="#" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
-        </a>
-        <a class="social social--x" id="linkX" href="#" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.22-6.82-5.96 6.82H1.67l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.01 4.13H5.05l12.03 15.64z"/></svg>
-        </a>
-        <a class="social social--ig" id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.72a6.12 6.12 0 1 0 0 12.24 6.12 6.12 0 0 0 0-12.24zm0 10.09a3.97 3.97 0 1 1 0-7.94 3.97 3.97 0 0 1 0 7.94zm7.79-10.33a1.43 1.43 0 1 1-2.86 0 1.43 1.43 0 0 1 2.86 0z"/></svg>
-        </a>
-      </nav>
     </header>
+
+    <!--Separadores de la libreta-->
+    <nav class="tabs" aria-label="Secciones">
+      <a class="tab tab--studio" href="/estudio/">Estudio Creativo</a>
+      <a class="tab" data-route="dev" href="#/dev" style="--tab:#6d4dff">Herramientas Directorio</a>
+      <a class="tab" data-route="ia" href="#/ia" style="--tab:#e8457c">IA Directorio</a>
+      <a class="tab" data-route="prompts" href="#/prompts" style="--tab:#0f9f8f">Prompts</a>
+    </nav>
+
+    <!--Gancho principal: Estudio Creativo-->
+    <section class="studio-hero" id="studio" aria-labelledby="studioTitle">
+      <span class="lab-tag">Nuevo · Gratis · Sin registro</span>
+      <h1 class="studio-hero__title" id="studioTitle">Estudio Creativo</h1>
+      <p class="studio-hero__lead">Herramientas gratis que funcionan en tu navegador. <mark>Tus archivos nunca salen de tu dispositivo.</mark></p>
+      <ul class="studio-hero__seals" aria-label="Ventajas">
+        <li>Gratis y sin límites</li>
+        <li>Sin crear cuenta</li>
+        <li>Funciona sin conexión</li>
+      </ul>
+      <!--estudio:grid-->
+      <a class="studio-hero__more" href="/estudio/">Abrir el Estudio Creativo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+    </section>
 
     <!--Título de sección-->
     <section class="view-head" id="viewHead" hidden>
@@ -136,6 +116,24 @@
 
     <!--Contenido-->
     <section class="content" id="content" aria-live="polite"></section>
+
+    <!--Sobre mí-->
+    <section class="about" id="about" aria-labelledby="aboutTitle">
+      <h2 class="note-title" id="aboutTitle">Sobre mí</h2>
+      <p class="about__quote">Demasiado cuerdo para ser artista, <br> demasiado loco para ser normal.</p>
+      <p>Soy Camilo, estudiante de Ingeniería de Sistemas 🧑🏼‍💻. Aquí reúno las herramientas que construyo y los recursos que uso para crear, aprender y programar con IA.</p>
+        <nav class="socials" aria-label="Redes sociales">
+          <a class="social social--gh" id="linkGithub" href="#" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+          </a>
+          <a class="social social--x" id="linkX" href="#" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.22-6.82-5.96 6.82H1.67l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.01 4.13H5.05l12.03 15.64z"/></svg>
+          </a>
+          <a class="social social--ig" id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.72a6.12 6.12 0 1 0 0 12.24 6.12 6.12 0 0 0 0-12.24zm0 10.09a3.97 3.97 0 1 1 0-7.94 3.97 3.97 0 0 1 0 7.94zm7.79-10.33a1.43 1.43 0 1 1-2.86 0 1.43 1.43 0 0 1 2.86 0z"/></svg>
+          </a>
+        </nav>
+    </section>
 
     <footer class="footer">
       <p>&copy; <span id="year"></span> Arango Code · Camilo Arango</p>
@@ -179,7 +177,7 @@
     <div class="cmdk__box" role="dialog" aria-modal="true" aria-label="Buscar en todo el sitio">
       <div class="cmdk__search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <input type="search" id="cmdkInput" placeholder="Buscar herramientas, IA o prompts..." aria-label="Buscar en todo el sitio" autocomplete="off" />
+        <input type="search" id="cmdkInput" placeholder="Busca en el Estudio, los directorios o los prompts…" aria-label="Buscar en todo el sitio" autocomplete="off" />
         <kbd>Esc</kbd>
       </div>
       <div class="cmdk__results" id="cmdkResults"></div>

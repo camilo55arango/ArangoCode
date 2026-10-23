@@ -13,32 +13,29 @@ const ISSUES_URL = 'https://github.com/camilo55arango/ArangoCode/issues/new';
 const SECTIONS = [
   {
     id: 'dev',
-    title: 'Herramientas para desarrollar apps',
-    short: 'Herramientas Dev',
-    desc: 'Editores, frameworks, bases de datos, testing y despliegue. Todo lo que uso para construir software (sin IA).',
-    pageDesc: 'Stack completo para construir, probar y desplegar aplicaciones. Todas las herramientas son de uso profesional y tienen versión gratuita o plan free.',
-    grad: 'linear-gradient(135deg, #6d28d9 0%, #7c5cff 45%, #22d3ee 100%)',
-    glow: 'rgba(124, 92, 255, .55)',
+    title: 'Herramientas Directorio',
+    short: 'Herramientas Directorio',
+    desc: 'Directorio de editores, frameworks, bases de datos, testing y despliegue para construir software.',
+    pageDesc: 'Directorio curado de enlaces a herramientas externas para construir, probar y desplegar aplicaciones. Todas son de uso profesional y tienen versión gratuita o plan free.',
+    color: '#6d4dff',
     icon: '<svg viewBox="0 0 24 24"><path d="M8 17l-5-5 5-5M16 7l5 5-5 5M13.5 4l-3 16"/></svg>'
   },
   {
     id: 'ia',
-    title: 'Herramientas IA importantes',
-    short: 'Herramientas IA',
-    desc: 'Las mejores IA de 2026 para consultas, código, imágenes, video, audio y música.',
-    pageDesc: 'Selección de las IA más potentes del momento, organizadas por lo que necesitas hacer: preguntar, programar, crear imágenes, video o música.',
-    grad: 'linear-gradient(135deg, #db2777 0%, #f43f8e 45%, #fb923c 100%)',
-    glow: 'rgba(244, 63, 142, .55)',
+    title: 'IA Directorio',
+    short: 'IA Directorio',
+    desc: 'Directorio de las mejores IA de 2026: chat, código, imágenes, video, audio y música.',
+    pageDesc: 'Directorio curado de enlaces a las IA más potentes del momento, organizadas por lo que necesitas hacer: preguntar, programar, crear imágenes, video o música.',
+    color: '#e8457c',
     icon: '<svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 0-4 4v1a3 3 0 0 0 0 6v1a4 4 0 0 0 8 0v-1a3 3 0 0 0 0-6V7a4 4 0 0 0-4-4z"/><path d="M12 3v18M5 10H3M21 10h-2M5 15H3M21 15h-2"/></svg>'
   },
   {
     id: 'prompts',
-    title: 'Prompts generales para IA',
+    title: 'Prompts',
     short: 'Prompts',
-    desc: 'Plantillas largas y listas para copiar: resúmenes, código, imágenes, video, análisis y más.',
+    desc: 'Plantillas listas para copiar en cualquier IA: resúmenes, código, imágenes, video, análisis y más.',
     pageDesc: 'Prompts completos y probados. Haz clic en cualquier tarjeta para verlo entero y copiarlo con un botón. Reemplaza los campos entre [corchetes].',
-    grad: 'linear-gradient(135deg, #0891b2 0%, #22d3ee 45%, #34d399 100%)',
-    glow: 'rgba(34, 211, 238, .55)',
+    color: '#0f9f8f',
     icon: '<svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H18a2 2 0 0 1 2 2v13.5a2.5 2.5 0 0 1-2.5 2.5H6.5A2.5 2.5 0 0 1 4 18.5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>'
   }
 ];
