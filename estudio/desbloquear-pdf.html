@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
+  <!--seo:tool-head-->
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/desbloquear-pdf.js"></script>
+</head>
+<body data-tool="desbloquear-pdf">
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab" style="--tool:#f2b84b">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <a href="/estudio/">Estudio Creativo</a> / <span aria-current="page">Desbloquear PDF</span></nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">Seguridad · Documentos</span>
+      <h1>Desbloquear PDF</h1>
+      <p>Quita las restricciones para imprimir, copiar o editar un PDF, y su contraseña de apertura si la conoces. No adivina contraseñas.</p>
+      <div class="lab-head__meta"><span class="lab-pill">Sin subir archivos</span><span class="lab-pill" id="device" hidden></span></div>
+    </header>
+
+    <section class="lab-panel">
+      <label class="lab-drop" id="drop">
+        <input type="file" accept="application/pdf,.pdf" hidden />
+        <strong>Suelta tu PDF protegido aquí</strong>
+        <span>o haz clic para elegirlo</span>
+      </label>
+
+      <form class="lab-password" id="pwForm" hidden>
+        <label for="pw">Este PDF pide contraseña para abrirse. Escríbela para desbloquearlo:</label>
+        <div class="lab-row">
+          <input class="lab-input" type="password" id="pw" autocomplete="off" placeholder="Contraseña del PDF" required />
+          <button class="btn btn--tool btn--sm" type="submit">Desbloquear</button>
+        </div>
+      </form>
+
+      <div class="lab-status" id="status" aria-live="polite">
+        <p data-status-text>El motor qpdf (~1.3 MB) se descarga cuando sueltes el primer archivo.</p>
+        <div class="lab-bar" data-status-bar hidden><span data-status-fill></span></div>
+      </div>
+
+      <div class="lab-row" id="actions" hidden>
+        <button class="btn btn--tool" type="button" id="download">Descargar PDF desbloqueado</button>
+      </div>
+    </section>
+
+    <!--seo:tool-info-->
+
+    <p class="lab-credits" id="credits"></p>
+    <footer class="footer"><p>&copy; <span id="year"></span> Arango Code · Camilo Arango</p></footer>
+  </main>
+</body>
+</html>

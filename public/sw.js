@@ -1,4 +1,4 @@
-const CACHE_NAME = 'arangocode-v3';
+const CACHE_NAME = 'arangocode-v4';
 // Los JS/CSS de /_app llevan hash y se cachean al vuelo; aquí solo lo que tiene URL fija.
 const APP_SHELL = [
   '/',
@@ -25,7 +25,11 @@ self.addEventListener('activate', (event) => {
 });
 
 const put = (req, res) => {
-  if (res && res.ok) caches.open(CACHE_NAME).then((cache) => cache.put(req, res.clone()));
+  // El clon se hace ya: cuando abra la caché, la página puede haber leído el cuerpo.
+  if (res && res.ok) {
+    const copy = res.clone();
+    caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+  }
   return res;
 };
 

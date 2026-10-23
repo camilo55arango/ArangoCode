@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
+  <!--seo:tool-head-->
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/comprimir-imagen.js"></script>
+</head>
+<body data-tool="comprimir-imagen">
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab" style="--tool:#ef6f9b">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <a href="/estudio/">Estudio Creativo</a> / <span aria-current="page">Comprimir imágenes</span></nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">Optimizar · Imagen</span>
+      <h1>Comprimir imágenes</h1>
+      <p>Reduce el peso de tus fotos sin que se note la diferencia. Compara el antes y el después y descarga todo en un ZIP.</p>
+      <div class="lab-head__meta"><span class="lab-pill">Varias a la vez</span><span class="lab-pill" id="device" hidden></span></div>
+    </header>
+
+    <section class="lab-panel">
+      <div class="lab-row">
+        <label class="lab-field">Formato
+          <select class="lab-select" id="format">
+            <option value="same">Mismo formato</option>
+            <option value="webp">WebP (más ligero)</option>
+            <option value="jpeg">JPG</option>
+          </select>
+        </label>
+        <label class="lab-field">Tamaño máximo
+          <select class="lab-select" id="maxSide">
+            <option value="">Original</option>
+            <option value="2560">2560 px</option>
+            <option value="1920">1920 px</option>
+            <option value="1280">1280 px</option>
+          </select>
+        </label>
+      </div>
+      <label class="lab-range" id="qualityField">Calidad
+        <input type="range" id="quality" min="30" max="95" step="1" value="75" />
+        <output id="qualityOut" for="quality">75</output>
+      </label>
+
+      <label class="lab-drop" id="drop">
+        <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" hidden />
+        <strong>Suelta tus imágenes aquí</strong>
+        <span>o haz clic para elegirlas · JPG, PNG, WebP o AVIF · varias a la vez</span>
+      </label>
+
+      <div class="lab-status" id="status" aria-live="polite">
+        <p data-status-text>Ajusta la calidad y suelta tus imágenes. Si cambias algo, se vuelven a comprimir.</p>
+        <div class="lab-bar" data-status-bar hidden><span data-status-fill></span></div>
+      </div>
+
+      <div class="lab-grid2" id="preview" hidden>
+        <figure class="lab-figure">
+          <figcaption id="beforeCap">Original</figcaption>
+          <img id="before" alt="Imagen original" />
+        </figure>
+        <figure class="lab-figure">
+          <figcaption id="afterCap">Comprimida</figcaption>
+          <img id="after" alt="Imagen comprimida" />
+        </figure>
+      </div>
+      <div class="lab-batch" id="batch" hidden>
+        <ul class="lab-files" data-files></ul>
+        <button class="btn btn--tool" type="button" data-zip hidden>Descargar todo (.zip)</button>
+      </div>
+    </section>
+
+    <!--seo:tool-info-->
+
+    <p class="lab-credits" id="credits"></p>
+    <footer class="footer"><p>&copy; <span id="year"></span> Arango Code · Camilo Arango</p></footer>
+  </main>
+</body>
+</html>

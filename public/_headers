@@ -17,8 +17,10 @@
   Cross-Origin-Embedder-Policy: credentialless
 
 # JS, CSS y WASM generados por Vite llevan hash en el nombre.
+# COEP también aquí: en una página aislada, Chrome solo arranca Workers cuyo script lo declare.
 /_app/*
   Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Embedder-Policy: credentialless
 
 /assets/img/*
   Cache-Control: public, max-age=31536000, immutable
