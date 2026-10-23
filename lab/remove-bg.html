@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#070b14" />
+  <title>Remover: quitar fondo en tu navegador · ArangoCode</title>
+  <meta name="description" content="Quita el fondo de una foto y descarga un PNG transparente sin subirla a ningún servidor. BEN2 corriendo en tu navegador con WebGPU o WASM." />
+  <link rel="canonical" href="https://arangocode.com/lab/remove-bg" />
+  <meta property="og:image" content="https://arangocode.com/assets/img/og-image.png" />
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://huggingface.co" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/remove-bg.js"></script>
+</head>
+<body data-tool="remove-bg">
+  <div class="bg-fx" aria-hidden="true"><span class="blob blob--1"></span><span class="blob blob--2"></span><span class="grid-lines"></span></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab" style="--tool:#f08a5d">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <a href="/lab/">IA en tu navegador</a> / Remover</nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">Quitar fondo</span>
+      <h1>Remover</h1>
+      <p>Suelta una foto y descarga un PNG con fondo transparente. Funciona con personas, pelo, objetos y bordes difíciles.</p>
+      <div class="lab-head__meta"><span class="lab-pill">Descarga ~219 MB la primera vez</span><span class="lab-pill" id="device" hidden></span></div>
+    </header>
+
+    <section class="lab-panel">
+      <label class="lab-drop" id="drop">
+        <input type="file" accept="image/*" hidden />
+        <strong>Suelta una foto aquí</strong>
+        <span>o haz clic para elegirla · también puedes pegarla con Ctrl+V</span>
+      </label>
+
+      <div class="lab-status" id="status" aria-live="polite">
+        <p data-status-text>El modelo se descarga una sola vez, cuando cargues la primera foto.</p>
+        <div class="lab-bar" data-status-bar hidden><span data-status-fill></span></div>
+      </div>
+
+      <div class="lab-grid2" id="result" hidden>
+        <figure class="lab-figure">
+          <figcaption>Original</figcaption>
+          <img id="original" alt="Foto original" />
+        </figure>
+        <figure class="lab-figure">
+          <figcaption>Sin fondo</figcaption>
+          <img id="output" class="lab-checker" alt="Foto sin fondo" />
+        </figure>
+      </div>
+      <div class="lab-row" id="actions" hidden>
+        <button class="btn btn--tool" type="button" id="download">Descargar PNG</button>
+      </div>
+    </section>
+
+    <p class="lab-credits" id="credits"></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#070b14" />
+  <title>Scan: OCR en tu navegador · ArangoCode</title>
+  <meta name="description" content="Extrae el texto de cualquier foto o captura sin subirla a ningún servidor. OCR con PP-OCRv6 que corre en tu navegador con WebGPU o WASM." />
+  <link rel="canonical" href="https://arangocode.com/lab/ocr" />
+  <meta property="og:image" content="https://arangocode.com/assets/img/og-image.png" />
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://huggingface.co" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/ocr.js"></script>
+</head>
+<body data-tool="ocr">
+  <div class="bg-fx" aria-hidden="true"><span class="blob blob--1"></span><span class="blob blob--2"></span><span class="grid-lines"></span></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab" style="--tool:#b5e43c">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <a href="/lab/">IA en tu navegador</a> / Scan</nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">OCR</span>
+      <h1>Scan</h1>
+      <p>Extrae el texto de fotos, capturas, recibos o documentos. La imagen nunca sale de tu dispositivo.</p>
+      <div class="lab-head__meta"><span class="lab-pill" id="device" hidden></span></div>
+    </header>
+
+    <section class="lab-panel">
+      <fieldset class="lab-sizes" id="sizes"><legend>Tamaño del modelo: más grande lee mejor, pero descarga más</legend></fieldset>
+
+      <label class="lab-drop" id="drop">
+        <input type="file" accept="image/*" hidden />
+        <strong>Suelta una imagen aquí</strong>
+        <span>o haz clic para elegirla · también puedes pegarla con Ctrl+V</span>
+      </label>
+
+      <div class="lab-status" id="status" aria-live="polite">
+        <p data-status-text>El modelo se descarga una sola vez, cuando cargues la primera imagen.</p>
+        <div class="lab-bar" data-status-bar hidden><span data-status-fill></span></div>
+      </div>
+
+      <div class="lab-grid2" id="result" hidden>
+        <figure class="lab-figure">
+          <figcaption>Detección</figcaption>
+          <canvas id="preview"></canvas>
+        </figure>
+        <div class="lab-output">
+          <div class="lab-output__head"><span>Texto reconocido</span><button class="btn btn--ghost btn--sm" type="button" id="copy">Copiar</button></div>
+          <textarea class="lab-textarea" id="text" readonly></textarea>
+        </div>
+      </div>
+    </section>
+
+    <p class="lab-credits" id="credits"></p>
+  </main>
+</body>
+</html>
