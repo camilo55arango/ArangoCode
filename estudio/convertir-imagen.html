@@ -63,7 +63,13 @@
       </div>
       <div class="lab-batch" id="batch" hidden>
         <ul class="lab-files" data-files></ul>
-        <button class="btn btn--tool" type="button" data-zip hidden>Descargar todo (.zip)</button>
+        <div class="lab-row lab-row--download">
+          <label class="lab-filename">
+            <span class="lab-filename__label">Nombre del archivo <small>(opcional)</small></span>
+            <span class="lab-filename__box"><input class="lab-input" type="text" data-filename autocomplete="off" spellcheck="false" maxlength="120" /><span class="lab-filename__ext" data-ext>.zip</span></span>
+          </label>
+          <button class="btn btn--tool" type="button" data-zip hidden>Descargar todo (.zip)</button>
+        </div>
       </div>
     </section>
 

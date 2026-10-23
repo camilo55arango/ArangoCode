@@ -1,11 +1,12 @@
 import '../shell.js';
-import { $, bindDropzone, createStatus, downloadBlob, esc, formatSize } from '../ui.js';
+import { $, bindDropzone, createStatus, downloadBlob, esc, formatSize, nameField } from '../ui.js';
 import { qpdf } from '../qpdf.js';
 
 const status = createStatus($('#status'));
 const list = $('#list');
 const joinBtn = $('#join');
 const downloadBtn = $('#download');
+const name = nameField();
 
 /** Archivos en el orden en que irán en el PDF final. */
 let items = [];
@@ -25,8 +26,12 @@ function invalidate() {
   joinBtn.hidden = false;
 }
 
+/** Nombre por defecto: el del primer archivo de la lista + "-unido". */
+const defaultName = () => `${(items[0]?.file.name.replace(/\.pdf$/i, '') || 'documento')}-unido.pdf`;
+
 function render(focus) {
   $('#merge').hidden = !items.length;
+  name.suggest(defaultName());
   $('#count').textContent = `${items.length} ${items.length === 1 ? 'archivo' : 'archivos'} · orden final`;
   joinBtn.disabled = items.length < 2;
   joinBtn.textContent = items.length < 2 ? 'Añade al menos 2 PDF' : `Unir ${items.length} PDF`;
@@ -125,8 +130,7 @@ joinBtn.addEventListener('click', async () => {
       return;
     }
 
-    const first = snapshot[0].file.name.replace(/\.pdf$/i, '') || 'documento';
-    result = { blob: new Blob([run.out], { type: 'application/pdf' }), name: `${first}-unido.pdf` };
+    result = { blob: new Blob([run.out], { type: 'application/pdf' }), name: defaultName() };
     joinBtn.hidden = true;
     downloadBtn.hidden = false;
     downloadBtn.focus();
@@ -138,7 +142,7 @@ joinBtn.addEventListener('click', async () => {
   }
 });
 
-downloadBtn.addEventListener('click', () => result && downloadBlob(result.blob, result.name));
+downloadBtn.addEventListener('click', () => result && downloadBlob(result.blob, name.fileName(result.name)));
 $('#clear').addEventListener('click', () => {
   items = [];
   invalidate();

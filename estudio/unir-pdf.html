@@ -49,7 +49,12 @@
         </div>
         <p class="lab-hint">Arrastra los archivos o usa las flechas para ordenarlos. Así quedarán en el PDF final.</p>
         <ol class="lab-order" id="list"></ol>
-        <div class="lab-row">
+        <div class="lab-row lab-row--download">
+          <label class="lab-filename">
+            <span class="lab-filename__label">Nombre del archivo <small>(opcional)</small></span>
+            <span class="lab-filename__box"><input class="lab-input" type="text" data-filename autocomplete="off" spellcheck="false" maxlength="120" /><span class="lab-filename__ext" data-ext>.pdf</span></span>
+          </label>
+
           <button class="btn btn--tool" type="button" id="join">Unir PDF</button>
           <button class="btn btn--tool" type="button" id="download" hidden>Descargar PDF unido</button>
         </div>

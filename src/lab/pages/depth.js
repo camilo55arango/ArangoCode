@@ -1,6 +1,6 @@
 import '../shell.js';
 import { DepthEstimator } from 'runonweb/depth';
-import { $, bindDropzone, createStatus, downloadBlob, outName, showDevice } from '../ui.js';
+import { $, bindDropzone, createStatus, downloadBlob, nameField, outName, showDevice } from '../ui.js';
 import { fileToCanvas } from '../image.js';
 
 // Depth Anything V2 trabaja a 518 px; más resolución solo cuesta decodificar y copiar.
@@ -35,6 +35,7 @@ async function run(file) {
 
     setSrc(output, depth);
     current = { png: depth, name: outName(file, 'profundidad') };
+    name.suggest(current.name);
     $('#result').hidden = false;
     $('#actions').hidden = false;
     status.set(`Listo en ${Math.round(performance.now() - t0)} ms`, 'ok');
@@ -44,4 +45,4 @@ async function run(file) {
 }
 
 bindDropzone($('#drop'), run);
-$('#download').addEventListener('click', () => current && downloadBlob(current.png, current.name));
+$('#download').addEventListener('click', () => current && downloadBlob(current.png, name.fileName(current.name)));

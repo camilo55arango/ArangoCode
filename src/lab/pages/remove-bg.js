@@ -1,6 +1,6 @@
 import '../shell.js';
 import { RemoveBackground } from 'runonweb/remove-bg';
-import { $, bindDropzone, createStatus, downloadBlob, outName, showDevice } from '../ui.js';
+import { $, bindDropzone, createStatus, downloadBlob, nameField, outName, showDevice } from '../ui.js';
 import { fileToCanvas } from '../image.js';
 
 // BEN2 trabaja a 1024 px; más resolución solo cuesta decodificar y copiar.
@@ -10,6 +10,7 @@ const status = createStatus($('#status'));
 const original = $('#original');
 const output = $('#output');
 const remover = new RemoveBackground({ onProgress: status.onProgress });
+const name = nameField();
 
 let current = null;
 let runId = 0;
@@ -37,6 +38,7 @@ async function run(file) {
     showDevice($('#device'), remover.device);
     setSrc(output, png);
     current = { png, name: outName(file, 'sin-fondo') };
+    name.suggest(current.name);
     $('#result').hidden = false;
     $('#actions').hidden = false;
     status.set(`Listo en ${Math.round(performance.now() - t0)} ms`, 'ok');
@@ -46,4 +48,4 @@ async function run(file) {
 }
 
 bindDropzone($('#drop'), run);
-$('#download').addEventListener('click', () => current && downloadBlob(current.png, current.name));
+$('#download').addEventListener('click', () => current && downloadBlob(current.png, name.fileName(current.name)));

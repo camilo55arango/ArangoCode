@@ -1,10 +1,11 @@
 import '../shell.js';
-import { $, bindDropzone, createStatus, downloadBlob } from '../ui.js';
+import { $, bindDropzone, createStatus, downloadBlob, nameField } from '../ui.js';
 import { qpdf } from '../qpdf.js';
 
 const status = createStatus($('#status'));
 const pwForm = $('#pwForm');
 const pwInput = $('#pw');
+const name = nameField();
 
 let file = null;
 let current = null;
@@ -24,6 +25,7 @@ async function unlock(password = '') {
   if (check.code === 2 && !needsPassword) {
     status.set('Este PDF no tiene contraseña ni restricciones: ya está desbloqueado.', 'ok');
     current = { blob: file, name: file.name };
+    name.suggest(current.name);
     $('#actions').hidden = false;
     return;
   }
@@ -50,6 +52,7 @@ async function unlock(password = '') {
   pwForm.hidden = true;
   pwInput.value = '';
   current = { blob: new Blob([result.out], { type: 'application/pdf' }), name: file.name.replace(/\.pdf$/i, '') + '-desbloqueado.pdf' };
+  name.suggest(current.name);
   $('#actions').hidden = false;
   status.set(password ? 'Listo: se quitaron la contraseña y las restricciones.' : 'Listo: se quitaron las restricciones de imprimir, copiar y editar.', 'ok');
 }
@@ -68,4 +71,4 @@ pwForm.addEventListener('submit', (e) => {
   e.preventDefault();
   if (file) unlock(pwInput.value).catch((err) => status.error(err));
 });
-$('#download').addEventListener('click', () => current && downloadBlob(current.blob, current.name));
+$('#download').addEventListener('click', () => current && downloadBlob(current.blob, name.fileName(current.name)));

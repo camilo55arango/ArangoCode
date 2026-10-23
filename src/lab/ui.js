@@ -134,6 +134,39 @@ export async function copyText(text, btn) {
   } catch (e) { /* sin permiso de portapapeles */ }
 }
 
+/** Lo que escribe la persona, apto como nombre de archivo (sin extensión ni caracteres prohibidos). */
+export const cleanName = (value) => String(value ?? '')
+  .trim()
+  .replace(/\.(pdf|docx?|png|jpe?g|webp|avif|zip)$/i, '')
+  // Caracteres que Windows no admite: un espacio (no un guion) deja el nombre como lo escribió la persona.
+  .replace(/[\\/:*?"<>|\u0000-\u001f]+/g, ' ')
+  .replace(/\s+/g, ' ')
+  .replace(/^[.\s-]+|[.\s-]+$/g, '')
+  .slice(0, 120);
+
+/**
+ * Campo opcional "Nombre del archivo" (`[data-filename]` con su `[data-ext]`). Si está vacío, se usa
+ * el nombre de siempre; si no, el elegido con la extensión correcta. `n` numera varios archivos (-1, -2…).
+ */
+export function nameField(root = document) {
+  const input = $('[data-filename]', root);
+  const extEl = $('[data-ext]', root);
+  const ext = (name) => name.match(/\.[^.]+$/)?.[0] ?? '';
+  return {
+    /** Muestra el nombre por defecto como sugerencia, con su extensión al lado. */
+    suggest(fallback) {
+      if (!input) return;
+      input.placeholder = fallback.replace(/\.[^.]+$/, '');
+      if (extEl) extEl.textContent = ext(fallback);
+    },
+    get custom() { return cleanName(input?.value); },
+    fileName(fallback, n) {
+      const base = cleanName(input?.value);
+      return base ? `${base}${n ? `-${n}` : ''}${ext(fallback)}` : fallback;
+    }
+  };
+}
+
 /** Nombre de archivo de salida: foto.jpg → foto-sin-fondo.png */
 export const outName = (file, suffix, ext = 'png') =>
   `${(file?.name || 'imagen').replace(/\.[^.]+$/, '')}-${suffix}.${ext}`;

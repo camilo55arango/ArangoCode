@@ -59,7 +59,11 @@
           <img id="output" class="lab-checker" alt="Foto sin fondo" />
         </figure>
       </div>
-      <div class="lab-row" id="actions" hidden>
+      <div class="lab-row lab-row--download" id="actions" hidden>
+        <label class="lab-filename">
+          <span class="lab-filename__label">Nombre del archivo <small>(opcional)</small></span>
+          <span class="lab-filename__box"><input class="lab-input" type="text" data-filename autocomplete="off" spellcheck="false" maxlength="120" /><span class="lab-filename__ext" data-ext>.png</span></span>
+        </label>
         <button class="btn btn--tool" type="button" id="download">Descargar PNG</button>
       </div>
     </section>
