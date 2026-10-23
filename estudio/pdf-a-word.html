@@ -31,11 +31,28 @@
     <header class="lab-head">
       <span class="lab-tag">Convertir · Documentos</span>
       <h1>PDF a Word</h1>
-      <p>Convierte tu PDF en un documento de Word editable. El texto, los párrafos, los títulos y las negritas se conservan, y el archivo nunca sale de tu dispositivo.</p>
-      <div class="lab-head__meta"><span class="lab-pill">Sin subir archivos</span><span class="lab-pill" id="device" hidden></span></div>
+      <p>Convierte tu PDF en un Word editable que se ve igual que el original: tablas, casillas, logos y firmas en su sitio. También lee PDF escaneados con OCR, y el archivo nunca sale de tu dispositivo.</p>
+      <div class="lab-head__meta"><span class="lab-pill">Sin subir archivos</span><span class="lab-pill">OCR gratis</span><span class="lab-pill" id="device" hidden></span></div>
     </header>
 
     <section class="lab-panel">
+      <fieldset class="lab-modes" id="modes">
+        <legend>Cómo quieres el Word</legend>
+        <label class="lab-mode">
+          <input type="radio" name="mode" value="layout" checked />
+          <span><b>Conservar diseño</b><small>Se ve igual que el PDF: tablas, líneas, casillas, logos y firmas en su sitio, y el texto editable.</small></span>
+        </label>
+        <label class="lab-mode">
+          <input type="radio" name="mode" value="flow" />
+          <span><b>Solo texto</b><small>Párrafos que fluyen, cómodos para reescribir. Sin líneas ni imágenes.</small></span>
+        </label>
+      </fieldset>
+
+      <label class="lab-check" id="ocrField">
+        <input type="checkbox" id="ocr" />
+        <span><b>OCR para páginas escaneadas</b> · reconoce el texto de las páginas que son una imagen (descarga ~31 MB la primera vez)</span>
+      </label>
+
       <label class="lab-drop" id="drop">
         <input type="file" accept="application/pdf,.pdf" hidden />
         <strong>Suelta tu PDF aquí</strong>
@@ -48,7 +65,14 @@
       </div>
 
       <div class="lab-output" id="result" hidden>
-        <div class="lab-output__head"><span id="summary">Texto extraído</span><button class="btn btn--tool btn--sm" type="button" id="download">Descargar .docx</button></div>
+        <div class="lab-row lab-row--download">
+          <label class="lab-filename">
+            <span class="lab-filename__label">Nombre del archivo <small>(opcional)</small></span>
+            <span class="lab-filename__box"><input class="lab-input" type="text" data-filename autocomplete="off" spellcheck="false" maxlength="120" /><span class="lab-filename__ext" data-ext>.docx</span></span>
+          </label>
+          <button class="btn btn--tool" type="button" id="download">Descargar Word (.docx)</button>
+        </div>
+        <div class="lab-output__head"><span id="summary">Texto extraído</span></div>
         <textarea class="lab-textarea" id="text" readonly aria-label="Vista previa del texto extraído"></textarea>
       </div>
     </section>
