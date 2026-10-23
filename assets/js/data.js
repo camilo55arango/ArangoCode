@@ -831,3 +831,5 @@ ENTREGA
 Sé realista con el tiempo que tengo. Si mi objetivo no es alcanzable en ese plazo, dímelo y propón una meta que sí lo sea.`
   }
 ];
+
+export { SOCIALS, LAST_UPDATED, ISSUES_URL, SECTIONS, PALETTE, DEV_TOOLS, AI_TOOLS, PROMPTS };

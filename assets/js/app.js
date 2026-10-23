@@ -1,3 +1,6 @@
+import { SOCIALS, LAST_UPDATED, ISSUES_URL, SECTIONS, PALETTE, DEV_TOOLS, AI_TOOLS, PROMPTS } from './data.js';
+import { LAB_TOOLS, LAB_SECTION } from '../../src/lab/tools.js';
+
 (function () {
   'use strict';
 
@@ -60,7 +63,7 @@
     catch (e) { return ''; }
   }
 
-  const KIND_LABEL = { dev: 'Dev', ia: 'IA', prompts: 'Prompt' };
+  const KIND_LABEL = { dev: 'Dev', ia: 'IA', prompts: 'Prompt', lab: 'Lab' };
   function dataFor(kind) {
     if (kind === 'dev') return DEV_TOOLS;
     if (kind === 'ia') return AI_TOOLS;
@@ -137,16 +140,16 @@
   });
 
 
-  const COUNTS = { dev: DEV_TOOLS.length, ia: AI_TOOLS.length, prompts: PROMPTS.length };
-  const LABELS = { dev: 'herramientas', ia: 'herramientas', prompts: 'prompts' };
+  const COUNTS = { dev: DEV_TOOLS.length, ia: AI_TOOLS.length, prompts: PROMPTS.length, lab: LAB_TOOLS.length };
+  const LABELS = { dev: 'herramientas', ia: 'herramientas', prompts: 'prompts', lab: 'herramientas locales' };
 
   function renderHome() {
     viewHead.hidden = true;
     quickFilters.innerHTML = '';
     document.body.dataset.view = 'home';
 
-    content.innerHTML = '<div class="grid-home">' + SECTIONS.map((s, i) => `
-      <a class="hero-card" href="#/${s.id}" style="--grad:${s.grad};--glow:${s.glow};animation-delay:${i * 90}ms">
+    content.innerHTML = '<div class="grid-home">' + [...SECTIONS, LAB_SECTION].map((s, i) => `
+      <a class="hero-card" href="${s.href ?? '#/' + s.id}"style="--grad:${s.grad};--glow:${s.glow};animation-delay:${i * 90}ms">
         <span class="hero-card__icon">${s.icon}</span>
         <span class="hero-card__title">${esc(s.title)}</span>
         <span class="hero-card__desc">${esc(s.desc)}</span>
@@ -469,7 +472,8 @@
   const SEARCH_INDEX = [
     ...DEV_TOOLS.map((item) => ({ item, kind: 'dev' })),
     ...AI_TOOLS.map((item) => ({ item, kind: 'ia' })),
-    ...PROMPTS.map((item) => ({ item, kind: 'prompts' }))
+    ...PROMPTS.map((item) => ({ item, kind: 'prompts' })),
+    ...LAB_TOOLS.map((t) => ({ item: { name: `${t.name} · ${t.task}`, desc: t.desc, cat: t.cat, url: `/lab/${t.slug}` }, kind: 'lab' }))
   ];
   let cmdkItems = [];
   let cmdkIndex = -1;
@@ -523,6 +527,7 @@
     if (!match) return;
     closeCmdPalette();
     if (match.kind === 'prompts') location.hash = `#/prompts?prompt=${encodeURIComponent(match.item.name)}`;
+    else if (match.kind === 'lab') location.href = match.item.url;
     else window.open(match.item.url, '_blank', 'noopener,noreferrer');
   }
 
