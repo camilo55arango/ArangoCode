@@ -4,14 +4,14 @@
 /
   Cache-Control: no-cache
 
-# Aislamiento entre orígenes solo en el laboratorio: habilita SharedArrayBuffer y WASM multihilo.
+# Aislamiento entre orígenes solo en el Estudio Creativo: habilita SharedArrayBuffer y WASM multihilo.
 # credentialless (en vez de require-corp) deja cargar Hugging Face, jsDelivr y Google Fonts sin CORP.
-/lab
+/estudio
   Cache-Control: no-cache
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: credentialless
 
-/lab/*
+/estudio/*
   Cache-Control: no-cache
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: credentialless

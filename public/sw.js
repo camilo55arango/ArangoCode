@@ -1,8 +1,8 @@
-const CACHE_NAME = 'arangocode-v2';
+const CACHE_NAME = 'arangocode-v3';
 // Los JS/CSS de /_app llevan hash y se cachean al vuelo; aquí solo lo que tiene URL fija.
 const APP_SHELL = [
   '/',
-  '/lab/',
+  '/estudio/',
   '/assets/img/code.png',
   '/assets/img/icon-192.png',
   '/assets/img/icon-512.png'

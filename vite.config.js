@@ -1,8 +1,16 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
+import { LAB_TOOLS } from './src/lab/tools.js';
+import { renderPlaceholders } from './src/lab/seo.js';
 
 const root = import.meta.dirname;
-const LAB_PAGES = ['index', 'ocr', 'remove-bg', 'stt', 'depth', 'translate'];
+const ESTUDIO_PAGES = ['index', ...LAB_TOOLS.map((t) => t.slug)];
+
+/** Escribe en el HTML las metaetiquetas, el JSON-LD y las fichas del Estudio (ver src/lab/seo.js). */
+const estudioSeo = {
+  name: 'estudio-seo',
+  transformIndexHtml: { order: 'pre', handler: renderPlaceholders }
+};
 
 /**
  * Cloudflare rechaza archivos de más de 25 MiB. Los .wasm de ONNX Runtime (25–27 MiB) se emiten por
@@ -24,7 +32,7 @@ const omitOversizedAssets = {
 };
 
 export default defineConfig({
-  plugins: [omitOversizedAssets],
+  plugins: [estudioSeo, omitOversizedAssets],
   build: {
     // Los JS/CSS con hash van a /_app para no chocar con public/assets/img.
     assetsDir: '_app',
@@ -32,7 +40,7 @@ export default defineConfig({
     rolldownOptions: {
       input: {
         main: resolve(root, 'index.html'),
-        ...Object.fromEntries(LAB_PAGES.map((p) => [`lab-${p}`, resolve(root, `lab/${p}.html`)]))
+        ...Object.fromEntries(ESTUDIO_PAGES.map((p) => [`estudio-${p}`, resolve(root, `estudio/${p}.html`)]))
       }
     }
   },
@@ -45,7 +53,7 @@ export default defineConfig({
     exclude: ['runonweb', '@huggingface/transformers', 'onnxruntime-web', 'paddleocr', 'phonemizer']
   },
   server: {
-    // En desarrollo aislamos todo el sitio para probar WASM multihilo en /lab.
+    // En desarrollo aislamos todo el sitio para probar WASM multihilo en /estudio.
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Embedder-Policy': 'credentialless'

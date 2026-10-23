@@ -1,0 +1,8 @@
+# El laboratorio pasó a llamarse Estudio Creativo, con URLs en español.
+/lab             /estudio/                       301
+/lab/            /estudio/                       301
+/lab/ocr         /estudio/imagen-a-texto         301
+/lab/remove-bg   /estudio/quitar-fondo           301
+/lab/stt         /estudio/audio-a-texto          301
+/lab/depth       /estudio/mapa-de-profundidad    301
+/lab/translate   /estudio/traductor              301

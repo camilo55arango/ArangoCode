@@ -1,13 +1,9 @@
-/* Marco común de /lab: tema, créditos del modelo y service worker. */
+/* Marco común de /estudio: tema, créditos del modelo y service worker. */
 
 import { LAB_TOOLS } from './tools.js';
 import { $, esc } from './ui.js';
 
-try {
-  const saved = localStorage.getItem('ac-theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
-} catch (e) { /* storage no disponible */ }
-
+/* El tema inicial lo fija un script en línea del <head> para evitar el parpadeo. */
 $('#themeToggle')?.addEventListener('click', () => {
   const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', next);
