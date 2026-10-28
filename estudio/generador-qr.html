@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
+  <!--seo:tool-head-->
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/generador-qr.js"></script>
+</head>
+<body data-tool="generador-qr">
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab" style="--tool:#ffab00">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <a href="/estudio/">Estudio Creativo</a> / <span aria-current="page">Generador de QR</span></nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">Crear · Texto</span>
+      <h1>Generador de QR</h1>
+      <p>Crea un código QR para un enlace, un texto, tu red WiFi o un contacto. Ponle tus colores y tu logo, y descárgalo en PNG o SVG. No caduca nunca.</p>
+      <div class="lab-head__meta"><span class="lab-pill">Sin descarga</span><span class="lab-pill">PNG y SVG</span><span class="lab-pill" id="device" hidden></span></div>
+    </header>
+
+    <section class="lab-panel">
+      <div class="lab-qr">
+        <div class="lab-qr__form">
+          <div class="lab-seg" role="radiogroup" aria-label="Tipo de QR">
+            <label><input type="radio" name="type" value="url" checked /><span>Enlace</span></label>
+            <label><input type="radio" name="type" value="text" /><span>Texto</span></label>
+            <label><input type="radio" name="type" value="wifi" /><span>WiFi</span></label>
+            <label><input type="radio" name="type" value="contact" /><span>Contacto</span></label>
+          </div>
+
+          <div class="lab-qr__fields" data-type="url">
+            <label class="lab-field lab-field--block">Enlace
+              <input class="lab-input" type="url" id="url" placeholder="https://tu-sitio.com" value="https://arangocode.com" autocomplete="off" />
+            </label>
+          </div>
+          <div class="lab-qr__fields" data-type="text" hidden>
+            <label class="lab-field lab-field--block">Texto
+              <textarea class="lab-textarea lab-textarea--sm" id="text" rows="4" placeholder="Escribe el texto que verá quien escanee el código"></textarea>
+            </label>
+          </div>
+          <div class="lab-qr__fields" data-type="wifi" hidden>
+            <label class="lab-field lab-field--block">Nombre de la red (SSID)
+              <input class="lab-input" type="text" id="ssid" autocomplete="off" />
+            </label>
+            <label class="lab-field lab-field--block">Contraseña
+              <input class="lab-input" type="text" id="wifiPass" autocomplete="off" spellcheck="false" />
+            </label>
+            <div class="lab-row">
+              <label class="lab-field">Seguridad
+                <select class="lab-select" id="wifiSec">
+                  <option value="WPA" selected>WPA / WPA2 / WPA3</option>
+                  <option value="WEP">WEP</option>
+                  <option value="nopass">Sin contraseña</option>
+                </select>
+              </label>
+              <label class="lab-check"><input type="checkbox" id="wifiHidden" /><span>Red oculta</span></label>
+            </div>
+          </div>
+          <div class="lab-qr__fields" data-type="contact" hidden>
+            <label class="lab-field lab-field--block">Nombre <input class="lab-input" type="text" id="cName" autocomplete="off" /></label>
+            <label class="lab-field lab-field--block">Teléfono <input class="lab-input" type="tel" id="cPhone" autocomplete="off" /></label>
+            <label class="lab-field lab-field--block">Correo <input class="lab-input" type="email" id="cEmail" autocomplete="off" /></label>
+            <label class="lab-field lab-field--block">Empresa <input class="lab-input" type="text" id="cOrg" autocomplete="off" /></label>
+            <label class="lab-field lab-field--block">Sitio web <input class="lab-input" type="url" id="cWeb" autocomplete="off" /></label>
+          </div>
+
+          <div class="lab-row">
+            <label class="lab-field">Código <input class="lab-color" type="color" id="fg" value="#15171d" /></label>
+            <label class="lab-field">Fondo <input class="lab-color" type="color" id="bg" value="#ffffff" /></label>
+            <label class="lab-check"><input type="checkbox" id="transparent" /><span>Fondo transparente</span></label>
+          </div>
+          <div class="lab-row">
+            <label class="btn btn--ghost btn--sm lab-qr__logo">Añadir logo<input type="file" id="logo" accept="image/*" hidden /></label>
+            <button class="btn btn--ghost btn--sm" type="button" id="logoRemove" hidden>Quitar logo</button>
+            <label class="lab-field">Tamaño PNG
+              <select class="lab-select" id="size">
+                <option value="512">512 px</option>
+                <option value="1024" selected>1024 px</option>
+                <option value="2048">2048 px</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <figure class="lab-qr__preview">
+          <canvas id="qr" width="320" height="320" role="img" aria-label="Vista previa del código QR"></canvas>
+          <figcaption id="qrInfo"></figcaption>
+        </figure>
+      </div>
+
+      <div class="lab-row lab-row--download">
+          <label class="lab-filename">
+            <span class="lab-filename__label">Nombre del archivo <small>(opcional)</small></span>
+            <span class="lab-filename__box"><input class="lab-input" type="text" data-filename autocomplete="off" spellcheck="false" maxlength="120" /><span class="lab-filename__ext" data-ext>.png</span></span>
+          </label>
+        <button class="btn btn--tool" type="button" id="png">Descargar PNG</button>
+        <button class="btn btn--ghost" type="button" id="svg">Descargar SVG</button>
+      </div>
+      <div class="lab-status" id="status" aria-live="polite">
+        <p data-status-text>Escribe el contenido: el QR se actualiza al instante.</p>
+        <div class="lab-bar" data-status-bar hidden><span data-status-fill></span></div>
+      </div>
+    </section>
+
+    <!--seo:tool-info-->
+
+    <p class="lab-credits" id="credits"></p>
+    <!--site:footer-->
+  </main>
+</body>
+</html>

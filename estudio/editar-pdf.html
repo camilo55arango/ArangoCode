@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
+  <!--seo:tool-head-->
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/editar-pdf.js"></script>
+</head>
+<body data-tool="editar-pdf">
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab lab--wide" style="--tool:#ff8a65">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <a href="/estudio/">Estudio Creativo</a> / <span aria-current="page">Editar PDF</span></nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">Editar · Documentos</span>
+      <h1>Editar PDF</h1>
+      <p>Escribe, resalta, tapa datos, dibuja y añade imágenes o tu firma. Rellena formularios y gira, ordena o elimina páginas. Todo en tu navegador.</p>
+      <div class="lab-head__meta"><span class="lab-pill">Sin subir archivos</span><span class="lab-pill">Formularios</span><span class="lab-pill" id="device" hidden></span></div>
+    </header>
+
+    <section class="lab-panel">
+      <label class="lab-drop" id="drop">
+        <input type="file" accept="application/pdf,.pdf" hidden />
+        <strong>Suelta el PDF aquí</strong>
+        <span>o haz clic para elegirlo</span>
+      </label>
+      <div class="pe" id="editor" hidden>
+        <div class="pe-bar" role="toolbar" aria-label="Herramientas de edición">
+          <button type="button" class="pe-tool" data-tool="select" aria-pressed="true" title="Mover"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6 2-2 6z"/></svg><span>Mover</span></button>
+          <button type="button" class="pe-tool" data-tool="text" aria-pressed="false" title="Texto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14M12 5v14M9 19h6"/></svg><span>Texto</span></button>
+          <button type="button" class="pe-tool" data-tool="highlight" aria-pressed="false" title="Resaltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h7M14 4l6 6-8 8H6v-6z"/></svg><span>Resaltar</span></button>
+          <button type="button" class="pe-tool" data-tool="whiteout" aria-pressed="false" title="Tapar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="10" rx="1"/><path d="M8 12h8" opacity=".4"/></svg><span>Tapar</span></button>
+          <button type="button" class="pe-tool" data-tool="rect" aria-pressed="false" title="Recuadro"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/></svg><span>Recuadro</span></button>
+          <button type="button" class="pe-tool" data-tool="ink" aria-pressed="false" title="Dibujar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17c3-6 5-9 7-8s-2 7 1 8 5-6 7-8 2 1 3 2"/></svg><span>Dibujar</span></button>
+          <button type="button" class="pe-tool" data-tool="image" aria-pressed="false" title="Imagen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="15.5" cy="9.5" r="1.5"/></svg><span>Imagen</span></button>
+          <button type="button" class="pe-tool" data-tool="sign" aria-pressed="false" title="Firma"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17c2-4 4-10 6-10s-1 9 1 9 3-5 5-5 1 4 3 4 2-2 3-2"/><path d="M3 21h18"/></svg><span>Firma</span></button>
+          <span class="pe-bar__sep" aria-hidden="true"></span>
+          <label class="pe-prop" data-for="text date rect ink" title="Color"><span class="sr-only">Color</span><input type="color" id="color" value="#1f2937" /></label>
+          <label class="pe-prop" data-for="text date" title="Tamaño de letra"><span class="sr-only">Tamaño de letra</span>
+            <select class="lab-select" id="fontSize"><option>10</option><option>12</option><option selected>14</option><option>18</option><option>24</option><option>32</option></select>
+          </label>
+          <label class="pe-prop" data-for="text date" title="Tipo de letra"><span class="sr-only">Tipo de letra</span>
+            <select class="lab-select" id="fontFamily"><option value="sans" selected>Sans</option><option value="serif">Serif</option><option value="mono">Mono</option></select>
+          </label>
+          <button type="button" class="pe-prop pe-bold" data-for="text date" id="bold" aria-pressed="false" title="Negrita"><b>N</b></button>
+          <label class="pe-prop" data-for="ink rect" title="Grosor"><span class="sr-only">Grosor</span>
+            <select class="lab-select" id="stroke"><option value="1">Fino</option><option value="2" selected>Medio</option><option value="4">Grueso</option></select>
+          </label>
+          <span class="pe-bar__sep" aria-hidden="true"></span>
+          <button type="button" class="pe-icon" id="undo" title="Deshacer (Ctrl+Z)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg><span class="sr-only">Deshacer</span></button>
+          <button type="button" class="pe-icon" id="redo" title="Rehacer (Ctrl+Y)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg><span class="sr-only">Rehacer</span></button>
+          <input type="file" id="imageInput" accept="image/*" hidden />
+        </div>
+        <p class="pe-hint" id="hint" aria-live="polite"></p>
+
+        <div class="pe-main">
+          <div class="pe-pages" id="pages"></div>
+          <aside class="pe-side" id="formPanel" hidden>
+            <h2 class="pe-side__title">Formulario</h2>
+            <p class="lab-hint">Este PDF tiene campos para rellenar.</p>
+            <div class="pe-form" id="formFields"></div>
+          </aside>
+        </div>
+
+        <div class="pe-save">
+          <span class="pe-save__file"><b id="fileName"></b> <span id="fileInfo"></span></span>
+          <button class="btn btn--ghost btn--sm" type="button" id="change">Cambiar PDF</button>
+          <div class="lab-row lab-row--download">
+          <label class="lab-filename">
+              <span class="lab-filename__label">Nombre del archivo <small>(opcional)</small></span>
+              <span class="lab-filename__box"><input class="lab-input" type="text" data-filename autocomplete="off" spellcheck="false" maxlength="120" /><span class="lab-filename__ext" data-ext>.pdf</span></span>
+            </label>
+            <button class="btn btn--tool" type="button" id="save">Guardar PDF</button>
+          </div>
+        </div>
+      </div>
+      <div class="lab-status" id="status" aria-live="polite">
+        <p data-status-text>El motor de PDF (~2 MB) se descarga cuando sueltes el archivo.</p>
+        <div class="lab-bar" data-status-bar hidden><span data-status-fill></span></div>
+      </div>
+    </section>
+
+    <!--seo:tool-info-->
+
+    <p class="lab-credits" id="credits"></p>
+    <!--site:footer-->
+  </main>
+
+  <dialog class="pe-dialog" id="signDialog" aria-labelledby="signTitle">
+    <form method="dialog" class="pe-dialog__box">
+      <h2 class="pe-dialog__title" id="signTitle">Crea tu firma</h2>
+      <div class="lab-tabs lab-tabs--3" role="tablist" aria-label="Forma de crear la firma">
+        <button type="button" role="tab" class="lab-tab" data-sign="draw" aria-selected="true">Dibujar</button>
+        <button type="button" role="tab" class="lab-tab" data-sign="type" aria-selected="false">Escribir</button>
+        <button type="button" role="tab" class="lab-tab" data-sign="upload" aria-selected="false">Subir</button>
+      </div>
+      <div data-sign-panel="draw">
+        <canvas class="pe-pad" id="signPad" width="600" height="220" aria-label="Dibuja tu firma aquí"></canvas>
+        <div class="lab-row lab-row--between">
+          <span class="lab-hint">Dibuja con el mouse o con el dedo.</span>
+          <button class="btn btn--ghost btn--sm" type="button" id="padClear">Borrar</button>
+        </div>
+      </div>
+      <div data-sign-panel="type" hidden>
+        <input class="lab-input pe-typed" type="text" id="signText" placeholder="Tu nombre" maxlength="60" autocomplete="name" />
+      </div>
+      <div data-sign-panel="upload" hidden>
+        <label class="lab-drop lab-drop--sm">
+          <input type="file" id="signFile" accept="image/*" hidden />
+          <strong>Sube una foto de tu firma</strong>
+          <span>Mejor en papel blanco: el fondo se vuelve transparente.</span>
+        </label>
+      </div>
+      <div class="lab-row">
+        <label class="lab-field">Color <input class="lab-color" type="color" id="signColor" value="#1d3d8f" /></label>
+      </div>
+      <div class="lab-row pe-dialog__actions">
+        <button class="btn btn--ghost" value="cancel" type="submit">Cancelar</button>
+        <button class="btn btn--tool" type="button" id="signUse">Usar firma</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

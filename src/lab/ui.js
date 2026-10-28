@@ -1,6 +1,7 @@
 /* Piezas de interfaz compartidas por las páginas del laboratorio. */
 
 import { formatBytes } from 'runonweb/core';
+import { takeHandoff } from './handoff.js';
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 
@@ -114,9 +115,66 @@ export function bindDropzone(zone, onFile, { multiple = false } = {}) {
     const files = [...(e.clipboardData?.items ?? [])].filter((i) => i.kind === 'file').map((i) => i.getAsFile());
     if (files.length) pick(files);
   });
+  // Archivo que la persona soltó en la portada antes de elegir esta herramienta.
+  takeHandoff().then((file) => { if (file) pick([file]); });
 }
 
 export { formatBytes as formatSize };
+
+/* --- Aviso antes de descargar un modelo pesado (solo la primera vez) --- */
+const modelKey = (key) => `ac-model:${key}`;
+const pendingConfirm = new Map();
+
+/** Datos móviles o "ahorro de datos" activado, si el navegador lo dice (Chrome y Android). */
+const onMobileData = () => {
+  const c = navigator.connection;
+  return Boolean(c && (c.saveData || c.type === 'cellular' || /(^|-)2g|3g/.test(c.effectiveType ?? '')));
+};
+
+/**
+ * Pide permiso antes de la primera descarga de un modelo. Devuelve true si ya estaba descargado o la
+ * persona acepta. El aviso se pinta justo antes de `#status`. `key` distingue variantes del mismo modelo.
+ */
+export function confirmDownload({ key, size, name }) {
+  try { if (localStorage.getItem(modelKey(key))) return Promise.resolve(true); } catch (e) { /* storage no disponible */ }
+  if (pendingConfirm.has(key)) return pendingConfirm.get(key);
+
+  const box = document.createElement('div');
+  box.className = 'lab-confirm';
+  box.setAttribute('role', 'group');
+  box.setAttribute('aria-label', 'Confirmar descarga');
+  box.innerHTML = `
+    <p><strong>${esc(name)} necesita descargar ${esc(size.replace(/^~/, 'unos '))} una sola vez.</strong>
+      Después queda guardado en tu navegador y funciona incluso sin conexión.</p>
+    ${onMobileData() ? '<p class="lab-confirm__warn">Parece que estás con datos móviles: si puedes, conéctate a WiFi.</p>' : '<p class="lab-confirm__hint">Si estás con datos móviles, mejor conéctate a WiFi.</p>'}
+    <div class="lab-row">
+      <button class="btn btn--tool btn--sm" type="button" data-ok>Descargar y continuar</button>
+      <button class="btn btn--ghost btn--sm" type="button" data-cancel>Ahora no</button>
+    </div>`;
+  ($('#status') ?? document.body).before(box);
+  $('[data-ok]', box).focus({ preventScroll: true });
+
+  const answer = new Promise((resolve) => {
+    box.addEventListener('click', (e) => {
+      const ok = e.target.closest('[data-ok]');
+      if (!ok && !e.target.closest('[data-cancel]')) return;
+      box.remove();
+      pendingConfirm.delete(key);
+      resolve(Boolean(ok));
+    });
+  });
+  pendingConfirm.set(key, answer);
+  return answer;
+}
+
+export function isDownloaded(key) {
+  try { return Boolean(localStorage.getItem(modelKey(key))); } catch (e) { return false; }
+}
+
+/** Recuerda que el modelo ya está en caché, para no volver a preguntar. */
+export function markDownloaded(key) {
+  try { localStorage.setItem(modelKey(key), '1'); } catch (e) { /* storage no disponible */ }
+}
 
 export function downloadBlob(blob, name) {
   const url = URL.createObjectURL(blob);

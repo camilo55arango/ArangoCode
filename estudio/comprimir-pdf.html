@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
+  <!--seo:tool-head-->
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/comprimir-pdf.js"></script>
+</head>
+<body data-tool="comprimir-pdf">
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab" style="--tool:#e5484d">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <a href="/estudio/">Estudio Creativo</a> / <span aria-current="page">Comprimir PDF</span></nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">Optimizar · Documentos</span>
+      <h1>Comprimir PDF</h1>
+      <p>Reduce el peso de un PDF para enviarlo por correo o WhatsApp. Elige cuánto comprimir y compara el antes y el después, sin subir el archivo.</p>
+      <div class="lab-head__meta"><span class="lab-pill">Tres niveles</span><span class="lab-pill" id="device" hidden></span></div>
+    </header>
+
+    <section class="lab-panel">
+      <label class="lab-drop" id="drop">
+        <input type="file" accept="application/pdf,.pdf" hidden />
+        <strong>Suelta el PDF que quieres comprimir</strong>
+        <span>o haz clic para elegirlo</span>
+      </label>
+      <div class="lab-split" id="opts" hidden>
+        <div class="lab-split__file">
+          <span><b id="fileName"></b> · <span id="fileInfo"></span></span>
+          <button class="btn btn--ghost btn--sm" type="button" id="change">Cambiar PDF</button>
+        </div>
+        <fieldset class="lab-modes" id="levels">
+          <legend>Nivel de compresión</legend>
+          <label class="lab-mode"><input type="radio" name="level" value="lossless" /><span><b>Sin pérdida</b><small>Reorganiza y comprime el archivo sin tocar las imágenes. Ahorra poco, pero no cambia nada.</small></span></label>
+          <label class="lab-mode"><input type="radio" name="level" value="recommended" checked /><span><b>Recomendada</b><small>Fotos de hasta 1600 px con buena calidad. El mejor equilibrio para casi todo.</small></span></label>
+          <label class="lab-mode"><input type="radio" name="level" value="strong" /><span><b>Fuerte</b><small>Fotos de hasta 1100 px. El archivo más liviano, ideal para enviar por WhatsApp.</small></span></label>
+        </fieldset>
+        <div class="lab-file" id="result" hidden>
+          <span class="lab-file__name" id="resultName"></span>
+          <span class="lab-file__meta" id="resultMeta"></span>
+          <span class="lab-file__bar" id="resultBar"></span>
+        </div>
+        <div class="lab-row lab-row--download">
+          <label class="lab-filename">
+            <span class="lab-filename__label">Nombre del archivo <small>(opcional)</small></span>
+            <span class="lab-filename__box"><input class="lab-input" type="text" data-filename autocomplete="off" spellcheck="false" maxlength="120" /><span class="lab-filename__ext" data-ext>.pdf</span></span>
+          </label>
+          <button class="btn btn--tool" type="button" id="go">Comprimir PDF</button>
+          <button class="btn btn--tool" type="button" id="download" hidden>Descargar PDF comprimido</button>
+        </div>
+      </div>
+      <div class="lab-status" id="status" aria-live="polite">
+        <p data-status-text>El motor (~2 MB) se descarga cuando pulses Comprimir.</p>
+        <div class="lab-bar" data-status-bar hidden><span data-status-fill></span></div>
+      </div>
+    </section>
+
+    <!--seo:tool-info-->
+
+    <p class="lab-credits" id="credits"></p>
+    <!--site:footer-->
+  </main>
+</body>
+</html>
