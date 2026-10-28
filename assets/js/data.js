@@ -13,8 +13,8 @@ const ISSUES_URL = 'https://github.com/camilo55arango/ArangoCode/issues/new';
 const SECTIONS = [
   {
     id: 'dev',
-    title: 'Herramientas Directorio',
-    short: 'Herramientas Directorio',
+    title: 'Directorio de herramientas',
+    short: 'Directorio de herramientas',
     desc: 'Directorio de editores, frameworks, bases de datos, testing y despliegue para construir software.',
     pageDesc: 'Directorio curado de enlaces a herramientas externas para construir, probar y desplegar aplicaciones. Todas son de uso profesional y tienen versión gratuita o plan free.',
     color: '#6d4dff',
@@ -22,8 +22,8 @@ const SECTIONS = [
   },
   {
     id: 'ia',
-    title: 'IA Directorio',
-    short: 'IA Directorio',
+    title: 'Directorio de IA',
+    short: 'Directorio de IA',
     desc: 'Directorio de las mejores IA de 2026: chat, código, imágenes, video, audio y música.',
     pageDesc: 'Directorio curado de enlaces a las IA más potentes del momento, organizadas por lo que necesitas hacer: preguntar, programar, crear imágenes, video o música.',
     color: '#e8457c',

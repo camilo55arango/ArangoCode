@@ -5,24 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
-  <title>Estudio Creativo: herramientas gratis en tu navegador | ArangoCode</title>
-  <meta name="description" content="Une y divide PDF, conviértelos a Word, desbloquéalos, quita el fondo de tus fotos, convierte y comprime imágenes gratis, sin registro y sin subir tus archivos. Además: traductor, imagen a texto y directorios de IA." />
+  <!-- Los enlaces viejos (#/ia, #/prompts?prompt=…) llevan a las páginas nuevas. -->
+  <script>(function(){var m=location.hash.match(/^#\/(dev|ia|prompts|favoritos)(?:\?(.*))?$/);if(m){var p={dev:'/herramientas/',ia:'/ia/',prompts:'/prompts/',favoritos:'/guardados/'};location.replace(p[m[1]]+(m[2]?'?'+m[2]:''));}})();</script>
+  <title>ArangoCode: herramientas gratis para PDF, imágenes y audio en tu navegador</title>
+  <meta name="description" content="Edita, une, divide y comprime PDF, pásalos a Word, quita el fondo de tus fotos, transcribe audio a texto y más. Gratis, sin registro y sin subir tus archivos: todo funciona en tu navegador." />
   <link rel="canonical" href="https://arangocode.com/" />
 
-  <meta property="og:title" content="ArangoCode · Estudio Creativo: herramientas gratis en tu navegador" />
-  <meta property="og:description" content="Unir y dividir PDF, PDF a Word, desbloquear PDF, quitar fondo, convertir y comprimir imágenes. Gratis, sin registro y sin subir tus archivos." />
+  <meta property="og:title" content="ArangoCode: herramientas gratis que funcionan en tu navegador" />
+  <meta property="og:description" content="PDF, imágenes, audio y texto. Gratis, sin registro y sin subir tus archivos a ningún servidor." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://arangocode.com/" />
   <meta property="og:site_name" content="ArangoCode" />
-  <meta property="og:image" content="https://arangocode.com/assets/img/og-image.png" />
+  <meta property="og:image" content="https://arangocode.com/og/inicio.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="es_CO" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ArangoCode · Estudio Creativo: herramientas gratis en tu navegador" />
-  <meta name="twitter:description" content="Unir y dividir PDF, PDF a Word, desbloquear PDF, quitar fondo, convertir y comprimir imágenes. Gratis, sin registro y sin subir tus archivos." />
-  <meta name="twitter:image" content="https://arangocode.com/assets/img/og-image.png" />
+  <meta name="twitter:title" content="ArangoCode: herramientas gratis que funcionan en tu navegador" />
+  <meta name="twitter:description" content="PDF, imágenes, audio y texto. Gratis, sin registro y sin subir tus archivos a ningún servidor." />
+  <meta name="twitter:image" content="https://arangocode.com/og/inicio.png" />
 
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
 
@@ -30,178 +32,167 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/home.css" />
   <link rel="icon" type="image/png" href="/assets/img/code.png" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
 
   <!--seo:home-->
 </head>
-<body>
-  <a class="skip-link" href="#content">Saltar al contenido</a>
+<body data-view="home">
+  <a class="skip-link" href="#main">Saltar al contenido</a>
   <div class="bg-fx" aria-hidden="true"></div>
 
   <div class="top-actions">
-    <a class="top-actions__btn" id="favoritesToggle" href="#/favoritos" aria-label="Mis guardados">
+    <a class="top-actions__btn" id="favoritesToggle" href="/guardados/" aria-label="Mis guardados">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.3l-6.16 3.6 1.64-7L2 9.3l7.1-.6L12 2.2l2.9 6.5 7.1.6-5.48 4.6 1.64 7z"/></svg>
       <span class="top-actions__count" id="favoritesCount" hidden>0</span>
     </a>
-    <button class="top-actions__btn" id="cmdPaletteToggle" type="button" aria-label="Buscar en todo el sitio (Ctrl/Cmd + K)">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-    </button>
     <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
       <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
       <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
     </button>
   </div>
 
-  <main class="shell">
+  <main class="shell home" id="main">
 
-    <!--Cabecera de perfil-->
-    <header class="profile" id="profile">
-      <a class="profile__back" id="backBtn" href="#/" aria-label="Volver al inicio">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-        <span>Volver</span>
+    <header class="home-top">
+      <a class="home-brand" href="/" aria-label="ArangoCode, inicio">
+        <span class="home-brand__mark" aria-hidden="true">&lt;/&gt;</span>
+        <span>ArangoCode</span>
       </a>
-
-      <div class="profile__id">
-        <div class="avatar">
-          <img id="avatarImg" src="/assets/img/perfil.JPG" alt="Foto de Camilo Arango" width="56" height="56" />
-          <span class="avatar__fallback" id="avatarFallback" aria-hidden="true">CA</span>
-        </div>
-        <div>
-          <p class="profile__name">Camilo Arango</p>
-          <p class="profile__brand"><span class="dot"></span>ArangoCode</p>
-        </div>
-      </div>
+      <nav class="home-nav" aria-label="Secciones">
+        <a href="/estudio/">Estudio Creativo</a>
+        <a href="/herramientas/">Directorio</a>
+        <a href="/ia/">IA</a>
+        <a href="/prompts/">Prompts</a>
+      </nav>
     </header>
 
-    <!--Separadores de la libreta-->
-    <nav class="tabs" aria-label="Secciones">
-      <a class="tab tab--studio" href="/estudio/">Estudio Creativo</a>
-      <a class="tab" data-route="dev" href="#/dev" style="--tab:#6d4dff">Herramientas Directorio</a>
-      <a class="tab" data-route="ia" href="#/ia" style="--tab:#e8457c">IA Directorio</a>
-      <a class="tab" data-route="prompts" href="#/prompts" style="--tab:#0f9f8f">Prompts</a>
-    </nav>
+    <!--Hero: suelta un archivo o busca qué quieres hacer-->
+    <section class="hero" aria-labelledby="heroTitle">
+      <span class="lab-tag">Gratis · Sin registro · Privado</span>
+      <h1 class="hero__title" id="heroTitle">Herramientas gratis que funcionan <span class="hero__hand">en tu navegador</span></h1>
+      <p class="hero__lead">PDF, imágenes, audio y texto. <mark>Tus archivos nunca salen de tu dispositivo.</mark></p>
 
-    <!--Gancho principal: Estudio Creativo-->
-    <section class="studio-hero" id="studio" aria-labelledby="studioTitle">
-      <span class="lab-tag">Nuevo · Gratis · Sin registro</span>
-      <h1 class="studio-hero__title" id="studioTitle">Estudio Creativo</h1>
-      <p class="studio-hero__lead">Herramientas gratis que funcionan en tu navegador. <mark>Tus archivos nunca salen de tu dispositivo.</mark></p>
+      <div class="dropper" id="dropper">
+        <label class="dropper__zone" id="dropZone">
+          <input type="file" id="dropInput" accept="application/pdf,.pdf,image/*,.heic,.heif,audio/*,video/*" hidden />
+          <span class="dropper__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 56"><path d="M8 0h28l12 12v24H8z" opacity=".35"/><path d="M36 0v12h12z" opacity=".6"/><path d="M28 26h8v14h8L32 54 20 40h8z"/></svg>
+          </span>
+          <strong>Suelta cualquier archivo aquí</strong>
+          <span>PDF, foto o audio · o haz clic para elegirlo · también puedes pegarlo con Ctrl+V</span>
+        </label>
+
+        <div class="dropper__result" id="dropResult" hidden>
+          <div class="dropper__file">
+            <span class="dropper__thumb" id="dropThumb" aria-hidden="true"></span>
+            <span class="dropper__meta">
+              <strong id="dropName"></strong>
+              <span id="dropInfo"></span>
+            </span>
+            <button class="btn btn--ghost btn--sm" type="button" id="dropReset">Cambiar archivo</button>
+          </div>
+          <p class="dropper__ask" id="dropAsk">¿Qué quieres hacer con él?</p>
+          <div class="dropper__actions" id="dropActions"></div>
+          <p class="dropper__note">El archivo pasa a la herramienta dentro de tu navegador. No se sube a ningún lado.</p>
+        </div>
+      </div>
+
+      <div class="finder" role="search">
+        <label class="finder__label" for="finderInput">o dime qué quieres hacer</label>
+        <div class="finder__box">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input type="search" id="finderInput" placeholder="juntar PDF, quitar fondo, subtítulos…" autocomplete="off"
+            role="combobox" aria-expanded="false" aria-controls="finderResults" aria-autocomplete="list" />
+          <kbd class="finder__kbd" aria-hidden="true">Ctrl K</kbd>
+        </div>
+        <ul class="finder__results" id="finderResults" role="listbox" aria-label="Resultados" hidden></ul>
+      </div>
+
       <ul class="studio-hero__seals" aria-label="Ventajas">
         <li>Gratis y sin límites</li>
         <li>Sin crear cuenta</li>
-        <li>Funciona sin conexión</li>
+        <li>Funciona sin conexión tras el primer uso</li>
       </ul>
-      <!--estudio:grid-->
-      <a class="studio-hero__more" href="/estudio/">Abrir el Estudio Creativo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
     </section>
 
-    <!--Título de sección-->
-    <section class="view-head" id="viewHead" hidden>
-      <h2 class="view-head__title" id="viewTitle"></h2>
-      <p class="view-head__desc" id="viewDesc"></p>
-      <p class="view-head__meta" id="viewMeta"></p>
-      <div class="chips" id="chips" role="tablist" aria-label="Filtrar por categoría"></div>
-      <div class="quick-filters" id="quickFilters" aria-label="Filtros rápidos"></div>
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <input type="search" id="searchInput" placeholder="Buscar..." aria-label="Buscar" autocomplete="off" />
-      </div>
-      <div class="view-head__actions">
-        <a class="text-link" id="suggestLink" href="#" target="_blank" rel="noopener noreferrer">+ Sugerir herramienta</a>
-        <button class="text-link" id="shortcutsToggle" type="button">Atajos de teclado</button>
-      </div>
+    <!--Destacadas-->
+    <section class="home-block" aria-labelledby="featuredTitle">
+      <h2 class="note-title" id="featuredTitle">Las más usadas</h2>
+      <!--home:featured-->
+      <a class="studio-hero__more" href="/estudio/">Ver las <!--home:count--> herramientas del Estudio <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
     </section>
 
-    <!--Contenido-->
-    <section class="content" id="content" aria-live="polite"></section>
+    <!--Cómo funciona la privacidad-->
+    <section class="home-block" aria-labelledby="privacyTitle">
+      <h2 class="note-title" id="privacyTitle">¿Cómo que no se sube?</h2>
+      <p class="home-block__lead">Las páginas normales envían tu archivo a un servidor, lo procesan allá y te lo devuelven. Aquí el "servidor" es tu propio navegador.</p>
+      <ol class="flow" aria-label="Recorrido de tu archivo">
+        <li class="flow__step" style="--i:0">
+          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/></svg></span>
+          <strong>Tu archivo</strong>
+          <span>Lo eliges en tu equipo o celular.</span>
+        </li>
+        <li class="flow__step" style="--i:1">
+          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8M12 18v4"/></svg></span>
+          <strong>Tu navegador</strong>
+          <span>Lo procesa con WebAssembly o tu tarjeta gráfica.</span>
+        </li>
+        <li class="flow__step" style="--i:2">
+          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M6 9l6 6 6-6"/><path d="M4 21h16"/></svg></span>
+          <strong>Tu descarga</strong>
+          <span>El resultado se guarda directo en tu dispositivo.</span>
+        </li>
+        <li class="flow__step flow__step--no" style="--i:3">
+          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.5-10A6 6 0 0 1 18 9a4.5 4.5 0 0 1-1 9z"/><path d="M4 4l16 16"/></svg></span>
+          <strong>Ningún servidor</strong>
+          <span>Nada viaja por internet.</span>
+        </li>
+      </ol>
+      <div class="net" id="net" data-online="true">
+        <span class="net__dot" aria-hidden="true"></span>
+        <p id="netText" aria-live="polite">Pruébalo: usa una herramienta una vez, apaga el WiFi y vuelve a usarla. Seguirá funcionando.</p>
+      </div>
+      <a class="text-link" href="/privacidad/">Lee cómo protegemos tu privacidad →</a>
+    </section>
+
+    <!--Directorios-->
+    <section class="home-block" aria-labelledby="dirsTitle">
+      <h2 class="note-title" id="dirsTitle">Más recursos</h2>
+      <!--home:sections-->
+    </section>
 
     <!--Sobre mí-->
-    <section class="about" id="about" aria-labelledby="aboutTitle">
-      <h2 class="note-title" id="aboutTitle">Sobre mí</h2>
+    <section class="about home-about" id="about" aria-labelledby="aboutTitle">
+      <div class="home-about__head">
+        <div class="avatar avatar--lg">
+          <img id="avatarImg" src="/assets/img/perfil.webp" alt="Foto de Camilo Arango" width="88" height="88" loading="lazy" />
+          <span class="avatar__fallback" aria-hidden="true">CA</span>
+        </div>
+        <h2 class="note-title" id="aboutTitle">Sobre mí</h2>
+      </div>
       <p class="about__quote">Demasiado cuerdo para ser artista, <br> demasiado loco para ser normal.</p>
-      <p>Soy Camilo, estudiante de Ingeniería de Sistemas 🧑🏼‍💻. Aquí reúno las herramientas que construyo y los recursos que uso para crear, aprender y programar con IA.</p>
-        <nav class="socials" aria-label="Redes sociales">
-          <a class="social social--gh" id="linkGithub" href="#" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
-          </a>
-          <a class="social social--x" id="linkX" href="#" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.22-6.82-5.96 6.82H1.67l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.01 4.13H5.05l12.03 15.64z"/></svg>
-          </a>
-          <a class="social social--ig" id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.72a6.12 6.12 0 1 0 0 12.24 6.12 6.12 0 0 0 0-12.24zm0 10.09a3.97 3.97 0 1 1 0-7.94 3.97 3.97 0 0 1 0 7.94zm7.79-10.33a1.43 1.43 0 1 1-2.86 0 1.43 1.43 0 0 1 2.86 0z"/></svg>
-          </a>
-        </nav>
+      <p>Soy Camilo, estudiante de Ingeniería de Sistemas 🧑🏼‍💻. Construyo ArangoCode para tener a mano herramientas que respeten tu privacidad, y reúno aquí los recursos que uso para crear, aprender y programar con IA.</p>
+      <p><strong>¿Por qué es gratis?</strong> Porque todo corre en tu navegador: no pago servidores que procesen tus archivos, así que no necesito cobrarte, mostrarte anuncios ni pedirte una cuenta.</p>
+      <nav class="socials" aria-label="Redes sociales">
+        <a class="social social--gh" href="https://github.com/camilo55arango" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+        <a class="social social--x" href="https://x.com/Soy_Breve" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.22-6.82-5.96 6.82H1.67l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.01 4.13H5.05l12.03 15.64z"/></svg>
+        </a>
+        <a class="social social--ig" href="https://instagram.com/arangoypunto" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.72a6.12 6.12 0 1 0 0 12.24 6.12 6.12 0 0 0 0-12.24zm0 10.09a3.97 3.97 0 1 1 0-7.94 3.97 3.97 0 0 1 0 7.94zm7.79-10.33a1.43 1.43 0 1 1-2.86 0 1.43 1.43 0 0 1 2.86 0z"/></svg>
+        </a>
+        <a class="text-link home-about__contact" href="/contacto/">Escríbeme →</a>
+      </nav>
     </section>
 
-    <footer class="footer">
-      <p>&copy; <span id="year"></span> Arango Code · Camilo Arango</p>
-    </footer>
+    <!--site:footer-->
   </main>
 
-  <!--Modal de prompt-->
-  <div class="modal" id="modal" hidden>
-    <div class="modal__backdrop" data-close></div>
-      <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
-      <button class="modal__close" type="button" data-close aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <span class="modal__tag" id="modalTag"></span>
-      <h3 class="modal__title" id="modalTitle"></h3>
-      <p class="modal__desc" id="modalDesc"></p>
-      <div class="modal__vars" id="modalVars" hidden></div>
-      <div class="modal__codewrap">
-        <pre class="modal__code" id="modalCode" contenteditable="true" spellcheck="false" aria-label="Prompt editable"></pre>
-      </div>
-      <div class="modal__actions">
-        <button class="btn btn--primary" type="button" id="copyBtn">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
-          <span id="copyLabel">Copiar prompt</span>
-        </button>
-        <button class="btn btn--ghost" type="button" id="shareBtn">Compartir</button>
-        <button class="btn btn--ghost" type="button" data-close>Cerrar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <button class="back-to-top" id="backToTop" type="button" aria-label="Volver arriba" hidden>
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-  </button>
-
-  <!--Command palette-->
-  <div class="cmdk" id="cmdPalette" hidden>
-    <div class="cmdk__backdrop" data-close-cmdk></div>
-    <div class="cmdk__box" role="dialog" aria-modal="true" aria-label="Buscar en todo el sitio">
-      <div class="cmdk__search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <input type="search" id="cmdkInput" placeholder="Busca en el Estudio, los directorios o los prompts…" aria-label="Buscar en todo el sitio" autocomplete="off" />
-        <kbd>Esc</kbd>
-      </div>
-      <div class="cmdk__results" id="cmdkResults"></div>
-    </div>
-  </div>
-
-  <!--Atajos de teclado-->
-  <div class="modal" id="shortcutsModal" hidden>
-    <div class="modal__backdrop" data-close></div>
-    <div class="modal__box modal__box--sm" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle" tabindex="-1">
-      <button class="modal__close" type="button" data-close aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <h3 class="modal__title" id="shortcutsTitle">Atajos de teclado</h3>
-      <ul class="shortcuts-list">
-        <li><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd><span>Buscar en todo el sitio</span></li>
-        <li><kbd>/</kbd><span>Enfocar el buscador de la sección</span></li>
-        <li><kbd>?</kbd><span>Mostrar esta ayuda</span></li>
-        <li><kbd>Esc</kbd><span>Cerrar ventana o modal abierto</span></li>
-        <li><kbd>Enter</kbd><span>Abrir prompt seleccionado</span></li>
-      </ul>
-    </div>
-  </div>
-
-  <script type="module" src="/assets/js/app.js"></script>
+  <script type="module" src="/assets/js/home.js"></script>
 </body>
 </html>

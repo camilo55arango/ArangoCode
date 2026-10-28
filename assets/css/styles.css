@@ -492,6 +492,11 @@ a.tool-card:hover { transform: rotate(0) translateY(-5px); border-color: var(--t
 .tool-card__go { display: inline-flex; align-items: center; gap: 5px; font-family: 'Outfit', sans-serif; font-size: .88rem; font-weight: 700; color: var(--tool-ink); }
 .tool-card__go svg { width: 16px; height: 16px; transition: transform .25s var(--ease); }
 a.tool-card:hover .tool-card__go svg { transform: translateX(4px); }
+.tool-card__labels { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.tool-card__weight, .tool-card__feature { padding: 2px 7px; border-radius: 999px; white-space: nowrap; }
+.tool-card__weight { color: var(--ink-dim); border: 1px solid var(--border-strong); }
+.tool-card__feature { color: var(--tool-ink); background: color-mix(in srgb, var(--tool) 13%, transparent); }
+.tool-card--external .tool-card__labels { font-size: .62rem; opacity: .8; }
 
 .tool-card--soon {
   --tool: var(--ink-dim);
@@ -895,6 +900,9 @@ body:not([data-view="home"]) .content { margin-top: clamp(22px, 4vw, 32px); }
   font-size: .83rem;
   color: var(--ink-dim);
 }
+.footer__links { margin-top: 8px; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 18px; }
+.footer__links a { color: var(--ink-soft); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.footer__links a:hover { color: var(--ink); }
 
 /* =========================================================
    Volver arriba
@@ -1034,3 +1042,6 @@ kbd {
   .profile__id > div:last-child { min-width: 0; }
   body:not([data-view="home"]) .avatar { display: none; }
 }
+
+/* Los atajos de teclado no sirven en pantallas táctiles. */
+@media (hover: none) { .shortcuts-link { display: none; } }

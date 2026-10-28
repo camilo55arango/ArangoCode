@@ -1,5 +1,8 @@
-import { SOCIALS, LAST_UPDATED, ISSUES_URL, SECTIONS, PALETTE, DEV_TOOLS, AI_TOOLS, PROMPTS } from './data.js';
+/* Páginas de directorio: /herramientas/, /ia/, /prompts/ y /guardados/. La sección viene en <body data-view>. */
+
+import { LAST_UPDATED, ISSUES_URL, SECTIONS, DEV_TOOLS, AI_TOOLS, PROMPTS } from './data.js';
 import { LAB_TOOLS } from '../../src/lab/tools.js';
+import { esc, normalize, initials, KIND_LABEL, promptUrl, cardMarkup, labelsFor } from './cards.js';
 
 (function () {
   'use strict';
@@ -8,7 +11,6 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
   const $ = (sel) => document.querySelector(sel);
 
   const content       = $('#content');
-  const viewHead       = $('#viewHead');
   const viewTitle      = $('#viewTitle');
   const viewDesc       = $('#viewDesc');
   const viewMeta       = $('#viewMeta');
@@ -39,44 +41,20 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
   const cmdkResults     = $('#cmdkResults');
 
 
-  const state = { view: 'home', cat: 'Todas', quick: 'all', query: '' };
+  const state = { view: document.body.dataset.view, cat: 'Todas', quick: 'all', query: '' };
   const favoriteKey = 'ac-favorites';
   let favorites = new Set();
   try { favorites = new Set(JSON.parse(localStorage.getItem(favoriteKey) || '[]')); } catch (e) { /* storage no disponible */ }
 
 
-  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
-    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-  ));
-
-  const normalize = (s) => String(s)
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(new RegExp('[\\u0300-\\u036f]', 'g'), '');
-
-  const initials = (name) => name.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ0-9 ]/g, '').trim().charAt(0).toUpperCase();
-
   const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-  function faviconUrl(url) {
-    try { return `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=64`; }
-    catch (e) { return ''; }
-  }
-
-  const KIND_LABEL = { dev: 'Herramientas', ia: 'IA', prompts: 'Prompt', lab: 'Estudio' };
   function dataFor(kind) {
     if (kind === 'dev') return DEV_TOOLS;
     if (kind === 'ia') return AI_TOOLS;
     return PROMPTS;
   }
   const favKey = (kind, name) => `${kind}:${name}`;
-
-
-  const catColors = new Map();
-  function colorFor(cat) {
-    if (!catColors.has(cat)) catColors.set(cat, PALETTE[catColors.size % PALETTE.length]);
-    return catColors.get(cat);
-  }
 
   function showToast(msg) {
     toast.textContent = msg;
@@ -110,19 +88,6 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
     favoritesCount.hidden = favorites.size === 0;
     favoritesToggle.classList.toggle('has-items', favorites.size > 0);
   }
-  function labelsFor(item) {
-    const text = `${item.name} ${item.desc}`.toLowerCase();
-    const labels = [];
-    if (/open source|código abierto|open weight|auto-hosped/.test(text)) labels.push('Open source');
-    if (/gratis|gratuita|gratuito|free/.test(text)) labels.push('Gratis');
-    if (/navegador|web|nube/.test(text)) labels.push('Web');
-    return labels.slice(0, 2);
-  }
-
-  /* Redes sociales */
-  $('#linkGithub').href    = SOCIALS.github;
-  $('#linkX').href         = SOCIALS.x;
-  $('#linkInstagram').href = SOCIALS.instagram;
 
 
   avatarImg.addEventListener('error', () => avatar.classList.add('is-fallback'));
@@ -136,33 +101,6 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
     document.documentElement.setAttribute('data-theme', next);
     try { localStorage.setItem('ac-theme', next); } catch (e) { /* modo privado */ }
   });
-
-
-  const COUNTS = { dev: DEV_TOOLS.length, ia: AI_TOOLS.length, prompts: PROMPTS.length };
-  const LABELS = { dev: 'enlaces', ia: 'enlaces', prompts: 'prompts' };
-
-  /* Índice de la libreta: el Estudio va arriba (en el HTML); aquí, el resto de secciones. */
-  function renderHome() {
-    viewHead.hidden = true;
-    quickFilters.innerHTML = '';
-    document.body.dataset.view = 'home';
-
-    content.innerHTML = `
-      <h2 class="note-title">Más recursos</h2>
-      <ol class="index-list">${SECTIONS.map((s, i) => `
-        <li style="--tab:${s.color};animation-delay:${i * 80}ms">
-          <a class="index-item" href="#/${s.id}">
-            <span class="index-item__icon">${s.icon}</span>
-            <span class="index-item__body">
-              <span class="index-item__title">${esc(s.title)}</span>
-              <span class="index-item__desc">${esc(s.desc)}</span>
-            </span>
-            <span class="index-item__leader" aria-hidden="true"></span>
-            <span class="index-item__count">${COUNTS[s.id]} ${LABELS[s.id]}</span>
-          </a>
-        </li>`).join('')}
-      </ol>`;
-  }
 
 
   function renderChips(items) {
@@ -183,8 +121,6 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
     const section = SECTIONS.find((s) => s.id === state.view);
     const items = dataFor(state.view);
 
-    document.body.dataset.view = state.view;
-    viewHead.hidden = false;
     viewTitle.textContent = section.title;
     viewDesc.textContent = section.pageDesc;
     viewMeta.textContent = `Catálogo revisado: ${LAST_UPDATED} · Verifica precios y condiciones antes de elegir.`;
@@ -200,8 +136,6 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
   }
 
   function renderFavoritesView() {
-    document.body.dataset.view = 'favoritos';
-    viewHead.hidden = false;
     viewTitle.textContent = 'Mis guardados';
     viewDesc.textContent = 'Todo lo que marcaste con ★ en los directorios y los prompts, en un solo lugar.';
     viewMeta.textContent = '';
@@ -222,6 +156,8 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
     return entries;
   }
 
+  const card = (it, i, kind) => cardMarkup(it, i, kind, { favorite: favorites.has(favKey(kind, it.name)), view: state.view });
+
   function renderFavoriteCards() {
     const q = normalize(state.query.trim());
     const entries = allFavoriteEntries().filter(({ item }) => !q || normalize(item.name + ' ' + item.desc + ' ' + item.cat).includes(q));
@@ -231,58 +167,12 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
       return;
     }
 
-    content.innerHTML = '<div class="grid-items">' + entries.map(({ item, kind }, i) => cardMarkup(item, i, kind)).join('') + '</div>';
+    content.innerHTML = '<div class="grid-items">' + entries.map(({ item, kind }, i) => card(item, i, kind)).join('') + '</div>';
   }
 
   function refreshCards() {
     if (state.view === 'favoritos') renderFavoriteCards();
     else renderCards(dataFor(state.view));
-  }
-
-  function cardMarkup(it, i, kind) {
-    const isPrompt = kind === 'prompts';
-    const color = colorFor(it.cat);
-    const delay = `animation-delay:${Math.min(i, 12) * 45}ms`;
-    const style = `--accent-c:${color};${delay}`;
-
-    const foot = isPrompt
-      ? '<span class="card__foot">Ver y copiar <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></span>'
-      : '<span class="card__foot">Abrir sitio <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>';
-
-    const labels = labelsFor(it);
-    const favorite = favorites.has(favKey(kind, it.name));
-    const favBtn = `<button class="card__favorite" type="button" data-favorite="${esc(it.name)}" data-kind="${kind}" aria-pressed="${favorite}" aria-label="${favorite ? 'Quitar de guardados' : 'Guardar'} ${esc(it.name)}">★</button>`;
-
-    const copyIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>';
-    const copyBtn = isPrompt
-      ? `<button class="card__copylink" type="button" data-copyprompt="${esc(it.name)}" aria-label="Copiar prompt de ${esc(it.name)}">${copyIcon}</button>`
-      : (it.url ? `<button class="card__copylink" type="button" data-copylink="${esc(it.url)}" aria-label="Copiar enlace de ${esc(it.name)}">${copyIcon}</button>` : '');
-
-    const badgeImg = (!isPrompt && it.url)
-      ? `<img class="card__badge-img" src="${esc(faviconUrl(it.url))}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" />`
-      : '';
-
-    const kindTag = kind !== state.view ? `<span class="card__kind">${esc(KIND_LABEL[kind])}</span>` : '';
-
-    const inner = `
-      ${kindTag}
-      <span class="card__head-actions">
-      <span class="card__top">
-        <span class="card__badge">${badgeImg}${esc(initials(it.name))}</span>
-        <span>
-          <span class="card__name">${esc(it.name)}</span>
-          <span class="card__cat">${esc(it.cat)}</span>
-        </span>
-      </span>
-      <span class="card__actions">${copyBtn}${favBtn}</span>
-      </span>
-      <span class="card__desc">${esc(it.desc)}</span>
-      ${labels.length ? `<span class="card__badges">${labels.map((label) => `<span class="card__badge-label">${esc(label)}</span>`).join('')}</span>` : ''}
-      ${foot}`;
-
-    return isPrompt
-      ? `<article class="card card--prompt" style="${style}" data-prompt="${esc(it.name)}" role="button" tabindex="0" aria-label="Abrir prompt: ${esc(it.name)}">${inner}</article>`
-      : `<article class="card" style="${style}"><a class="card__link" href="${esc(it.url)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir ${esc(it.name)}">${inner.replace(/<span class="card__actions">[\s\S]*?<\/span>/, '')}</a><span class="card__actions card__actions--overlay">${copyBtn}${favBtn}</span></article>`;
   }
 
   function renderCards(items) {
@@ -305,7 +195,7 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
       return;
     }
 
-    content.innerHTML = '<div class="grid-items">' + filtered.map((it, i) => cardMarkup(it, i, kind)).join('') + '</div>';
+    content.innerHTML = '<div class="grid-items">' + filtered.map((it, i) => card(it, i, kind)).join('') + '</div>';
   }
 
 
@@ -370,7 +260,7 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
   }
 
   async function sharePrompt() {
-    const url = `${location.origin}${location.pathname}#/prompts?prompt=${encodeURIComponent(modalTitle.textContent)}`;
+    const url = `${location.origin}${promptUrl(modalTitle.textContent)}`;
     try {
       if (navigator.share) await navigator.share({ title: modalTitle.textContent, text: modalDesc.textContent, url });
       else if (await copyText(url)) showToast('Enlace copiado al portapapeles');
@@ -422,53 +312,15 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
   }
 
 
+  /* Los filtros viven en la query (?cat=…&quick=…&q=…) para poder compartir la vista. */
   function syncURL() {
-    if (state.view === 'home') return;
     const params = new URLSearchParams();
     if (state.cat && state.cat !== 'Todas') params.set('cat', state.cat);
     if (state.quick && state.quick !== 'all') params.set('quick', state.quick);
     if (state.query) params.set('q', state.query);
     const qs = params.toString();
-    const newHash = `#/${state.view}${qs ? '?' + qs : ''}`;
-    if (location.hash !== newHash) history.replaceState(null, '', newHash);
-  }
-
-  const profileCtas = document.querySelectorAll('.tab[data-route]');
-  function updateProfileActions() {
-    profileCtas.forEach((el) => {
-      const active = el.dataset.route === state.view;
-      el.classList.toggle('is-active', active);
-      if (active) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
-    });
-  }
-
-  function router() {
-    const [hash, queryString] = (location.hash || '#/').replace('#/', '').split('?');
-    const params = new URLSearchParams(queryString || '');
-    const isSection = SECTIONS.some((s) => s.id === hash);
-    const isFavorites = hash === 'favoritos';
-
-    state.view = isSection || isFavorites ? hash : 'home';
-    state.cat = params.get('cat') || 'Todas';
-    state.quick = params.get('quick') || 'all';
-    state.query = params.get('q') || '';
-    searchInput.value = state.query;
-
-    const render = () => {
-      if (state.view === 'home') renderHome();
-      else if (state.view === 'favoritos') renderFavoritesView();
-      else {
-        renderList();
-        const promptName = params.get('prompt');
-        if (state.view === 'prompts' && promptName) openPrompt(promptName);
-      }
-    };
-
-    if (document.startViewTransition) document.startViewTransition(render);
-    else render();
-
-    updateProfileActions();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const url = `${location.pathname}${qs ? '?' + qs : ''}`;
+    if (location.pathname + location.search !== url) history.replaceState(null, '', url);
   }
 
 
@@ -530,7 +382,8 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
     const match = cmdkItems[i];
     if (!match) return;
     closeCmdPalette();
-    if (match.kind === 'prompts') location.hash = `#/prompts?prompt=${encodeURIComponent(match.item.name)}`;
+    if (match.kind === 'prompts' && state.view === 'prompts') openPrompt(match.item.name);
+    else if (match.kind === 'prompts') location.href = promptUrl(match.item.name);
     else if (match.kind === 'lab' && !match.item.external) location.href = match.item.url;
     else window.open(match.item.url, '_blank', 'noopener,noreferrer');
   }
@@ -561,8 +414,6 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
   shortcutsToggle.addEventListener('click', () => { shortcutsModal.hidden = false; });
   shortcutsModal.addEventListener('click', (e) => { if (e.target.closest('[data-close]')) shortcutsModal.hidden = true; });
 
-
-  window.addEventListener('hashchange', router);
 
   chipsBox.addEventListener('click', (e) => {
     const chip = e.target.closest('.chip');
@@ -643,7 +494,7 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
-    if (e.key === '/' && modal.hidden && cmdPalette.hidden && !typing && !viewHead.hidden) {
+    if (e.key === '/' && modal.hidden && cmdPalette.hidden && !typing) {
       e.preventDefault();
       searchInput.focus();
     }
@@ -659,12 +510,23 @@ import { LAB_TOOLS } from '../../src/lab/tools.js';
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => { /* sin soporte o bloqueado */ });
+      navigator.serviceWorker.register('/sw.js').catch(() => { /* sin soporte o bloqueado */ });
     });
   }
 
-  /* Arranque */
+  /* Arranque: la sección ya viene en el HTML; los filtros, de la query. */
+  const params = new URLSearchParams(location.search);
+  state.cat = params.get('cat') || 'Todas';
+  state.quick = params.get('quick') || 'all';
+  state.query = params.get('q') || '';
+  searchInput.value = state.query;
+
   $('#year').textContent = new Date().getFullYear();
   updateFavoritesCount();
-  router();
+  if (state.view === 'favoritos') renderFavoritesView();
+  else {
+    renderList();
+    const promptName = params.get('prompt');
+    if (state.view === 'prompts' && promptName) openPrompt(promptName);
+  }
 })();

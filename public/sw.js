@@ -1,4 +1,4 @@
-const CACHE_NAME = 'arangocode-v4';
+const CACHE_NAME = 'arangocode-v5';
 // Los JS/CSS de /_app llevan hash y se cachean al vuelo; aquí solo lo que tiene URL fija.
 const APP_SHELL = [
   '/',

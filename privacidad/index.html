@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#15171d" media="(prefers-color-scheme: dark)" />
+  <title>Privacidad: tus archivos no salen de tu dispositivo | ArangoCode</title>
+  <meta name="description" content="Cómo protege ArangoCode tu privacidad: las herramientas procesan tus archivos dentro de tu navegador, sin subirlos a ningún servidor, sin cuentas y sin cookies de seguimiento." />
+  <link rel="canonical" href="https://arangocode.com/privacidad/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ArangoCode" />
+  <meta property="og:locale" content="es_CO" />
+  <meta property="og:title" content="Privacidad · ArangoCode" />
+  <meta property="og:description" content="Tus archivos se procesan en tu navegador y nunca se suben a un servidor." />
+  <meta property="og:url" content="https://arangocode.com/privacidad/" />
+  <meta property="og:image" content="https://arangocode.com/og/inicio.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ac-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark')}catch(e){}</script>
+  <link rel="icon" type="image/png" href="/assets/img/code.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/src/lab/lab.css" />
+  <script type="module" src="/src/lab/pages/info.js"></script>
+</head>
+<body>
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="top-actions">
+    <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
+      <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g><path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/></g></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1z"/></svg>
+    </button>
+  </div>
+
+  <main class="shell lab">
+    <nav class="lab-crumbs" aria-label="Ruta"><a href="/">ArangoCode</a> / <span aria-current="page">Privacidad</span></nav>
+
+    <header class="lab-head">
+      <span class="lab-tag">Actualizado: octubre de 2026</span>
+      <h1>Privacidad</h1>
+      <p>La versión corta: <strong>tus archivos nunca salen de tu dispositivo.</strong> No hay cuentas, no hay servidores que reciban lo que procesas y no hay cookies de seguimiento.</p>
+    </header>
+
+    <div class="prose">
+      <section aria-labelledby="como">
+        <h2 class="note-title" id="como">Cómo funciona</h2>
+        <p>Cada herramienta del <a href="/estudio/">Estudio Creativo</a> corre dentro de tu navegador con WebAssembly y, cuando está disponible, WebGPU. Cuando sueltas un PDF, una foto o un audio, el archivo se lee en la memoria de tu navegador, se procesa ahí mismo y el resultado se descarga directo a tu equipo.</p>
+        <p>No existe un servidor de ArangoCode que reciba tus archivos: el sitio es un conjunto de páginas estáticas. Nadie, ni siquiera yo, puede ver lo que procesas.</p>
+      </section>
+
+      <section aria-labelledby="prueba">
+        <h2 class="note-title" id="prueba">Compruébalo tú mismo</h2>
+        <div class="prose-callout">
+          <p>Abre una herramienta (por ejemplo <a href="/estudio/unir-pdf">Unir PDF</a>), úsala una vez para que descargue su motor y luego <strong>desconecta el internet</strong>: activa el modo avión o apaga el WiFi. Vuelve a usarla. Si siguiera necesitando un servidor, fallaría; en cambio, funciona igual.</p>
+        </div>
+        <p>Si sabes usar las herramientas de desarrollador del navegador, en la pestaña <em>Red</em> verás que al procesar un archivo no sale ninguna petición con su contenido.</p>
+      </section>
+
+      <section aria-labelledby="descargas">
+        <h2 class="note-title" id="descargas">Qué se descarga y desde dónde</h2>
+        <p>Para trabajar sin servidor, tu navegador necesita descargar el "motor" de cada herramienta la primera vez. Esa descarga va en un solo sentido: de internet a tu equipo, nunca al revés.</p>
+        <ul>
+          <li><strong>Motores de PDF e imagen</strong> (qpdf, PDF.js, jSquash): se sirven desde arangocode.com y pesan entre 1 y 3 MB.</li>
+          <li><strong>Modelos de IA</strong> (quitar fondo, audio a texto, imagen a texto, traductor, profundidad): se descargan desde <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">Hugging Face</a>, y algunos componentes desde jsDelivr. Cada herramienta indica su peso antes de descargar.</li>
+          <li><strong>Tipografías</strong>: se cargan desde Google Fonts, que como cualquier servidor recibe tu dirección IP al pedirlas.</li>
+        </ul>
+        <p>Después de la primera vez, los motores y modelos quedan en la caché de tu navegador. Puedes borrarlos cuando quieras desde la configuración del navegador (datos del sitio de arangocode.com).</p>
+      </section>
+
+      <section aria-labelledby="guarda">
+        <h2 class="note-title" id="guarda">Qué se guarda en tu navegador</h2>
+        <ul>
+          <li><strong>Tema claro u oscuro</strong> que elegiste.</li>
+          <li><strong>Tus guardados</strong> (las herramientas y prompts que marcas con la estrella).</li>
+          <li><strong>Archivo que pasas desde la portada</strong> a una herramienta: se guarda un momento en tu navegador y se borra al abrirse en la herramienta.</li>
+        </ul>
+        <p>Todo esto vive solo en tu navegador (<code>localStorage</code> e IndexedDB). No se envía a ningún lado y no se usa para rastrearte.</p>
+      </section>
+
+      <section aria-labelledby="sin">
+        <h2 class="note-title" id="sin">Lo que no hay</h2>
+        <ul>
+          <li>No hay registro ni cuentas.</li>
+          <li>No hay cookies de publicidad ni de seguimiento.</li>
+          <li>No hay anuncios.</li>
+          <li>No se venden ni comparten datos, porque no se recogen.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="externos">
+        <h2 class="note-title" id="externos">Enlaces a otros sitios</h2>
+        <p>Algunas tarjetas llevan a sitios externos, como <strong>Descargar videos</strong> (abre SaveFrom.net) y los directorios de herramientas e IA. Esos sitios tienen sus propias políticas y en ellos sí puede que tus datos salgan de tu dispositivo. Siempre se marcan como enlace externo.</p>
+      </section>
+
+      <section aria-labelledby="dudas">
+        <h2 class="note-title" id="dudas">¿Dudas?</h2>
+        <p>Escríbeme por cualquiera de los medios de la página de <a href="/contacto/">contacto</a>.</p>
+      </section>
+    </div>
+
+    <!--site:footer-->
+  </main>
+</body>
+</html>
