@@ -1,6 +1,6 @@
-import '../shell.js';
+import { tool } from '../shell.js';
 import { SpeechToText } from 'runonweb/stt';
-import { $, bindDropzone, copyText, createStatus, esc, showDevice } from '../ui.js';
+import { $, bindDropzone, confirmDownload, copyText, createStatus, esc, isDownloaded, markDownloaded, showDevice } from '../ui.js';
 
 // runonweb usa whisper-tiny.en (solo inglés). El multilingüe pesa lo mismo y entiende español.
 const MODEL = 'onnx-community/whisper-tiny';
@@ -31,7 +31,9 @@ async function run(blob) {
 
   try {
     status.reset();
+    if (!(await confirmDownload({ key: tool.slug, size: tool.size, name: tool.name }))) { status.set('Descarga cancelada. Vuelve a soltar o grabar el audio cuando quieras.'); return; }
     await stt.load();
+    markDownloaded(tool.slug);
     showDevice($('#device'), stt.device);
 
     status.set('Transcribiendo…');
@@ -74,8 +76,8 @@ async function toggleRecording() {
     recordBtn.textContent = '■ Detener';
     recordBtn.classList.replace('btn--tool', 'btn--rec');
     status.set('Grabando… pulsa Detener cuando termines.');
-    // Empezamos a descargar el modelo mientras la persona habla.
-    stt.load().then(() => showDevice($('#device'), stt.device)).catch(() => {});
+    // Si el modelo ya se descargó antes, se va cargando mientras la persona habla; si no, se pregunta al terminar.
+    if (isDownloaded(tool.slug)) stt.load().then(() => showDevice($('#device'), stt.device)).catch(() => {});
   } catch (err) {
     status.error(new Error('No se pudo acceder al micrófono. Revisa los permisos del navegador.'));
   }

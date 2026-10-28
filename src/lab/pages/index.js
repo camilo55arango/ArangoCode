@@ -2,11 +2,11 @@ import '../shell.js';
 import { isWebGPUAvailable } from 'runonweb/core';
 import { $ } from '../ui.js';
 
-/* Las fichas ya vienen en el HTML (vite.config.js → src/lab/seo.js); aquí solo se comprueba el dispositivo. */
+/* Las fichas ya vienen en el HTML (vite.config.js → src/lab/seo.js); aquí solo se avisa si falta WebGPU. */
 isWebGPUAvailable().then((ok) => {
+  if (ok) return;
   const pill = $('#gpu');
-  pill.dataset.device = ok ? 'webgpu' : 'wasm';
-  pill.textContent = ok
-    ? 'Tu navegador tiene WebGPU: máxima velocidad'
-    : 'Sin WebGPU: se usará WASM (más lento, pero funciona)';
+  pill.dataset.device = 'wasm';
+  pill.textContent = 'Tu navegador no tiene aceleración gráfica: las herramientas de IA irán más lentas, pero funcionan.';
+  pill.hidden = false;
 });

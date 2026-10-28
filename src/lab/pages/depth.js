@@ -1,6 +1,6 @@
-import '../shell.js';
+import { tool } from '../shell.js';
 import { DepthEstimator } from 'runonweb/depth';
-import { $, bindDropzone, createStatus, downloadBlob, nameField, outName, showDevice } from '../ui.js';
+import { $, bindDropzone, confirmDownload, createStatus, downloadBlob, markDownloaded, nameField, outName, showDevice } from '../ui.js';
 import { fileToCanvas } from '../image.js';
 
 // Depth Anything V2 trabaja a 518 px; más resolución solo cuesta decodificar y copiar.
@@ -25,7 +25,9 @@ async function run(file) {
     const canvas = await fileToCanvas(file, MAX_SIDE);
     setSrc(original, file);
     status.reset();
+    if (!(await confirmDownload({ key: tool.slug, size: tool.size, name: tool.name }))) { status.set('Descarga cancelada. Vuelve a soltar el archivo cuando quieras.'); return; }
     await estimator.load();
+    markDownloaded(tool.slug);
     showDevice($('#device'), estimator.device);
 
     status.set('Calculando profundidad…');

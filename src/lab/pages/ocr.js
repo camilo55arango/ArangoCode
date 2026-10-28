@@ -1,6 +1,6 @@
 import { tool } from '../shell.js';
 import { OCR, OCR_SIZES, DEFAULT_OCR_SIZE } from 'runonweb/ocr';
-import { $, bindDropzone, copyText, createStatus, showDevice } from '../ui.js';
+import { $, bindDropzone, confirmDownload, copyText, createStatus, markDownloaded, showDevice } from '../ui.js';
 import { fileToCanvas } from '../image.js';
 
 const status = createStatus($('#status'), { mode: 'total' });
@@ -37,7 +37,10 @@ async function run(file) {
     ocr ??= new OCR({ size, onProgress: status.onProgress });
     const engine = ocr;
     status.reset();
+    const key = `${tool.slug}:${size}`;
+    if (!(await confirmDownload({ key, size: OCR_SIZES[size].downloadMB, name: tool.name }))) { status.set('Descarga cancelada. Vuelve a soltar el archivo cuando quieras.'); return; }
     await engine.load();
+    markDownloaded(key);
     // runonweb/ocr fija numThreads = 1 en WASM.
     showDevice($('#device'), engine.device, { threads: false });
 

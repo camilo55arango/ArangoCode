@@ -1,6 +1,6 @@
-import '../shell.js';
+import { tool } from '../shell.js';
 import { RemoveBackground } from 'runonweb/remove-bg';
-import { $, bindDropzone, createStatus, downloadBlob, nameField, outName, showDevice } from '../ui.js';
+import { $, bindDropzone, confirmDownload, createStatus, downloadBlob, markDownloaded, nameField, outName, showDevice } from '../ui.js';
 import { fileToCanvas } from '../image.js';
 
 // BEN2 trabaja a 1024 px; más resolución solo cuesta decodificar y copiar.
@@ -26,7 +26,9 @@ async function run(file) {
     const canvas = await fileToCanvas(file, MAX_SIDE);
     setSrc(original, file);
     status.reset();
+    if (!(await confirmDownload({ key: tool.slug, size: tool.size, name: tool.name }))) { status.set('Descarga cancelada. Vuelve a soltar el archivo cuando quieras.'); return; }
     await remover.load();
+    markDownloaded(tool.slug);
     showDevice($('#device'), remover.device);
 
     status.set('Quitando el fondo…');
