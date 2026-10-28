@@ -40,7 +40,7 @@
   <!--seo:home-->
 </head>
 <body data-view="home">
-  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <a class="skip-link" href="#libreta">Saltar a la libreta</a>
   <div class="bg-fx" aria-hidden="true"></div>
 
   <div class="top-actions">
@@ -58,140 +58,75 @@
 
     <header class="home-top">
       <a class="home-brand" href="/" aria-label="ArangoCode, inicio">
-        <span class="home-brand__mark" aria-hidden="true">&lt;/&gt;</span>
+        <span class="avatar home-brand__avatar">
+          <img id="avatarImg" src="/assets/img/perfil.webp" alt="" width="44" height="44" />
+          <span class="avatar__fallback" aria-hidden="true">CA</span>
+        </span>
         <span>ArangoCode</span>
       </a>
-      <nav class="home-nav" aria-label="Secciones">
-        <a href="/estudio/">Estudio Creativo</a>
-        <a href="/herramientas/">Directorio</a>
-        <a href="/ia/">IA</a>
-        <a href="/prompts/">Prompts</a>
+      <nav class="postits" aria-label="Secciones">
+        <a class="postit" href="/estudio/" style="--note:#ffe27a">Estudio</a>
+        <a class="postit" href="/herramientas/" style="--note:#b9e3ff">Directorio</a>
+        <a class="postit" href="/ia/" style="--note:#ffc2d6">IA</a>
+        <a class="postit" href="/prompts/" style="--note:#c6f0c2">Prompts</a>
+        <button class="postit postit--search" type="button" id="searchOpen" style="--note:#fff4e0" aria-label="Buscar (Ctrl+K)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Buscar</span>
+        </button>
       </nav>
     </header>
 
-    <!--Hero: suelta un archivo o busca qué quieres hacer-->
-    <section class="hero" aria-labelledby="heroTitle">
-      <span class="lab-tag">Gratis · Sin registro · Privado</span>
-      <h1 class="hero__title" id="heroTitle">Herramientas gratis que funcionan <span class="hero__hand">en tu navegador</span></h1>
-      <p class="hero__lead">PDF, imágenes, audio y texto. <mark>Tus archivos nunca salen de tu dispositivo.</mark></p>
+    <p class="home-tagline"><span class="lab-tag">Gratis · Sin registro · Privado</span> <span class="home-tagline__hand">Hojea mi libreta: cada página es una herramienta.</span></p>
 
-      <div class="dropper" id="dropper">
-        <label class="dropper__zone" id="dropZone">
-          <input type="file" id="dropInput" accept="application/pdf,.pdf,image/*,.heic,.heif,audio/*,video/*" hidden />
-          <span class="dropper__icon" aria-hidden="true">
-            <svg viewBox="0 0 64 56"><path d="M8 0h28l12 12v24H8z" opacity=".35"/><path d="M36 0v12h12z" opacity=".6"/><path d="M28 26h8v14h8L32 54 20 40h8z"/></svg>
-          </span>
-          <strong>Suelta cualquier archivo aquí</strong>
-          <span>PDF, foto o audio · o haz clic para elegirlo · también puedes pegarlo con Ctrl+V</span>
-        </label>
-
-        <div class="dropper__result" id="dropResult" hidden>
-          <div class="dropper__file">
-            <span class="dropper__thumb" id="dropThumb" aria-hidden="true"></span>
-            <span class="dropper__meta">
-              <strong id="dropName"></strong>
-              <span id="dropInfo"></span>
-            </span>
-            <button class="btn btn--ghost btn--sm" type="button" id="dropReset">Cambiar archivo</button>
-          </div>
-          <p class="dropper__ask" id="dropAsk">¿Qué quieres hacer con él?</p>
-          <div class="dropper__actions" id="dropActions"></div>
-          <p class="dropper__note">El archivo pasa a la herramienta dentro de tu navegador. No se sube a ningún lado.</p>
+    <!--Libreta que se hojea-->
+    <div class="nb-scene" id="libreta">
+      <nav class="nb-marks" aria-label="Capítulos"><!--home:marks--></nav>
+      <div class="nb-stage">
+        <div class="nb-book" id="book">
+    <!--home:book-->
         </div>
       </div>
-
-      <div class="finder" role="search">
-        <label class="finder__label" for="finderInput">o dime qué quieres hacer</label>
-        <div class="finder__box">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-          <input type="search" id="finderInput" placeholder="juntar PDF, quitar fondo, subtítulos…" autocomplete="off"
-            role="combobox" aria-expanded="false" aria-controls="finderResults" aria-autocomplete="list" />
-          <kbd class="finder__kbd" aria-hidden="true">Ctrl K</kbd>
-        </div>
-        <ul class="finder__results" id="finderResults" role="listbox" aria-label="Resultados" hidden></ul>
+      <div class="nb-controls">
+        <button class="nb-btn" type="button" id="prevPage" aria-label="Página anterior">‹</button>
+        <span class="nb-controls__info" id="pageInfo" aria-live="polite">Portada</span>
+        <button class="nb-btn" type="button" id="nextPage" aria-label="Página siguiente">›</button>
       </div>
-
-      <ul class="studio-hero__seals" aria-label="Ventajas">
-        <li>Gratis y sin límites</li>
-        <li>Sin crear cuenta</li>
-        <li>Funciona sin conexión tras el primer uso</li>
-      </ul>
-    </section>
-
-    <!--Destacadas-->
-    <section class="home-block" aria-labelledby="featuredTitle">
-      <h2 class="note-title" id="featuredTitle">Las más usadas</h2>
-      <!--home:featured-->
-      <a class="studio-hero__more" href="/estudio/">Ver las <!--home:count--> herramientas del Estudio <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
-    </section>
-
-    <!--Cómo funciona la privacidad-->
-    <section class="home-block" aria-labelledby="privacyTitle">
-      <h2 class="note-title" id="privacyTitle">¿Cómo que no se sube?</h2>
-      <p class="home-block__lead">Las páginas normales envían tu archivo a un servidor, lo procesan allá y te lo devuelven. Aquí el "servidor" es tu propio navegador.</p>
-      <ol class="flow" aria-label="Recorrido de tu archivo">
-        <li class="flow__step" style="--i:0">
-          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/></svg></span>
-          <strong>Tu archivo</strong>
-          <span>Lo eliges en tu equipo o celular.</span>
-        </li>
-        <li class="flow__step" style="--i:1">
-          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8M12 18v4"/></svg></span>
-          <strong>Tu navegador</strong>
-          <span>Lo procesa con WebAssembly o tu tarjeta gráfica.</span>
-        </li>
-        <li class="flow__step" style="--i:2">
-          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M6 9l6 6 6-6"/><path d="M4 21h16"/></svg></span>
-          <strong>Tu descarga</strong>
-          <span>El resultado se guarda directo en tu dispositivo.</span>
-        </li>
-        <li class="flow__step flow__step--no" style="--i:3">
-          <span class="flow__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.5-10A6 6 0 0 1 18 9a4.5 4.5 0 0 1-1 9z"/><path d="M4 4l16 16"/></svg></span>
-          <strong>Ningún servidor</strong>
-          <span>Nada viaja por internet.</span>
-        </li>
-      </ol>
-      <div class="net" id="net" data-online="true">
-        <span class="net__dot" aria-hidden="true"></span>
-        <p id="netText" aria-live="polite">Pruébalo: usa una herramienta una vez, apaga el WiFi y vuelve a usarla. Seguirá funcionando.</p>
-      </div>
-      <a class="text-link" href="/privacidad/">Lee cómo protegemos tu privacidad →</a>
-    </section>
-
-    <!--Directorios-->
-    <section class="home-block" aria-labelledby="dirsTitle">
-      <h2 class="note-title" id="dirsTitle">Más recursos</h2>
-      <!--home:sections-->
-    </section>
-
-    <!--Sobre mí-->
-    <section class="about home-about" id="about" aria-labelledby="aboutTitle">
-      <div class="home-about__head">
-        <div class="avatar avatar--lg">
-          <img id="avatarImg" src="/assets/img/perfil.webp" alt="Foto de Camilo Arango" width="88" height="88" loading="lazy" />
-          <span class="avatar__fallback" aria-hidden="true">CA</span>
-        </div>
-        <h2 class="note-title" id="aboutTitle">Sobre mí</h2>
-      </div>
-      <p class="about__quote">Demasiado cuerdo para ser artista, <br> demasiado loco para ser normal.</p>
-      <p>Soy Camilo, estudiante de Ingeniería de Sistemas 🧑🏼‍💻. Construyo ArangoCode para tener a mano herramientas que respeten tu privacidad, y reúno aquí los recursos que uso para crear, aprender y programar con IA.</p>
-      <p><strong>¿Por qué es gratis?</strong> Porque todo corre en tu navegador: no pago servidores que procesen tus archivos, así que no necesito cobrarte, mostrarte anuncios ni pedirte una cuenta.</p>
-      <nav class="socials" aria-label="Redes sociales">
-        <a class="social social--gh" href="https://github.com/camilo55arango" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
-        </a>
-        <a class="social social--x" href="https://x.com/Soy_Breve" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.22-6.82-5.96 6.82H1.67l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.01 4.13H5.05l12.03 15.64z"/></svg>
-        </a>
-        <a class="social social--ig" href="https://instagram.com/arangoypunto" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.72a6.12 6.12 0 1 0 0 12.24 6.12 6.12 0 0 0 0-12.24zm0 10.09a3.97 3.97 0 1 1 0-7.94 3.97 3.97 0 0 1 0 7.94zm7.79-10.33a1.43 1.43 0 1 1-2.86 0 1.43 1.43 0 0 1 2.86 0z"/></svg>
-        </a>
-        <a class="text-link home-about__contact" href="/contacto/">Escríbeme →</a>
-      </nav>
-    </section>
+      <p class="nb-hint">Arrastra la esquina de la hoja, usa las flechas ← → o suelta un archivo en cualquier parte.</p>
+    </div>
 
     <!--site:footer-->
   </main>
+
+  <!--Post-it que aparece al soltar un archivo-->
+  <div class="drop-note" id="dropNote" role="dialog" aria-modal="true" aria-labelledby="dropName" hidden>
+    <div class="drop-note__backdrop" data-close></div>
+    <div class="drop-note__paper">
+      <button class="drop-note__close" type="button" data-close aria-label="Cerrar">×</button>
+      <div class="drop-note__file">
+        <span class="drop-note__thumb" id="dropThumb" aria-hidden="true"></span>
+        <span><strong id="dropName"></strong><small id="dropInfo"></small></span>
+      </div>
+      <p class="drop-note__ask" id="dropAsk">¿Qué quieres hacer con él?</p>
+      <div class="drop-note__actions" id="dropActions"></div>
+      <p class="drop-note__privacy">El archivo pasa a la herramienta dentro de tu navegador. No se sube a ningún lado.</p>
+    </div>
+  </div>
+  <div class="drop-veil" id="dropVeil" aria-hidden="true"><span>Suéltalo en la libreta</span></div>
+  <input type="file" id="dropInput" accept="application/pdf,.pdf,image/*,.heic,.heif,audio/*,video/*" hidden />
+
+  <!--Buscador-->
+  <div class="finder-note" id="finder" role="dialog" aria-modal="true" aria-label="Buscar" hidden>
+    <div class="drop-note__backdrop" data-close></div>
+    <div class="finder-note__paper">
+      <label class="finder-note__label" for="finderInput">¿Qué quieres hacer?</label>
+      <div class="finder-note__box">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="finderInput" placeholder="juntar PDF, quitar fondo, subtítulos…" autocomplete="off"
+          role="combobox" aria-expanded="false" aria-controls="finderResults" aria-autocomplete="list" />
+      </div>
+      <ul class="finder-note__results" id="finderResults" role="listbox" aria-label="Resultados"></ul>
+      <p class="finder-note__or">o <button type="button" class="nb-link" id="pickFile">elige un archivo</button> y te digo qué puedes hacer con él</p>
+    </div>
+  </div>
 
   <script type="module" src="/assets/js/home.js"></script>
 </body>

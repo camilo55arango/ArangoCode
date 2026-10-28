@@ -3,9 +3,8 @@
  * HTML (no con JS en el navegador) las metaetiquetas, el JSON-LD, la guía de uso y las preguntas frecuentes.
  */
 
-import { SITE, READY_TOOLS, LAB_SECTION, toolGridMarkup, toolCardMarkup } from './tools.js';
-import { SECTIONS, DEV_TOOLS, AI_TOOLS, PROMPTS } from '../../assets/js/data.js';
-import { VIEW_PATH } from '../../assets/js/cards.js';
+import { SITE, READY_TOOLS, LAB_SECTION, toolGridMarkup } from './tools.js';
+import { homeBook } from '../site/home.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -144,28 +143,6 @@ export const siteFooter = () => `<footer class="footer">
       </nav>
     </footer>`;
 
-/* Portada: las herramientas que más se buscan, en este orden (las que aún no existan se saltan). */
-const FEATURED = ['quitar-fondo', 'comprimir-pdf', 'pdf-a-word', 'editar-pdf', 'unir-pdf', 'imagen-a-pdf', 'audio-a-texto', 'comprimir-imagen', 'imagen-a-texto'];
-
-function homeFeatured() {
-  const tools = FEATURED.map((slug) => READY_TOOLS.find((t) => t.slug === slug)).filter(Boolean).slice(0, 6);
-  return `<div class="tool-grid">${tools.map((t, i) => toolCardMarkup(t, { h: 'h3', i })).join('')}</div>`;
-}
-
-function homeSections() {
-  const count = { dev: `${DEV_TOOLS.length} enlaces`, ia: `${AI_TOOLS.length} enlaces`, prompts: `${PROMPTS.length} prompts` };
-  return `<ul class="home-dirs">${SECTIONS.map((s, i) => `
-        <li style="--tab:${s.color};--i:${i}">
-          <a class="home-dir" href="${VIEW_PATH[s.id]}">
-            <span class="home-dir__icon" aria-hidden="true">${s.icon}</span>
-            <span class="home-dir__title">${esc(s.title)}</span>
-            <span class="home-dir__desc">${esc(s.desc)}</span>
-            <span class="home-dir__count">${count[s.id]} →</span>
-          </a>
-        </li>`).join('')}
-      </ul>`;
-}
-
 /** Sustituye los marcadores <!--seo:*-->, <!--estudio:*--> y <!--site:*--> de cada HTML. */
 export function renderPlaceholders(html) {
   const slug = html.match(/<body[^>]*data-tool="([^"]+)"/)?.[1];
@@ -177,7 +154,6 @@ export function renderPlaceholders(html) {
     .replace('<!--seo:studio-->', studioJsonLd())
     .replace('<!--seo:home-->', homeJsonLd())
     .replace('<!--estudio:grid-->', toolGridMarkup({ h: 'h2' }))
-    .replace('<!--home:featured-->', homeFeatured())
-    .replace('<!--home:sections-->', homeSections())
-    .replaceAll('<!--home:count-->', String(READY_TOOLS.length));
+    .replace('<!--home:book-->', () => homeBook().book)
+    .replace('<!--home:marks-->', () => homeBook().bookmarks);
 }
