@@ -498,7 +498,8 @@ button.lab-thumb.is-selected .lab-thumb__num { color: var(--tool-ink); font-weig
 .pe-save__file { flex: 1 1 100%; font-size: .88rem; color: var(--text-soft); overflow-wrap: anywhere; }
 .pe-save__file b { color: var(--text); }
 
-.pe-dialog { margin: auto; padding: 0; width: min(640px, calc(100% - 24px)); color: var(--text); background: var(--paper-2); border: 1px solid var(--border-strong); border-radius: 16px; box-shadow: var(--shadow); }
+/* El diálogo vive fuera de <main>, que es quien define el color de la herramienta. */
+.pe-dialog { --tool: var(--page-tool, var(--accent)); margin: auto; padding: 0; width: min(640px, calc(100% - 24px)); color: var(--text); background: var(--paper-2); border: 1px solid var(--border-strong); border-radius: 16px; box-shadow: var(--shadow); }
 .pe-dialog::backdrop { background: rgba(10, 12, 16, .6); backdrop-filter: blur(3px); }
 .pe-dialog__box { display: grid; gap: 14px; padding: 20px; }
 .pe-dialog__title { font-family: var(--hand); font-size: 2rem; line-height: 1; }
@@ -510,3 +511,21 @@ button.lab-thumb.is-selected .lab-thumb__num { color: var(--tool-ink); font-weig
   .pe-bar { top: 66px; gap: 4px; padding: 6px; }
   .pe-tool { min-width: 50px; padding: 5px 4px; font-size: .68rem; }
 }
+
+/* Firma subida: vista previa sin fondo y ajustes */
+.pe-sign-preview { display: block; max-width: 100%; max-height: 160px; margin: 10px auto 0; border: 1px solid var(--border); border-radius: 8px; }
+.pe-sign-tweak { display: grid; gap: 8px; margin-top: 10px; }
+
+/* --- Botón "Volver", fijo arriba a la izquierda --- */
+.lab-back {
+  position: fixed; z-index: 60; top: clamp(10px, 2.4vw, 20px); left: clamp(10px, 2.4vw, 20px);
+  display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 16px 0 12px;
+  font: 700 1.3rem/1 var(--hand); color: #2b2d38; background: #ffe27a;
+  border-radius: 2px 2px 10px 2px; box-shadow: 0 1px 0 rgba(0, 0, 0, .18), 0 10px 16px -10px rgba(0, 0, 0, .55);
+  transform: rotate(-2deg); transition: transform .2s var(--ease);
+}
+.lab-back svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.lab-back:hover, .lab-back:focus-visible { transform: rotate(0) translateX(-3px); }
+/* En pantallas donde la ruta empieza pegada al borde, se le deja sitio al botón. */
+@media (max-width: 1600px) { .lab-crumbs { padding-left: 118px; } }
+@media (max-width: 520px) { .lab-back span { display: none; } .lab-back { padding: 0 12px; } .lab-crumbs { padding-left: 58px; } }

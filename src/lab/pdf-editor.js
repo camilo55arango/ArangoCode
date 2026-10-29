@@ -675,8 +675,14 @@ export function createEditor({ status, name, onLoaded }) {
   }));
   $('#signFile').addEventListener('change', () => {
     signUpload = $('#signFile').files[0] ?? null;
+    signBitmap?.close();
+    signBitmap = null;
     $('#signFile').closest('.lab-drop').querySelector('strong').textContent = signUpload ? signUpload.name : 'Sube una foto de tu firma';
+    previewSignature();
   });
+  $('#signClean').addEventListener('input', previewSignature);
+  $('#signKeep').addEventListener('change', previewSignature);
+  $('#signColor').addEventListener('input', previewSignature);
 
   function openSignature() {
     padStrokes = [];
@@ -724,24 +730,75 @@ export function createEditor({ status, name, onLoaded }) {
       return trim(c);
     }
     if (!signUpload) return null;
-    // Foto de una firma en papel: lo claro se vuelve transparente y el trazo toma el color elegido.
-    const bmp = await createImageBitmap(signUpload);
-    const k = Math.min(1, 1200 / bmp.width);
+    return trim(await cleanSignature());
+  }
+
+  /**
+   * Foto de una firma en papel → trazo con fondo transparente.
+   * El papel casi nunca es blanco puro (sombras, luz amarilla, hoja gris), así que en vez de un umbral fijo
+   * se estima el tono del papel en cada zona (la foto reducida y desenfocada) y cada píxel se compara con
+   * su propio fondo: lo que se parece al papel se vuelve transparente, aunque haya sombras o degradados.
+   */
+  let signBitmap = null;
+  async function cleanSignature() {
+    if (!signBitmap) signBitmap = await createImageBitmap(signUpload);
+    const k = Math.min(1, 1200 / signBitmap.width);
+    const w = Math.round(signBitmap.width * k);
+    const h = Math.round(signBitmap.height * k);
     const c = document.createElement('canvas');
-    c.width = Math.round(bmp.width * k);
-    c.height = Math.round(bmp.height * k);
-    const ctx = c.getContext('2d');
-    ctx.drawImage(bmp, 0, 0, c.width, c.height);
-    bmp.close();
-    const img = ctx.getImageData(0, 0, c.width, c.height);
-    const [r, g, b] = hexToRgb(color).map((v) => v * 255);
-    for (let p = 0; p < img.data.length; p += 4) {
-      const lum = 0.299 * img.data[p] + 0.587 * img.data[p + 1] + 0.114 * img.data[p + 2];
-      const alpha = Math.max(0, Math.min(255, (200 - lum) * 2.2));
-      img.data[p] = r; img.data[p + 1] = g; img.data[p + 2] = b; img.data[p + 3] = alpha * (img.data[p + 3] / 255);
+    c.width = w;
+    c.height = h;
+    const ctx = c.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(signBitmap, 0, 0, w, h);
+
+    // Fondo estimado: la foto muy reducida (los trazos finos casi desaparecen) y vuelta a ampliar.
+    const small = document.createElement('canvas');
+    small.width = Math.max(2, Math.round(w / 40));
+    small.height = Math.max(2, Math.round(h / 40));
+    small.getContext('2d').drawImage(c, 0, 0, small.width, small.height);
+    const bg = document.createElement('canvas');
+    bg.width = w;
+    bg.height = h;
+    const bctx = bg.getContext('2d', { willReadFrequently: true });
+    bctx.imageSmoothingQuality = 'high';
+    bctx.filter = 'blur(6px)';
+    bctx.drawImage(small, 0, 0, w, h);
+    const back = bctx.getImageData(0, 0, w, h).data;
+
+    const img = ctx.getImageData(0, 0, w, h);
+    const d = img.data;
+    const lum = (a, i) => 0.299 * a[i] + 0.587 * a[i + 1] + 0.114 * a[i + 2];
+    // Limpieza 0–100: cuanto más alta, más gris claro se considera papel.
+    const strength = Number($('#signClean').value) / 100;
+    const hi = 0.95 - strength * 0.3;  // por encima de esto (relativo al papel) es fondo
+    const lo = hi - 0.28;              // por debajo es tinta llena
+    const keep = $('#signKeep').checked;
+    const [r, g, b] = hexToRgb($('#signColor').value).map((v) => v * 255);
+    for (let i = 0; i < d.length; i += 4) {
+      const ratio = lum(d, i) / Math.max(24, lum(back, i));
+      const alpha = Math.max(0, Math.min(1, (hi - ratio) / (hi - lo)));
+      if (!keep) { d[i] = r; d[i + 1] = g; d[i + 2] = b; }
+      d[i + 3] = Math.round(alpha * d[i + 3]);
     }
     ctx.putImageData(img, 0, 0);
-    return trim(c);
+    return c;
+  }
+
+  /** Muestra en el diálogo cómo quedará la firma subida. */
+  let previewTimer = 0;
+  function previewSignature() {
+    clearTimeout(previewTimer);
+    if (!signUpload) return;
+    previewTimer = setTimeout(async () => {
+      const out = trim(await cleanSignature());
+      const view = $('#signPreview');
+      view.hidden = !out;
+      $('#signTweak').hidden = false;
+      if (!out) return;
+      view.width = out.width;
+      view.height = out.height;
+      view.getContext('2d').drawImage(out, 0, 0);
+    }, 60);
   }
 
   $('#signUse').addEventListener('click', async () => {

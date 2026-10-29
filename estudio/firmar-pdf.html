@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="/src/lab/lab.css" />
   <script type="module" src="/src/lab/pages/firmar-pdf.js"></script>
 </head>
-<body data-tool="firmar-pdf">
+<body data-tool="firmar-pdf" style="--page-tool:#36b37e">
   <div class="bg-fx" aria-hidden="true"></div>
   <div class="top-actions">
     <button class="top-actions__btn theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema">
@@ -121,8 +121,15 @@
         <label class="lab-drop lab-drop--sm">
           <input type="file" id="signFile" accept="image/*" hidden />
           <strong>Sube una foto de tu firma</strong>
-          <span>Mejor en papel blanco: el fondo se vuelve transparente.</span>
+          <span>El papel se vuelve transparente, aunque tenga sombras o no sea blanco.</span>
         </label>
+        <canvas class="pe-sign-preview lab-checker" id="signPreview" hidden aria-label="Vista previa de la firma sin fondo"></canvas>
+        <div class="pe-sign-tweak" id="signTweak" hidden>
+          <label class="lab-range">Limpieza del fondo
+            <input type="range" id="signClean" min="0" max="100" value="40" />
+          </label>
+          <label class="lab-check"><input type="checkbox" id="signKeep" /><span>Conservar los colores originales (sellos o firmas a color)</span></label>
+        </div>
       </div>
       <div class="lab-row">
         <label class="lab-field">Color <input class="lab-color" type="color" id="signColor" value="#1d3d8f" /></label>
