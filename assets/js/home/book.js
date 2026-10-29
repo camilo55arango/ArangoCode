@@ -27,23 +27,52 @@ export function initBook() {
     drawShadow: !reduce,
     // En pantallas táctiles, una animación más corta se siente más ágil al pasar varias hojas seguidas.
     flippingTime: reduce ? 1 : touch ? 550 : 900,
-    swipeDistance: 20,
-    showPageCorners: !reduce
+    showPageCorners: !reduce && !touch,
+    // En pantallas táctiles los gestos los lee la libreta (abajo): page-flip, con una sola hoja a la vista,
+    // invierte la dirección cuando el dedo arrastra despacio. Ahí page-flip solo anima.
+    useMouseEvents: !touch
   });
   flip.loadFromHTML(pages);
 
-  // Tocar la hoja la pasa (mitad derecha → siguiente, izquierda → anterior), salvo si se tocó un enlace o un botón:
-  // page-flip solo ignora el toque si cae justo en la etiqueta <a>, no en su texto. Ojo: no se usa la opción
-  // disableFlipByClick porque también bloquea "volver" en el celular (con una sola hoja no hay esquina izquierda).
-  let onControl = false;
-  el.addEventListener('pointerdown', (e) => {
-    onControl = Boolean(e.target.closest('a, button, input, textarea, select, label, canvas, .nb-draw'));
-  }, true);
-  const userStop = flip.userStop.bind(flip);
-  flip.userStop = (pos, isSwipe = false) => {
-    if (onControl && !isSwipe && !flip.isUserMove) { flip.isUserTouch = false; return; }
-    userStop(pos, isSwipe);
-  };
+  const CONTROLS = 'a, button, input, textarea, select, label, canvas, .nb-draw';
+
+  if (touch) {
+    // Deslizar a la izquierda → siguiente; a la derecha → anterior (a cualquier velocidad).
+    // Tocar la mitad derecha → siguiente; la izquierda → anterior, salvo sobre un enlace o un botón.
+    // Deslizar en vertical sigue moviendo la página. La hoja de notas y la de dibujo no dejan pasar sus toques.
+    let start = null;
+    el.addEventListener('touchstart', (e) => {
+      const t = e.touches[0];
+      start = e.touches.length === 1
+        ? { x: t.clientX, y: t.clientY, time: Date.now(), control: Boolean(e.target.closest(CONTROLS)) }
+        : null;
+    }, { passive: true });
+    el.addEventListener('touchend', (e) => {
+      const s = start;
+      start = null;
+      if (!s || flip.getState() === 'flipping') return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - s.x;
+      const dy = t.clientY - s.y;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        if (dx < 0) flip.flipNext(); else flip.flipPrev();
+      } else if (!s.control && Math.hypot(dx, dy) < 12 && Date.now() - s.time < 600) {
+        const box = el.getBoundingClientRect();
+        if (t.clientX > box.left + box.width / 2) flip.flipNext(); else flip.flipPrev();
+      }
+    }, { passive: true });
+    $('.nb-hint').textContent = 'Desliza la hoja, tócala o usa los botones ‹ › para pasar de página.';
+  } else {
+    // Con mouse, page-flip pasa la hoja al hacer clic; se evita cuando el clic cae en un enlace o un botón
+    // (page-flip solo lo ignora si cae justo en la etiqueta <a>, no en su texto).
+    let onControl = false;
+    el.addEventListener('pointerdown', (e) => { onControl = Boolean(e.target.closest(CONTROLS)); }, true);
+    const userStop = flip.userStop.bind(flip);
+    flip.userStop = (pos, isSwipe = false) => {
+      if (onControl && !isSwipe && !flip.isUserMove) { flip.isUserTouch = false; return; }
+      userStop(pos, isSwipe);
+    };
+  }
   el.classList.add('is-ready');
 
   let picked = -1; // Página del último marcador tocado: si comparte pliego con otro, se marca ese.
