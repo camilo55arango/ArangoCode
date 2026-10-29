@@ -20,52 +20,6 @@
 html:not([data-theme="light"]) .home { --page-paper: #f1ead9; }
 html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
 
-/* ---------- Barra superior: foto + post-its ---------- */
-.home-top {
-  min-height: 60px;
-  padding: 6px 110px 12px 0;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 22px;
-  border-bottom: 4px double var(--margin-rule);
-}
-.home-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.15rem; color: var(--ink); }
-.home-brand__avatar { width: 44px; height: 44px; }
-.home-brand:hover .home-brand__avatar img { transform: rotate(-6deg) scale(1.06); }
-.home-brand__avatar img { transition: transform .3s var(--ease); }
-
-.postits { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; padding-top: 8px; }
-.postit {
-  --r: -2.5deg;
-  position: relative;
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 9px 15px 11px;
-  font: 700 1.38rem/1 var(--hand); color: #2b2d38;
-  background: var(--note, #ffe27a);
-  border: 0; border-radius: 2px 2px 10px 2px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .18), 0 10px 16px -10px rgba(0, 0, 0, .55);
-  transform: rotate(var(--r));
-  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
-  cursor: pointer;
-}
-.postit:nth-child(2) { --r: 2deg; }
-.postit:nth-child(3) { --r: -1deg; }
-.postit:nth-child(4) { --r: 3deg; }
-.postit:nth-child(5) { --r: -3deg; }
-.postit::before {
-  content: ''; position: absolute; top: -8px; left: 50%; width: 38px; height: 15px;
-  background: rgba(255, 255, 255, .45); border-left: 1px dashed rgba(0, 0, 0, .12); border-right: 1px dashed rgba(0, 0, 0, .12);
-  transform: translateX(-50%) rotate(-4deg);
-}
-.postit:hover, .postit:focus-visible { transform: rotate(0) translateY(-4px) scale(1.05); box-shadow: 0 2px 0 rgba(0, 0, 0, .15), 0 18px 22px -12px rgba(0, 0, 0, .6); }
-.postit svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
-@media (max-width: 640px) {
-  .home-top { padding-right: 96px; }
-  .postits { order: 3; width: 100%; gap: 10px; }
-  .postits { gap: 10px 8px; }
-  .postit { font-size: 1.08rem; padding: 6px 9px 8px; }
-  .postit::before { width: 28px; height: 12px; top: -6px; }
-  .postit--search span { display: none; }
-}
-
 .home-tagline { margin-top: clamp(18px, 4vw, 30px); display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
 .home-tagline__hand { font: 700 clamp(1.3rem, 3.4vw, 1.75rem)/1.1 var(--hand); color: var(--ink-soft); }
 
@@ -74,12 +28,14 @@ html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
 @media (min-width: 900px) {
   .nb-scene { grid-template-columns: minmax(0, 1fr) 132px; grid-template-areas: "stage marks" "controls ." "hint ."; column-gap: 0; }
   .nb-stage { grid-area: stage; }
-  .nb-marks { grid-area: marks; }
+  .nb-chapters { grid-area: marks; }
   .nb-controls { grid-area: controls; }
   .nb-hint { grid-area: hint; }
 }
 .nb-stage { position: relative; }
-.nb-book.is-ready { filter: drop-shadow(0 22px 26px rgba(0, 0, 0, .35)); transition: transform .7s var(--ease); }
+.nb-book.is-ready { transition: transform .7s var(--ease); }
+/* Sombra fija bajo la libreta (un filter sobre la libreta se recalcula en cada cuadro de la animación). */
+.nb-book .stf__block { box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .6); }
 /* Cerrada, la libreta ocupa media escena: se centra con la tapa (o la contratapa) a la vista. */
 .nb-stage.is-front .nb-book { transform: translateX(-25%); }
 .nb-stage.is-back .nb-book { transform: translateX(25%); }
@@ -106,7 +62,6 @@ html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
     linear-gradient(90deg, transparent 9.5cqw, var(--page-margin) 9.5cqw, var(--page-margin) calc(9.5cqw + 1.5px), transparent calc(9.5cqw + 1.5px)),
     repeating-linear-gradient(180deg, transparent 0 calc(5.6cqh - 1px), var(--page-rule) calc(5.6cqh - 1px) 5.6cqh);
   background-position: 0 0, 0 9cqh;
-  box-shadow: inset 0 0 40px rgba(120, 90, 40, .07);
 }
 .nb-page__inner { height: 100%; display: flex; flex-direction: column; gap: 2.4cqh; padding: 8cqh 7cqw 9cqh 13cqw; font-size: clamp(11px, 3.4cqw, 17px); line-height: 1.5; }
 .nb-page__num { position: absolute; bottom: 3.2cqh; right: 6cqw; font: 700 4.2cqw/1 var(--hand); color: var(--page-ink-soft); }
@@ -235,8 +190,16 @@ html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
 .nb-blank__text { font-size: clamp(18px, 6cqw, 30px); color: var(--page-ink-soft); transform: rotate(-4deg); }
 
 /* ---------- Marcadores (post-its por capítulo) ---------- */
-.nb-marks { display: flex; gap: 10px; overflow-x: auto; padding: 8px 2px 10px; scrollbar-width: none; }
-.nb-marks::-webkit-scrollbar { display: none; }
+.nb-chapters { position: relative; z-index: 40; }
+.nb-chapters__toggle {
+  display: none; align-items: center; gap: 8px; padding: 8px 16px 10px;
+  font: 700 1.35rem/1 var(--hand); color: #2b2d38; background: #ffe27a; border: 0; cursor: pointer;
+  border-radius: 2px 2px 10px 2px; box-shadow: 0 1px 0 rgba(0, 0, 0, .18), 0 10px 16px -10px rgba(0, 0, 0, .55);
+  transform: rotate(-1.5deg);
+}
+.nb-chapters__caret { display: inline-block; transition: transform .25s var(--ease); }
+.nb-chapters.is-open .nb-chapters__caret { transform: rotate(180deg); }
+.nb-marks { display: flex; flex-wrap: wrap; gap: 10px; padding: 8px 2px 10px; }
 .nb-mark {
   flex: 0 0 auto; position: relative; padding: 8px 14px 10px;
   font: 700 1.25rem/1 var(--hand); color: #2b2d38;
@@ -257,6 +220,20 @@ html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
 
 /* ---------- Controles ---------- */
 .nb-controls { display: flex; align-items: center; justify-content: center; gap: 16px; }
+@media (max-width: 899px) {
+  /* Con JS, los capítulos quedan plegados tras el post-it hasta que se toca. */
+  .nb-chapters.is-collapsible .nb-chapters__toggle { display: inline-flex; }
+  .nb-chapters.is-collapsible:not(.is-open) .nb-marks { display: none; }
+  .nb-chapters.is-open .nb-marks { animation: rise .25s var(--ease) both; }
+  .nb-mark { font-size: 1.15rem; padding: 7px 12px 9px; }
+  /* Los botones de pasar página quedan siempre a mano mientras se ve la libreta. */
+  .nb-controls {
+    position: sticky; bottom: 12px; z-index: 45; width: max-content; margin: 0 auto; padding: 6px 10px;
+    background: color-mix(in srgb, var(--paper-2) 90%, transparent); backdrop-filter: blur(6px);
+    border: 1px solid var(--border-strong); border-radius: 999px; box-shadow: var(--shadow-sm);
+  }
+  .nb-btn { width: 50px; height: 50px; }
+}
 .nb-btn { width: 46px; height: 46px; display: grid; place-items: center; font: 700 1.9rem/1 var(--hand); color: var(--ink); background: var(--paper-2); border: 1.5px solid var(--border-strong); border-radius: 50%; cursor: pointer; transition: transform .2s var(--ease), border-color .2s; }
 .nb-btn:hover:not([disabled]) { transform: scale(1.08); border-color: var(--accent); }
 .nb-btn[disabled] { opacity: .35; cursor: default; }

@@ -97,6 +97,11 @@ export function initFinder({ onPickFile } = {}) {
   dialog.addEventListener('click', (e) => { if (e.target.closest('[data-close]')) close(); });
   $('#pickFile').addEventListener('click', () => { close(); onPickFile?.(); });
   $('#searchOpen').addEventListener('click', open);
+  // Desde otras páginas, el post-it "Buscar" trae aquí con #buscar.
+  if (location.hash === '#buscar') {
+    history.replaceState(null, '', location.pathname + location.search);
+    open();
+  }
 
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); if (dialog.hidden) open(); else close(); }

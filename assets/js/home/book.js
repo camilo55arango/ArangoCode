@@ -9,6 +9,7 @@ export function initBook() {
   const stage = el.parentElement;
   const pages = [...el.querySelectorAll('.nb-page')];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch = matchMedia('(pointer: coarse)').matches;
   const last = pages.length - 1;
 
   const flip = new PageFlip(el, {
@@ -24,13 +25,25 @@ export function initBook() {
     mobileScrollSupport: true,
     maxShadowOpacity: 0.45,
     drawShadow: !reduce,
-    flippingTime: reduce ? 1 : 900,
-    showPageCorners: !reduce,
-    // Un clic solo pasa la hoja en las esquinas: así tocar un enlace (o su texto) no hojea de más.
-    // Arrastrar y deslizar siguen funcionando en toda la hoja.
-    disableFlipByClick: true
+    // En pantallas táctiles, una animación más corta se siente más ágil al pasar varias hojas seguidas.
+    flippingTime: reduce ? 1 : touch ? 550 : 900,
+    swipeDistance: 20,
+    showPageCorners: !reduce
   });
   flip.loadFromHTML(pages);
+
+  // Tocar la hoja la pasa (mitad derecha → siguiente, izquierda → anterior), salvo si se tocó un enlace o un botón:
+  // page-flip solo ignora el toque si cae justo en la etiqueta <a>, no en su texto. Ojo: no se usa la opción
+  // disableFlipByClick porque también bloquea "volver" en el celular (con una sola hoja no hay esquina izquierda).
+  let onControl = false;
+  el.addEventListener('pointerdown', (e) => {
+    onControl = Boolean(e.target.closest('a, button, input, textarea, select, label, canvas, .nb-draw'));
+  }, true);
+  const userStop = flip.userStop.bind(flip);
+  flip.userStop = (pos, isSwipe = false) => {
+    if (onControl && !isSwipe && !flip.isUserMove) { flip.isUserTouch = false; return; }
+    userStop(pos, isSwipe);
+  };
   el.classList.add('is-ready');
 
   let picked = -1; // Página del último marcador tocado: si comparte pliego con otro, se marca ese.
@@ -75,12 +88,20 @@ export function initBook() {
     update(n);
   };
 
-  // La tapa y la contratapa se abren con un clic en cualquier parte.
-  pages[0].addEventListener('click', (e) => { if (!e.target.closest('a, button')) flip.flipNext(); });
-  pages[last].addEventListener('click', (e) => { if (!e.target.closest('a, button')) flip.flipPrev(); });
-
   $('#prevPage').addEventListener('click', () => flip.flipPrev());
   $('#nextPage').addEventListener('click', () => flip.flipNext());
+
+  // En el celular, los capítulos quedan plegados tras el post-it "Capítulos" (en pantallas grandes no hay botón).
+  const chapters = $('#chapters');
+  const toggle = $('#chaptersToggle');
+  const setOpen = (open) => {
+    chapters.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+  chapters.classList.add('is-collapsible');
+  setOpen(false);
+  toggle.addEventListener('click', () => setOpen(!chapters.classList.contains('is-open')));
+  document.addEventListener('click', (e) => { if (!chapters.contains(e.target)) setOpen(false); });
 
   // Índice y marcadores: enlaces normales (#cap-pdf…) que con JS hojean hasta su página.
   document.addEventListener('click', (e) => {
@@ -90,6 +111,7 @@ export function initBook() {
     picked = Number(link.dataset.goto);
     go(picked);
     history.replaceState(null, '', link.getAttribute('href'));
+    if (link.closest('#chapters')) setOpen(false);
   });
 
   document.addEventListener('keydown', (e) => {
