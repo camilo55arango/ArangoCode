@@ -9,30 +9,55 @@ import { SECTIONS, DEV_TOOLS, AI_TOOLS, PROMPTS } from '../../assets/js/data.js'
 import { VIEW_PATH } from '../../assets/js/cards.js';
 import { DOODLES } from './doodles.js';
 import { SOCIAL_ICONS } from './icons.js';
-import { BLOG } from './blog.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-/* Capítulos de herramientas, en el orden del catálogo. */
+/*
+ * Capítulos: un pliego cada uno, con el título y el dibujo a la izquierda y todas sus herramientas a la derecha.
+ * `tools` va en el orden en que se muestran (incluye enlaces externos como Descargar videos).
+ */
 const CHAPTERS = [
-  { id: 'pdf', title: 'Documentos PDF', color: '#e5484d', cats: ['Documentos'],
-    intro: 'Edita, firma, comprime, une o separa tus PDF, y pásalos a Word o a imagen. Sin subirlos a ningún lado.' },
-  { id: 'imagen', title: 'Fotos e imágenes', color: '#f08a5d', cats: ['Imagen', 'Experimental'],
+  { id: 'pdf', title: 'Documentos PDF', mark: 'Documentos', color: '#e5484d', doodle: 'pdf',
+    tools: ['unir-pdf', 'pdf-a-word', 'editar-pdf', 'firmar-pdf', 'desbloquear-pdf', 'dividir-pdf', 'pdf-a-imagen', 'imagen-a-pdf', 'comprimir-pdf'],
+    intro: 'Une, edita, firma, comprime o separa tus PDF, y pásalos a Word o a imagen. Sin subirlos a ningún lado.' },
+  { id: 'imagen', title: 'Fotos e imágenes', mark: 'Fotos', color: '#f08a5d', doodle: 'imagen',
+    tools: ['quitar-fondo', 'convertir-imagen', 'imagen-a-texto', 'comprimir-imagen', 'mapa-de-profundidad'],
     intro: 'Quita fondos, cambia formatos, reduce el peso o saca el texto de una foto. La IA corre en tu propio equipo.' },
-  { id: 'audio', title: 'Audio y texto', color: '#4dd4f0', cats: ['Audio', 'Texto'],
-    intro: 'Convierte tu voz en texto, traduce sin enviar nada a internet y crea códigos QR.' }
+  { id: 'audio', title: 'Audio y texto', mark: 'Audio y Texto', color: '#4dd4f0', doodle: 'audio',
+    tools: ['audio-a-texto', 'traductor', 'generador-qr', 'descargar-videos'],
+    intro: 'Convierte tu voz en texto, traduce sin enviar nada a internet, crea códigos QR y guarda videos.' }
 ];
 
-const PER_PAGE = 5;
-const toolsOf = (ch) => READY_TOOLS.filter((t) => ch.cats.includes(t.cat));
-const chunk = (list, n) => Array.from({ length: Math.ceil(list.length / n) }, (_, i) => list.slice(i * n, i * n + n));
+/* Hasta 5 herramientas caben como filas; con más, las primeras van en fila y el resto en una cuadrícula pequeña. */
+const MAX_ROWS = 5;
+const ROWS_WHEN_GRID = 3;
+
+const toolHref = (t) => (t.external
+  ? `href="${esc(t.external)}" target="_blank" rel="noopener noreferrer"`
+  : `href="/estudio/${t.slug}"`);
 
 function toolRow(t) {
-  return `<a class="nb-tool" href="/estudio/${t.slug}" style="--tool:${t.color}">
+  return `<a class="nb-tool" ${toolHref(t)} style="--tool:${t.color}">
           <svg class="nb-tool__icon" viewBox="0 0 64 56" aria-hidden="true">${ICONS[t.slug] ?? ''}</svg>
           <span class="nb-tool__text"><b>${esc(t.name)}</b><small>${esc(t.desc)}</small></span>
-          <span class="nb-tool__go" aria-hidden="true">abrir →</span>
+          <span class="nb-tool__go" aria-hidden="true">${t.external ? 'abrir ↗' : 'abrir →'}</span>
         </a>`;
+}
+
+function toolTile(t) {
+  return `<a class="nb-tile" ${toolHref(t)} style="--tool:${t.color}">
+            <svg viewBox="0 0 64 56" aria-hidden="true">${ICONS[t.slug] ?? ''}</svg>
+            <span>${esc(t.name)}${t.external ? ' ↗' : ''}</span>
+          </a>`;
+}
+
+function toolsPage(list) {
+  if (list.length <= MAX_ROWS) return `<div class="nb-tools">${list.map(toolRow).join('')}</div>`;
+  const rows = list.slice(0, ROWS_WHEN_GRID);
+  const tiles = list.slice(ROWS_WHEN_GRID);
+  return `<div class="nb-tools">${rows.map(toolRow).join('')}</div>
+        <p class="nb-more">y también:</p>
+        <div class="nb-tiles">${tiles.map(toolTile).join('')}</div>`;
 }
 
 /** Una página de la libreta. `hard` = tapa de cartón. */
@@ -78,7 +103,12 @@ export function homeAbout() {
 export function homeBook() {
   const pages = [];
   const add = (opts) => { pages.push(opts); return pages.length - 1; };
+  const index = [];
   const marks = [];
+  const chapter = (at, { title, mark, color, href }) => {
+    index.push({ title, at, color, href });
+    marks.push({ label: mark, at, color, href });
+  };
 
   /* 0 · Tapa */
   add({ hard: true, cls: 'nb-cover', body: `
@@ -91,7 +121,7 @@ export function homeBook() {
         <p class="nb-cover__hint">ábreme ${DOODLES.arrow}</p>
         <p class="nb-cover__seal">Gratis · Sin registro · Privado</p>` });
 
-  /* 1 · Hola */
+  /* 1 · Hola (izquierda) · 2 · Índice (derecha, se completa al final) */
   add({ id: 'hola', body: `
         <figure class="nb-polaroid">
           <img src="/assets/img/perfil.webp" alt="Foto de Camilo Arango" width="112" height="112" loading="lazy" />
@@ -101,75 +131,51 @@ export function homeBook() {
         <p>Estudio Ingeniería de Sistemas y en esta libreta guardo las herramientas que construyo.</p>
         <p><mark>Todas funcionan dentro de tu navegador:</mark> tus archivos nunca salen de tu dispositivo.</p>
         <p class="nb-note">¿Por qué es gratis? No pago servidores que procesen tus archivos, así que no necesito cobrarte ni mostrarte anuncios.</p>` });
-
-  /* 2 · Índice (se completa al final, cuando se conocen las páginas) */
   const indexAt = add({ id: 'indice', body: '' });
 
-  /* Capítulos de herramientas */
-  const index = [];
+  /* Capítulos de herramientas: título a la izquierda (página impar), herramientas a la derecha. */
   for (const ch of CHAPTERS) {
-    const tools = toolsOf(ch);
-    const start = add({ id: `cap-${ch.id}`, cls: 'nb-chapter', body: `
+    const tools = ch.tools.map((slug) => LAB_TOOLS.find((t) => t.slug === slug)).filter(Boolean);
+    const at = add({ id: `cap-${ch.id}`, cls: 'nb-chapter', body: `
         <span class="nb-chapter__tag" style="--tool:${ch.color}">Capítulo</span>
         <h2 class="nb-hand nb-chapter__title">${esc(ch.title)}</h2>
-        ${DOODLES[ch.id]}
+        ${DOODLES[ch.doodle]}
         <p>${esc(ch.intro)}</p>
-        <p class="nb-note">${tools.length} herramientas · pasa la página →</p>` });
-    chunk(tools, PER_PAGE).forEach((list, i) => add({ body: `
-        ${i ? `<p class="nb-cont">${esc(ch.title)} (sigue)</p>` : ''}
-        <div class="nb-tools">${list.map(toolRow).join('')}</div>` }));
-    index.push({ title: ch.title, at: start, color: ch.color, href: `#cap-${ch.id}` });
-    marks.push({ label: ch.title.split(' ')[0], at: start, color: ch.color, href: `#cap-${ch.id}` });
+        <p class="nb-note">${tools.length} herramientas →</p>` });
+    add({ cls: 'nb-toolpage', body: toolsPage(tools) });
+    chapter(at, { title: ch.title, mark: ch.mark, color: ch.color, href: `#cap-${ch.id}` });
   }
 
-  /* ¿Cómo que no se sube? */
-  const privacy = add({ id: 'privacidad', body: `
-        <h2 class="nb-hand">¿Cómo que no se sube?</h2>
-        ${DOODLES.privacidad}
-        <p>Las páginas normales envían tu archivo a un servidor, lo procesan allá y te lo devuelven. Aquí el "servidor" es <b>tu propio navegador</b>.</p>
-        <div class="net" id="net" data-online="true">
-          <span class="net__dot" aria-hidden="true"></span>
-          <p id="netText" aria-live="polite">Pruébalo: usa una herramienta, apaga el WiFi y vuelve a usarla.</p>
-        </div>
-        <a class="nb-link" href="/privacidad/">Cómo protegemos tu privacidad →</a>` });
-  index.push({ title: '¿Cómo que no se sube?', at: privacy, color: '#38c793', href: '#privacidad' });
-  marks.push({ label: 'Privacidad', at: privacy, color: '#38c793', href: '#privacidad' });
-
-  /* Más recursos */
+  /* Más recursos: directorios a la derecha, junto con cómo funciona la privacidad. */
   const count = { dev: `${DEV_TOOLS.length} enlaces`, ia: `${AI_TOOLS.length} enlaces`, prompts: `${PROMPTS.length} prompts` };
-  const more = add({ id: 'recursos', body: `
-        <h2 class="nb-hand">Más recursos</h2>
+  const more = add({ id: 'recursos', cls: 'nb-chapter', body: `
+        <span class="nb-chapter__tag" style="--tool:#8b7cf6">Capítulo</span>
+        <h2 class="nb-hand nb-chapter__title">Más recursos</h2>
         ${DOODLES.recursos}
+        <p>Directorios con las mejores herramientas e IA, y prompts listos para copiar.</p>
+        <p class="nb-note">Pasa al lado →</p>` });
+  add({ cls: 'nb-toolpage', body: `
         <ul class="nb-dirs">${SECTIONS.map((s) => `
           <li><a href="${VIEW_PATH[s.id]}" style="--tool:${s.color}"><b>${esc(s.title)}</b><small>${count[s.id]}</small></a></li>`).join('')}
         </ul>
-        <a class="nb-link" href="/estudio/">Ver las ${READY_TOOLS.length} herramientas del Estudio →</a>` });
-  index.push({ title: 'Más recursos', at: more, color: '#8b7cf6', href: '#recursos' });
-  marks.push({ label: 'Recursos', at: more, color: '#8b7cf6', href: '#recursos' });
+        <a class="nb-link" href="/estudio/">Ver las ${READY_TOOLS.length} herramientas del Estudio Creativo →</a>` });
+  chapter(more, { title: 'Más recursos', mark: 'Recursos', color: '#8b7cf6', href: '#recursos' });
 
-  /* Bitácora: el blog de notas (src/site/blog.js), 3 notas por hoja. */
-  const BLOG_PER_PAGE = 3;
-  let blogAt = -1;
-  chunk(BLOG, BLOG_PER_PAGE).forEach((list, i) => {
-    const at = add({ id: i ? undefined : 'blog', cls: 'nb-blog', body: `
-        ${i ? '<p class="nb-cont">Bitácora (sigue)</p>' : '<h2 class="nb-hand">Bitácora</h2><p class="nb-note">Notas de lo que voy construyendo.</p>'}
-        <ol class="nb-posts">${list.map((post, k) => `
-          <li class="nb-post" style="--note:${post.color ?? '#ffe27a'};--k:${k}">
-            <time>${esc(post.date)}</time>
-            <h3>${esc(post.title)}</h3>
-            <p>${esc(post.text)}</p>${post.link ? `
-            <a class="nb-link" href="${post.link[0]}">${esc(post.link[1])} →</a>` : ''}
-          </li>`).join('')}
-        </ol>` });
-    if (!i) blogAt = at;
-  });
-  index.push({ title: 'Bitácora', at: blogAt, color: '#e0484b', href: '#blog' });
-  marks.push({ label: 'Blog', at: blogAt, color: '#e0484b', href: '#blog' });
+  /* Tu espacio: notas para escribir (izquierda) y una hoja para dibujar (derecha). Todo queda en el navegador. */
+  const write = add({ id: 'notas', cls: 'nb-write-page', body: `
+        <h2 class="nb-hand">Tus notas</h2>
+        <p class="nb-note">Escribe lo que quieras: se guarda solo en tu navegador.</p>
+        <textarea class="nb-write" id="notesText" spellcheck="true" aria-label="Tus notas"
+          placeholder="Una idea, una lista de pendientes, un número que no quieres olvidar…"></textarea>
+        <div class="nb-write__bar">
+          <span class="nb-write__saved" id="notesSaved" aria-live="polite"></span>
+          <button type="button" class="nb-draw__clear" id="notesTextClear">Borrar</button>
+        </div>` });
+  chapter(write, { title: 'Tus notas', mark: 'Notas', color: '#e0484b', href: '#notas' });
 
-  /* Página para dibujar */
-  const notes = add({ id: 'notas', cls: 'nb-notes', body: `
+  const draw = add({ id: 'dibujo', cls: 'nb-notes', body: `
         <h2 class="nb-hand">Tu página</h2>
-        <p class="nb-note">Dibuja lo que quieras: se queda guardado en tu navegador.</p>
+        <p class="nb-note">Dibuja lo que quieras: también se queda en tu navegador.</p>
         <div class="nb-draw">
           <canvas id="notesCanvas" aria-label="Página en blanco para dibujar"></canvas>
           <div class="nb-draw__tools" role="group" aria-label="Lápices">
@@ -180,8 +186,23 @@ export function homeBook() {
             <button type="button" class="nb-draw__clear" id="notesClear">Borrar</button>
           </div>
         </div>` });
-  index.push({ title: 'Tu página para dibujar', at: notes, color: '#f2b84b', href: '#notas' });
-  marks.push({ label: 'Dibuja', at: notes, color: '#f2b84b', href: '#notas' });
+  chapter(draw, { title: 'Tu página para dibujar', mark: 'Dibuja', color: '#f2b84b', href: '#dibujo' });
+
+  /* Al final: ¿Cómo que no se sube? Título y dibujo a la izquierda, la explicación a la derecha. */
+  const privacy = add({ id: 'privacidad', cls: 'nb-chapter', body: `
+        <span class="nb-chapter__tag" style="--tool:#38c793">Privacidad</span>
+        <h2 class="nb-hand nb-chapter__title">¿Cómo que no se sube?</h2>
+        ${DOODLES.privacidad}
+        <p class="nb-note">Pasa al lado →</p>` });
+  add({ cls: 'nb-toolpage', body: `
+        <p>Las páginas normales envían tu archivo a un servidor, lo procesan allá y te lo devuelven.</p>
+        <p>Aquí el "servidor" es <b>tu propio navegador</b>: tus archivos se procesan en tu equipo y nunca viajan por internet.</p>
+        <div class="net" id="net" data-online="true">
+          <span class="net__dot" aria-hidden="true"></span>
+          <p id="netText" aria-live="polite">Pruébalo: usa una herramienta, apaga el WiFi y vuelve a usarla.</p>
+        </div>
+        <a class="nb-link" href="/privacidad/">Cómo protegemos tu privacidad →</a>` });
+  chapter(privacy, { title: '¿Cómo que no se sube?', mark: 'Privacidad', color: '#38c793', href: '#privacidad' });
 
   /* Con la tapa sola al principio y al final, el interior debe tener un número par de páginas. */
   if ((pages.length - 1) % 2) add({ cls: 'nb-blank', body: '<p class="nb-hand nb-blank__text">Esta página la dejé en blanco a propósito ;)</p>' });
@@ -193,7 +214,6 @@ export function homeBook() {
         ${socials()}
         <p class="nb-back__links"><a href="/contacto/">Contacto</a> · <a href="/privacidad/">Privacidad</a> · <a href="/terminos/">Términos</a></p>` });
 
-  /* Ahora sí, el índice con el número de página de cada capítulo. */
   pages[indexAt].body = `
         <h2 class="nb-hand">Índice</h2>
         <ol class="nb-index">${index.map((it) => `

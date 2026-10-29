@@ -2,6 +2,7 @@
 
 import { initBook } from './home/book.js';
 import { initNotes } from './home/notes.js';
+import { initWrite } from './home/write.js';
 import { initDrop } from './home/drop.js';
 import { initFinder } from './home/finder.js';
 
@@ -37,6 +38,7 @@ try {
   console.error(err);
 }
 initNotes();
+initWrite();
 
 /* --- Indicador de conexión: la prueba de que todo pasa en el navegador --- */
 const net = $('#net');
