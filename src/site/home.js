@@ -4,11 +4,12 @@
  * convierte después en una libreta que se hojea.
  */
 
-import { READY_TOOLS, ICONS } from '../lab/tools.js';
+import { LAB_TOOLS, READY_TOOLS, ICONS, toolCardMarkup } from '../lab/tools.js';
 import { SECTIONS, DEV_TOOLS, AI_TOOLS, PROMPTS } from '../../assets/js/data.js';
 import { VIEW_PATH } from '../../assets/js/cards.js';
 import { DOODLES } from './doodles.js';
 import { SOCIAL_ICONS } from './icons.js';
+import { BLOG } from './blog.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -39,6 +40,40 @@ const page = ({ id, n, hard = false, cls = '', body }) =>
   `<section class="nb-page${hard ? ' nb-page--hard' : ''}${cls ? ` ${cls}` : ''}" data-density="${hard ? 'hard' : 'soft'}"${id ? ` id="${id}"` : ''}>
       <div class="nb-page__inner">${body}</div>${n ? `<span class="nb-page__num" aria-hidden="true">${n}</span>` : ''}
     </section>`;
+
+const socials = () => `<nav class="socials" aria-label="Redes sociales">
+          <a class="social social--gh" href="https://github.com/camilo55arango" target="_blank" rel="noopener noreferrer" aria-label="GitHub">${SOCIAL_ICONS.gh}</a>
+          <a class="social social--x" href="https://x.com/Soy_Breve" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">${SOCIAL_ICONS.x}</a>
+          <a class="social social--ig" href="https://instagram.com/arangoypunto" target="_blank" rel="noopener noreferrer" aria-label="Instagram">${SOCIAL_ICONS.ig}</a>
+        </nav>`;
+
+/* Debajo de la libreta: las herramientas más usadas, en este orden. */
+const FEATURED = ['unir-pdf', 'editar-pdf', 'firmar-pdf', 'pdf-a-word', 'descargar-videos', 'generador-qr'];
+
+export function homeFeatured() {
+  const tools = FEATURED.map((slug) => LAB_TOOLS.find((t) => t.slug === slug)).filter(Boolean);
+  return `<section class="home-block" aria-labelledby="featuredTitle">
+      <h2 class="note-title" id="featuredTitle">Las más usadas</h2>
+      <div class="tool-grid">${tools.map((t, i) => toolCardMarkup(t, { h: 'h3', i })).join('')}</div>
+      <a class="studio-hero__more" href="/estudio/">Ver todas en el Estudio Creativo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+    </section>`;
+}
+
+/* "Sobre mí", con la foto, la frase y las redes. */
+export function homeAbout() {
+  return `<section class="about home-about" id="about" aria-labelledby="aboutTitle">
+      <div class="home-about__head">
+        <span class="avatar home-about__avatar">
+          <img src="/assets/img/perfil.webp" alt="Foto de Camilo Arango" width="72" height="72" loading="lazy" />
+          <span class="avatar__fallback" aria-hidden="true">CA</span>
+        </span>
+        <h2 class="note-title" id="aboutTitle">Sobre mí</h2>
+      </div>
+      <p class="about__quote">Demasiado cuerdo para ser artista, <br> demasiado loco para ser normal.</p>
+      <p>Soy Camilo, estudiante de Ingeniería de Sistemas 🧑🏼‍💻. Aquí reúno las herramientas que construyo y los recursos que uso para crear, aprender y programar con IA.</p>
+      ${socials()}
+    </section>`;
+}
 
 export function homeBook() {
   const pages = [];
@@ -112,6 +147,25 @@ export function homeBook() {
   index.push({ title: 'Más recursos', at: more, color: '#8b7cf6', href: '#recursos' });
   marks.push({ label: 'Recursos', at: more, color: '#8b7cf6', href: '#recursos' });
 
+  /* Bitácora: el blog de notas (src/site/blog.js), 3 notas por hoja. */
+  const BLOG_PER_PAGE = 3;
+  let blogAt = -1;
+  chunk(BLOG, BLOG_PER_PAGE).forEach((list, i) => {
+    const at = add({ id: i ? undefined : 'blog', cls: 'nb-blog', body: `
+        ${i ? '<p class="nb-cont">Bitácora (sigue)</p>' : '<h2 class="nb-hand">Bitácora</h2><p class="nb-note">Notas de lo que voy construyendo.</p>'}
+        <ol class="nb-posts">${list.map((post, k) => `
+          <li class="nb-post" style="--note:${post.color ?? '#ffe27a'};--k:${k}">
+            <time>${esc(post.date)}</time>
+            <h3>${esc(post.title)}</h3>
+            <p>${esc(post.text)}</p>${post.link ? `
+            <a class="nb-link" href="${post.link[0]}">${esc(post.link[1])} →</a>` : ''}
+          </li>`).join('')}
+        </ol>` });
+    if (!i) blogAt = at;
+  });
+  index.push({ title: 'Bitácora', at: blogAt, color: '#e0484b', href: '#blog' });
+  marks.push({ label: 'Blog', at: blogAt, color: '#e0484b', href: '#blog' });
+
   /* Página para dibujar */
   const notes = add({ id: 'notas', cls: 'nb-notes', body: `
         <h2 class="nb-hand">Tu página</h2>
@@ -136,11 +190,7 @@ export function homeBook() {
   add({ hard: true, cls: 'nb-back', body: `
         <p class="nb-hand nb-back__thanks">¡Gracias por pasar!</p>
         <p>¿Se te ocurre una herramienta o encontraste un error? Escríbeme.</p>
-        <nav class="socials" aria-label="Redes sociales">
-          <a class="social social--gh" href="https://github.com/camilo55arango" target="_blank" rel="noopener noreferrer" aria-label="GitHub">${SOCIAL_ICONS.gh}</a>
-          <a class="social social--x" href="https://x.com/Soy_Breve" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">${SOCIAL_ICONS.x}</a>
-          <a class="social social--ig" href="https://instagram.com/arangoypunto" target="_blank" rel="noopener noreferrer" aria-label="Instagram">${SOCIAL_ICONS.ig}</a>
-        </nav>
+        ${socials()}
         <p class="nb-back__links"><a href="/contacto/">Contacto</a> · <a href="/privacidad/">Privacidad</a> · <a href="/terminos/">Términos</a></p>` });
 
   /* Ahora sí, el índice con el número de página de cada capítulo. */

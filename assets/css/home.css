@@ -60,7 +60,9 @@ html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
 @media (max-width: 640px) {
   .home-top { padding-right: 96px; }
   .postits { order: 3; width: 100%; gap: 10px; }
-  .postit { font-size: 1.2rem; padding: 7px 11px 9px; }
+  .postits { gap: 10px 8px; }
+  .postit { font-size: 1.08rem; padding: 6px 9px 8px; }
+  .postit::before { width: 28px; height: 12px; top: -6px; }
   .postit--search span { display: none; }
 }
 
@@ -319,3 +321,29 @@ html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
   .ink { stroke-dasharray: none; stroke-dashoffset: 0; animation: none !important; }
   .nb-cover__hint, .net__dot { animation: none; }
 }
+
+/* Bitácora: cada nota es un post-it pegado en la hoja */
+.nb-blog .nb-page__inner { gap: 1.8cqh; }
+.nb-posts { list-style: none; display: grid; gap: 2.4cqh; }
+.nb-post {
+  --k: 0;
+  position: relative; display: grid; gap: .5cqh;
+  padding: 2.2cqh 4cqw 2.4cqh;
+  background: var(--note); border-radius: 2px 2px 10px 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .12), 0 10px 16px -12px rgba(0, 0, 0, .55);
+  transform: rotate(calc((var(--k) - 1) * -1.1deg));
+}
+.nb-post::before { content: ''; position: absolute; top: -1.6cqh; left: 50%; width: 16cqw; height: 3.2cqh; background: rgba(255, 255, 255, .55); transform: translateX(-50%) rotate(-3deg); }
+.nb-post time { font: 500 clamp(9px, 2.6cqw, 12px)/1.2 var(--mono); letter-spacing: .04em; color: #7a5b1e; }
+.nb-post h3 { font: 700 clamp(15px, 5cqw, 24px)/1.05 var(--hand); color: var(--page-ink); }
+.nb-post p { font-size: clamp(10px, 3cqw, 14px); line-height: 1.4; color: #4a4c58 !important; }
+.nb-post .nb-link { font-size: clamp(11px, 3.1cqw, 14px); }
+
+/* ---------- Debajo de la libreta: las más usadas y "Sobre mí" ---------- */
+.home-block { margin-top: clamp(30px, 6vw, 56px); }
+.home-block .studio-hero__more { margin-top: 22px; }
+.home-about { max-width: 680px; margin-top: clamp(40px, 7vw, 64px); }
+.home-about__head { display: flex; align-items: center; gap: 16px; }
+.home-about__head .note-title { margin-top: 14px; }
+.home-about__avatar { width: 72px; height: 72px; margin-top: 10px; }
+.home-about p + p { margin-top: 10px; }

@@ -4,7 +4,7 @@
  */
 
 import { SITE, READY_TOOLS, LAB_SECTION, toolGridMarkup } from './tools.js';
-import { homeBook } from '../site/home.js';
+import { homeBook, homeFeatured, homeAbout } from '../site/home.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -143,11 +143,23 @@ export const siteFooter = () => `<footer class="footer">
       </nav>
     </footer>`;
 
+/**
+ * Botón "Volver" fijo arriba a la izquierda en las páginas con ruta (herramientas, Estudio, privacidad…).
+ * Sin historial lleva a la página de arriba; src/lab/shell.js hace que vuelva a la anterior si es de este sitio.
+ */
+function withBack(html, tool) {
+  const parent = tool ? '/estudio/' : '/';
+  const label = tool ? 'Volver al Estudio Creativo' : 'Volver al inicio';
+  return html.replace('<nav class="lab-crumbs" aria-label="Ruta">',
+    `<a class="lab-back" href="${parent}" data-back aria-label="${label}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Volver</span></a>
+    <nav class="lab-crumbs" aria-label="Ruta">`);
+}
+
 /** Sustituye los marcadores <!--seo:*-->, <!--estudio:*--> y <!--site:*--> de cada HTML. */
 export function renderPlaceholders(html) {
   const slug = html.match(/<body[^>]*data-tool="([^"]+)"/)?.[1];
   const tool = slug && READY_TOOLS.find((t) => t.slug === slug);
-  return html
+  return withBack(html, tool)
     .replace('<!--site:footer-->', siteFooter())
     .replace('<!--seo:tool-head-->', tool ? toolHead(tool) : '')
     .replace('<!--seo:tool-info-->', tool ? toolInfo(tool) : '')
@@ -155,5 +167,7 @@ export function renderPlaceholders(html) {
     .replace('<!--seo:home-->', homeJsonLd())
     .replace('<!--estudio:grid-->', toolGridMarkup({ h: 'h2' }))
     .replace('<!--home:book-->', () => homeBook().book)
-    .replace('<!--home:marks-->', () => homeBook().bookmarks);
+    .replace('<!--home:marks-->', () => homeBook().bookmarks)
+    .replace('<!--home:featured-->', homeFeatured)
+    .replace('<!--home:about-->', homeAbout);
 }

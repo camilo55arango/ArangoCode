@@ -24,6 +24,16 @@ if (credits && tool?.credits) {
     Todo se procesa en tu dispositivo: tus archivos no salen del navegador.`;
 }
 
+/* "Volver": si llegaste desde otra página de este sitio, regresa a ella (con su scroll); si no, va a la de arriba. */
+$('[data-back]')?.addEventListener('click', (e) => {
+  let fromHere = false;
+  try { fromHere = new URL(document.referrer).origin === location.origin; } catch (err) { /* sin referrer */ }
+  if (fromHere && history.length > 1) {
+    e.preventDefault();
+    history.back();
+  }
+});
+
 const year = $('#year');
 if (year) year.textContent = new Date().getFullYear();
 
