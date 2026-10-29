@@ -59,9 +59,10 @@ html[data-theme="light"] .home { --cover: #35596b; --cover-2: #2a4757; }
   color: var(--page-ink);
   background-color: var(--page-paper);
   background-image:
-    linear-gradient(90deg, transparent 9.5cqw, var(--page-margin) 9.5cqw, var(--page-margin) calc(9.5cqw + 1.5px), transparent calc(9.5cqw + 1.5px)),
-    repeating-linear-gradient(180deg, transparent 0 calc(5.6cqh - 1px), var(--page-rule) calc(5.6cqh - 1px) 5.6cqh);
-  background-position: 0 0, 0 9cqh;
+    /* Porcentajes de la propia hoja: las unidades cq aquí se medirían contra la ventana, no contra la hoja. */
+    linear-gradient(90deg, transparent 9.5%, var(--page-margin) 9.5%, var(--page-margin) calc(9.5% + 2px), transparent calc(9.5% + 2px)),
+    repeating-linear-gradient(180deg, transparent 0 calc(5.6% - 1px), var(--page-rule) calc(5.6% - 1px) 5.6%);
+  background-position: 0 0, 0 9%;
 }
 .nb-page__inner { height: 100%; display: flex; flex-direction: column; gap: 2.4cqh; padding: 8cqh 7cqw 9cqh 13cqw; font-size: clamp(11px, 3.4cqw, 17px); line-height: 1.5; }
 .nb-page__num { position: absolute; bottom: 3.2cqh; right: 6cqw; font: 700 4.2cqw/1 var(--hand); color: var(--page-ink-soft); }
