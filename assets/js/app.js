@@ -508,6 +508,16 @@ import { esc, normalize, initials, KIND_LABEL, promptUrl, cardMarkup, labelsFor 
     }
   });
 
+  /* "Volver": si llegaste desde otra página de este sitio, regresa a ella; si no, va a la portada. */
+  $('[data-back]')?.addEventListener('click', (e) => {
+    let fromHere = false;
+    try { fromHere = new URL(document.referrer).origin === location.origin; } catch (err) { /* sin referrer */ }
+    if (fromHere && history.length > 1) {
+      e.preventDefault();
+      history.back();
+    }
+  });
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js').catch(() => { /* sin soporte o bloqueado */ });

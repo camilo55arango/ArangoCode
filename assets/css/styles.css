@@ -1040,8 +1040,83 @@ kbd {
   .avatar { width: 44px; height: 44px; }
   .profile__name { font-size: 1.45rem; overflow: hidden; text-overflow: ellipsis; }
   .profile__id > div:last-child { min-width: 0; }
-  body:not([data-view="home"]) .avatar { display: none; }
+  body:not([data-view="home"]) .profile .avatar { display: none; }
 }
 
 /* Los atajos de teclado no sirven en pantallas táctiles. */
 @media (hover: none) { .shortcuts-link { display: none; } }
+
+
+/* =========================================================
+   Barra superior común: foto + "ArangoCode" y menú de post-its
+   ========================================================= */
+.site-header {
+  min-height: 60px;
+  padding: 6px 110px 12px 0;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 22px;
+  border-bottom: 4px double var(--margin-rule);
+}
+.site-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.15rem; color: var(--ink); }
+.site-brand__avatar { width: 44px; height: 44px; }
+.site-brand__avatar img { transition: transform .3s var(--ease); }
+.site-brand:hover .site-brand__avatar img { transform: rotate(-6deg) scale(1.06); }
+
+.postits { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; padding-top: 8px; }
+.postit {
+  --r: -2.5deg;
+  position: relative;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 15px 11px;
+  font: 700 1.26rem/1 var(--hand); color: #2b2d38;
+  background: var(--note, #ffe27a);
+  border: 0; border-radius: 2px 2px 10px 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .18), 0 10px 16px -10px rgba(0, 0, 0, .55);
+  transform: rotate(var(--r));
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  cursor: pointer;
+}
+.postit:nth-child(2) { --r: 2deg; }
+.postit:nth-child(3) { --r: -1deg; }
+.postit:nth-child(4) { --r: 3deg; }
+.postit:nth-child(5) { --r: -3deg; }
+.postit::before {
+  content: ''; position: absolute; top: -8px; left: 50%; width: 38px; height: 15px;
+  background: rgba(255, 255, 255, .45); border-left: 1px dashed rgba(0, 0, 0, .12); border-right: 1px dashed rgba(0, 0, 0, .12);
+  transform: translateX(-50%) rotate(-4deg);
+}
+.postit:hover, .postit:focus-visible { transform: rotate(0) translateY(-4px) scale(1.05); box-shadow: 0 2px 0 rgba(0, 0, 0, .15), 0 18px 22px -12px rgba(0, 0, 0, .6); }
+/* La sección actual: el post-it queda derecho, más grande y subrayado a mano. */
+.postit[aria-current="page"] {
+  transform: rotate(0) translateY(-3px) scale(1.06);
+  box-shadow: 0 0 0 2px #2b2d38, 0 18px 22px -12px rgba(0, 0, 0, .6);
+  text-decoration: underline wavy rgba(43, 45, 56, .55); text-underline-offset: 4px;
+}
+.postit svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+@media (max-width: 640px) {
+  .site-header { padding-right: 96px; }
+  .postits { order: 3; width: 100%; gap: 10px 8px; }
+  .postit { font-size: 1.08rem; padding: 6px 9px 8px; }
+  .postit::before { width: 28px; height: 12px; top: -6px; }
+  .postit--search span { display: none; }
+}
+
+/* Debajo de la barra, la ruta va sin la doble raya (ya la tiene la barra). */
+.site-header + .lab-crumbs { min-height: 0; padding: 12px 0 0; border-bottom: 0; }
+
+/* --- Botón "Volver", fijo arriba a la izquierda --- */
+.lab-back {
+  position: fixed; z-index: 60; top: clamp(10px, 2.4vw, 20px); left: clamp(10px, 2.4vw, 20px);
+  display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 16px 0 12px;
+  font: 700 1.3rem/1 var(--hand); color: #2b2d38; background: #ffe27a;
+  border-radius: 2px 2px 10px 2px; box-shadow: 0 1px 0 rgba(0, 0, 0, .18), 0 10px 16px -10px rgba(0, 0, 0, .55);
+  transform: rotate(-2deg); transition: transform .2s var(--ease);
+}
+.lab-back svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.lab-back:hover, .lab-back:focus-visible { transform: rotate(0) translateX(-3px); }
+/* Donde la barra empieza pegada al borde, la foto se corre para dejarle sitio al botón (los post-its no). */
+@media (max-width: 1280px) { .site-header--back .site-brand { margin-left: 118px; } }
+@media (max-width: 640px) {
+  .lab-back span { display: none; }
+  .lab-back { padding: 0 12px; }
+  .site-header--back .site-brand { margin-left: 58px; }
+}

@@ -76,14 +76,6 @@ function head(view) {
   ${ld}`;
 }
 
-function tabs(view) {
-  const tab = (s) => `<a class="tab${s.id === view ? ' is-active' : ''}" href="${VIEW_PATH[s.id]}" style="--tab:${s.color}"${s.id === view ? ' aria-current="page"' : ''}>${esc(s.short)}</a>`;
-  return `<nav class="tabs" aria-label="Secciones">
-      <a class="tab tab--studio" href="/estudio/">Estudio Creativo</a>
-      ${SECTIONS.map(tab).join('\n      ')}
-    </nav>`;
-}
-
 function body(view) {
   const section = SECTIONS.find((s) => s.id === view);
   const items = DATA[view] ?? [];
@@ -112,24 +104,7 @@ function body(view) {
   </div>
 
   <main class="shell">
-    <header class="profile" id="profile">
-      <a class="profile__back" href="/" aria-label="Volver al inicio">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-        <span>Inicio</span>
-      </a>
-      <div class="profile__id">
-        <div class="avatar">
-          <img id="avatarImg" src="/assets/img/perfil.webp" alt="Foto de Camilo Arango" width="56" height="56" />
-          <span class="avatar__fallback" aria-hidden="true">CA</span>
-        </div>
-        <div>
-          <p class="profile__name">Camilo Arango</p>
-          <p class="profile__brand"><span class="dot"></span>ArangoCode</p>
-        </div>
-      </div>
-    </header>
-
-    ${tabs(view)}
+    <!--site:header:${view}-->
 
     <section class="view-head" id="viewHead">
       <h1 class="view-head__title" id="viewTitle">${esc(title)}</h1>

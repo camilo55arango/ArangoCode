@@ -516,16 +516,4 @@ button.lab-thumb.is-selected .lab-thumb__num { color: var(--tool-ink); font-weig
 .pe-sign-preview { display: block; max-width: 100%; max-height: 160px; margin: 10px auto 0; border: 1px solid var(--border); border-radius: 8px; }
 .pe-sign-tweak { display: grid; gap: 8px; margin-top: 10px; }
 
-/* --- Botón "Volver", fijo arriba a la izquierda --- */
-.lab-back {
-  position: fixed; z-index: 60; top: clamp(10px, 2.4vw, 20px); left: clamp(10px, 2.4vw, 20px);
-  display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 16px 0 12px;
-  font: 700 1.3rem/1 var(--hand); color: #2b2d38; background: #ffe27a;
-  border-radius: 2px 2px 10px 2px; box-shadow: 0 1px 0 rgba(0, 0, 0, .18), 0 10px 16px -10px rgba(0, 0, 0, .55);
-  transform: rotate(-2deg); transition: transform .2s var(--ease);
-}
-.lab-back svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-.lab-back:hover, .lab-back:focus-visible { transform: rotate(0) translateX(-3px); }
-/* En pantallas donde la ruta empieza pegada al borde, se le deja sitio al botón. */
-@media (max-width: 1600px) { .lab-crumbs { padding-left: 118px; } }
-@media (max-width: 520px) { .lab-back span { display: none; } .lab-back { padding: 0 12px; } .lab-crumbs { padding-left: 58px; } }
+

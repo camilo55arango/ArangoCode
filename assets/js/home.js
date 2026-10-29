@@ -23,7 +23,7 @@ try {
   count.hidden = !saved;
 } catch (e) { /* storage no disponible */ }
 
-const avatar = $('.home-brand__avatar');
+const avatar = $('.site-brand__avatar');
 const avatarImg = $('#avatarImg');
 avatarImg.addEventListener('error', () => avatar.classList.add('is-fallback'));
 if (avatarImg.complete && avatarImg.naturalWidth === 0) avatar.classList.add('is-fallback');

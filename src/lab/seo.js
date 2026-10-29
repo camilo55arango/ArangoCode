@@ -143,15 +143,57 @@ export const siteFooter = () => `<footer class="footer">
       </nav>
     </footer>`;
 
+/* Secciones del menú de post-its, el mismo en todas las páginas. */
+const NAV = [
+  ['estudio', '/estudio/', 'Estudio Creativo', '#ffe27a'],
+  ['dev', '/herramientas/', 'Directorio de herramientas', '#b9e3ff'],
+  ['ia', '/ia/', 'Directorio de IA', '#ffc2d6'],
+  ['prompts', '/prompts/', 'Prompts', '#c6f0c2']
+];
+
+const BACK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+
 /**
- * Botón "Volver" fijo arriba a la izquierda en las páginas con ruta (herramientas, Estudio, privacidad…).
- * Sin historial lleva a la página de arriba; src/lab/shell.js hace que vuelva a la anterior si es de este sitio.
+ * Barra superior de todas las páginas: foto + "ArangoCode" y el menú de post-its, con la sección actual marcada.
+ * `back` añade el botón "Volver" fijo (src/lab/shell.js y assets/js/app.js lo hacen volver a la página anterior).
+ * En la portada, "Buscar" abre el buscador; en las demás páginas lleva a la portada con el buscador abierto.
  */
-function withBack(html, tool) {
-  const parent = tool ? '/estudio/' : '/';
-  const label = tool ? 'Volver al Estudio Creativo' : 'Volver al inicio';
+export function siteHeader({ active = '', back = null, home = false } = {}) {
+  const links = NAV.map(([id, href, label, color]) =>
+    `<a class="postit" href="${href}" style="--note:${color}"${id === active ? ' aria-current="page"' : ''}>${label}</a>`).join('\n        ');
+  const search = home
+    ? '<button class="postit postit--search" type="button" id="searchOpen" style="--note:#fff4e0" aria-label="Buscar (Ctrl+K)">'
+    : '<a class="postit postit--search" href="/#buscar" style="--note:#fff4e0" aria-label="Buscar en el sitio">';
+  const searchEnd = home ? '</button>' : '</a>';
+  const backLink = back
+    ? `<a class="lab-back" href="${back.href}" data-back aria-label="${back.label}">${BACK_ICON}<span>Volver</span></a>\n    `
+    : '';
+  return `${backLink}<header class="site-header${back ? ' site-header--back' : ''}">
+      <a class="site-brand" href="/" aria-label="ArangoCode, inicio">
+        <span class="avatar site-brand__avatar">
+          <img id="avatarImg" src="/assets/img/perfil.webp" alt="" width="44" height="44" />
+          <span class="avatar__fallback" aria-hidden="true">CA</span>
+        </span>
+        <span>ArangoCode</span>
+      </a>
+      <nav class="postits" aria-label="Secciones">
+        ${links}
+        ${search}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Buscar</span>${searchEnd}
+      </nav>
+    </header>`;
+}
+
+/**
+ * Páginas con ruta (herramientas, Estudio, privacidad…): la barra común encima de la ruta, y "Volver".
+ * Sin historial, "Volver" lleva a la página de arriba: de una herramienta al Estudio, del resto a la portada.
+ */
+function withHeader(html, tool) {
+  const studio = Boolean(tool) || html.includes('<span aria-current="page">Estudio Creativo</span>');
+  const back = tool
+    ? { href: '/estudio/', label: 'Volver al Estudio Creativo' }
+    : { href: '/', label: 'Volver al inicio' };
   return html.replace('<nav class="lab-crumbs" aria-label="Ruta">',
-    `<a class="lab-back" href="${parent}" data-back aria-label="${label}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Volver</span></a>
+    `${siteHeader({ active: studio ? 'estudio' : '', back })}
     <nav class="lab-crumbs" aria-label="Ruta">`);
 }
 
@@ -159,7 +201,9 @@ function withBack(html, tool) {
 export function renderPlaceholders(html) {
   const slug = html.match(/<body[^>]*data-tool="([^"]+)"/)?.[1];
   const tool = slug && READY_TOOLS.find((t) => t.slug === slug);
-  return withBack(html, tool)
+  return withHeader(html, tool)
+    .replace('<!--site:header:home-->', () => siteHeader({ home: true }))
+    .replace(/<!--site:header:(\w+)-->/, (_, view) => siteHeader({ active: view, back: { href: '/', label: 'Volver al inicio' } }))
     .replace('<!--site:footer-->', siteFooter())
     .replace('<!--seo:tool-head-->', tool ? toolHead(tool) : '')
     .replace('<!--seo:tool-info-->', tool ? toolInfo(tool) : '')
