@@ -4,60 +4,6 @@ export const SITE = 'https://arangocode.com';
 
 export const LAB_TOOLS = [
   {
-    slug: 'editar-pdf',
-    accepts: ['pdf'],
-    keywords: 'editar modificar escribir agregar texto imagen tachar resaltar tapar borrar rellenar formulario girar eliminar paginas anotar',
-    name: 'Editar PDF',
-    task: 'Editar',
-    cat: 'Documentos',
-    color: '#ff8a65',
-    desc: 'Escribe, resalta, tapa, dibuja, añade imágenes y rellena formularios en tu PDF.',
-    weight: 'Motor ~2 MB',
-    feature: 'Formularios y páginas',
-    credits: [['PDF.js', 'https://github.com/mozilla/pdf.js', 'Apache-2.0'], ['pdf-lib', 'https://github.com/Hopding/pdf-lib', 'MIT']],
-    seoTitle: 'Editar PDF gratis online: añade texto, imágenes y firmas',
-    seoDesc: 'Edita un PDF gratis y sin subirlo: escribe texto, resalta, tapa datos, dibuja, añade imágenes o tu firma, rellena formularios y gira, ordena o elimina páginas. Todo en tu navegador.',
-    steps: [
-      'Suelta tu PDF y elige una herramienta: texto, resaltar, tapar, dibujar, imagen o firma.',
-      'Haz clic o arrastra sobre la página. Mueve y cambia el tamaño de lo que añadas; gira, ordena o elimina páginas.',
-      'Pulsa Guardar PDF y descarga el documento editado.'
-    ],
-    faq: [
-      ['¿Es gratis?', 'Sí. Sin registro, sin límite de páginas y sin marcas de agua.'],
-      ['¿Mi PDF se sube a internet?', 'No. El PDF se abre y se edita dentro de tu navegador; nunca sale de tu dispositivo.'],
-      ['¿Puedo cambiar el texto que ya tiene el PDF?', 'No directamente: un PDF guarda el texto como dibujo en posiciones fijas, así que reescribirlo rompe el diseño. Lo que sí puedes hacer es taparlo con un rectángulo blanco (herramienta Tapar) y escribir encima el texto nuevo.'],
-      ['¿Puedo rellenar formularios?', 'Sí. Si el PDF tiene campos de formulario, aparecen en un panel para que los completes. Si es un formulario escaneado, escribe encima con la herramienta Texto.'],
-      ['¿Tapar oculta el dato de verdad?', 'Tapa el dato a la vista y al imprimir, pero el texto original puede seguir dentro del archivo y copiarse. Para documentos sensibles, después de editar pásalo por PDF a imagen y luego por Imagen a PDF.']
-    ]
-  },
-  {
-    slug: 'comprimir-pdf',
-    accepts: ['pdf'],
-    keywords: 'comprimir reducir peso tamaño achicar optimizar pdf liviano enviar correo whatsapp',
-    name: 'Comprimir PDF',
-    task: 'Optimizar',
-    cat: 'Documentos',
-    color: '#e5484d',
-    desc: 'Reduce el peso de un PDF para enviarlo por correo o WhatsApp.',
-    weight: 'Motor ~2 MB',
-    feature: 'Tres niveles',
-    credits: [['qpdf', 'https://github.com/qpdf/qpdf', 'Apache-2.0'], ['pdf-lib', 'https://github.com/Hopding/pdf-lib', 'MIT']],
-    seoTitle: 'Comprimir PDF gratis: reduce el peso sin subirlo',
-    seoDesc: 'Comprime un PDF gratis y sin subirlo a ningún servidor. Reduce el peso de las imágenes y optimiza el archivo para enviarlo por correo o WhatsApp, con tres niveles de compresión.',
-    steps: [
-      'Suelta el PDF que quieres comprimir.',
-      'Elige el nivel: sin pérdida, recomendado o fuerte.',
-      'Compara el peso antes y después, y descarga el PDF comprimido.'
-    ],
-    faq: [
-      ['¿Es gratis?', 'Sí. Sin registro, sin límite de archivos y sin marcas de agua.'],
-      ['¿Mi PDF se sube a internet?', 'No. La compresión ocurre en tu navegador: el archivo nunca sale de tu dispositivo.'],
-      ['¿Cuánto se reduce?', 'Depende del contenido. Los PDF con fotos o escaneados suelen bajar entre un 40 % y un 80 % en el nivel recomendado. Los que son solo texto ya pesan poco y bajan menos.'],
-      ['¿Se pierde calidad?', '«Sin pérdida» solo reorganiza el archivo. «Recomendado» reduce las fotos a una resolución buena para pantalla e impresión normal, y «Fuerte» prioriza el peso. El texto siempre queda nítido.'],
-      ['¿Y si el resultado pesa más?', 'La herramienta te lo dice y te deja el original: nunca descargas un archivo más grande.']
-    ]
-  },
-  {
     slug: 'unir-pdf',
     accepts: ['pdf'],
     keywords: 'juntar combinar fusionar pegar varios pdf en uno merge',
@@ -81,32 +27,6 @@ export const LAB_TOOLS = [
       ['¿Mis PDF se suben a internet?', 'No. La unión ocurre en tu navegador con qpdf: los archivos nunca salen de tu dispositivo.'],
       ['¿Puedo cambiar el orden?', 'Sí. Arrastra cada archivo a su lugar o usa las flechas. El PDF final respeta exactamente ese orden.'],
       ['¿Funciona con PDF protegidos?', 'Si un PDF pide contraseña para abrirse, primero quítasela con Desbloquear PDF y luego únelo.']
-    ]
-  },
-  {
-    slug: 'dividir-pdf',
-    accepts: ['pdf'],
-    keywords: 'separar cortar extraer paginas partir split',
-    name: 'Dividir PDF',
-    task: 'Dividir',
-    cat: 'Documentos',
-    color: '#2bb3a3',
-    desc: 'Separa un PDF por rangos o extrae las páginas que necesites.',
-    weight: 'Motor ~3 MB',
-    feature: 'Por rangos o páginas',
-    credits: [['qpdf', 'https://github.com/qpdf/qpdf', 'Apache-2.0'], ['qpdf-wasm', 'https://github.com/neslinesli93/qpdf-wasm', 'ISC'], ['PDF.js', 'https://github.com/mozilla/pdf.js', 'Apache-2.0']],
-    seoTitle: 'Dividir PDF gratis: separa por rangos o extrae páginas',
-    seoDesc: 'Divide un PDF por rangos de páginas, cada cierto número de páginas o extrae las páginas que elijas, gratis y sin subirlo a ningún servidor. Descarga cada parte o todo en un ZIP.',
-    steps: [
-      'Suelta o elige el PDF que quieres dividir y mira sus páginas en miniatura.',
-      'Elige rangos personalizados, partes de un número fijo de páginas, o las páginas a extraer.',
-      'Pulsa Dividir y descarga cada parte, todas en un ZIP o unidas en un solo PDF.'
-    ],
-    faq: [
-      ['¿Es gratis?', 'Sí. Sin registro, sin límite de páginas y sin marcas de agua.'],
-      ['¿Mi PDF se sube a internet?', 'No. La división ocurre en tu navegador con qpdf: el archivo nunca sale de tu dispositivo.'],
-      ['¿Puedo sacar solo algunas páginas?', 'Sí. En «Páginas», escribe las que quieres (por ejemplo 1, 3, 5-8) o haz clic en sus miniaturas. Puedes descargarlas por separado o unidas en un solo PDF.'],
-      ['¿Qué pasa con la calidad?', 'Nada cambia: las páginas se copian tal cual, con su texto, imágenes y enlaces.']
     ]
   },
   {
@@ -137,6 +57,33 @@ export const LAB_TOOLS = [
     ]
   },
   {
+    slug: 'editar-pdf',
+    accepts: ['pdf'],
+    keywords: 'editar modificar escribir agregar texto imagen tachar resaltar tapar borrar rellenar formulario girar eliminar paginas anotar',
+    name: 'Editar PDF',
+    task: 'Editar',
+    cat: 'Documentos',
+    color: '#ff8a65',
+    desc: 'Escribe, resalta, tapa, dibuja, añade imágenes y rellena formularios en tu PDF.',
+    weight: 'Motor ~2 MB',
+    feature: 'Formularios y páginas',
+    credits: [['PDF.js', 'https://github.com/mozilla/pdf.js', 'Apache-2.0'], ['pdf-lib', 'https://github.com/Hopding/pdf-lib', 'MIT']],
+    seoTitle: 'Editar PDF gratis online: añade texto, imágenes y firmas',
+    seoDesc: 'Edita un PDF gratis y sin subirlo: escribe texto, resalta, tapa datos, dibuja, añade imágenes o tu firma, rellena formularios y gira, ordena o elimina páginas. Todo en tu navegador.',
+    steps: [
+      'Suelta tu PDF y elige una herramienta: texto, resaltar, tapar, dibujar, imagen o firma.',
+      'Haz clic o arrastra sobre la página. Mueve y cambia el tamaño de lo que añadas; gira, ordena o elimina páginas.',
+      'Pulsa Guardar PDF y descarga el documento editado.'
+    ],
+    faq: [
+      ['¿Es gratis?', 'Sí. Sin registro, sin límite de páginas y sin marcas de agua.'],
+      ['¿Mi PDF se sube a internet?', 'No. El PDF se abre y se edita dentro de tu navegador; nunca sale de tu dispositivo.'],
+      ['¿Puedo cambiar el texto que ya tiene el PDF?', 'No directamente: un PDF guarda el texto como dibujo en posiciones fijas, así que reescribirlo rompe el diseño. Lo que sí puedes hacer es taparlo con un rectángulo blanco (herramienta Tapar) y escribir encima el texto nuevo.'],
+      ['¿Puedo rellenar formularios?', 'Sí. Si el PDF tiene campos de formulario, aparecen en un panel para que los completes. Si es un formulario escaneado, escribe encima con la herramienta Texto.'],
+      ['¿Tapar oculta el dato de verdad?', 'Tapa el dato a la vista y al imprimir, pero el texto original puede seguir dentro del archivo y copiarse. Para documentos sensibles, después de editar pásalo por PDF a imagen y luego por Imagen a PDF.']
+    ]
+  },
+  {
     slug: 'firmar-pdf',
     accepts: ['pdf'],
     keywords: 'firmar firma rubrica firma digital electronica dibujar firma contrato documento',
@@ -160,6 +107,59 @@ export const LAB_TOOLS = [
       ['¿Mi documento se sube a internet?', 'No. El PDF y tu firma se quedan en tu navegador: nunca salen de tu dispositivo.'],
       ['¿Es una firma digital certificada?', 'No. Es una firma electrónica simple: la imagen de tu firma sobre el documento, como cuando firmas a mano y escaneas. Sirve para la mayoría de trámites cotidianos; para trámites que exigen firma digital certificada necesitas un certificado de una entidad autorizada.'],
       ['¿Puedo firmar desde el celular?', 'Sí. Dibuja la firma con el dedo y colócala tocando la página.']
+    ]
+  },
+  {
+    slug: 'desbloquear-pdf',
+    accepts: ['pdf'],
+    keywords: 'quitar contraseña clave proteccion restricciones imprimir copiar',
+    name: 'Desbloquear PDF',
+    task: 'Seguridad',
+    cat: 'Documentos',
+    color: '#f2b84b',
+    desc: 'Quita la contraseña y las restricciones de imprimir, copiar o editar.',
+    weight: 'Motor ~1.4 MB',
+    feature: 'Sin adivinar claves',
+    credits: [['qpdf', 'https://github.com/qpdf/qpdf', 'Apache-2.0'], ['qpdf-wasm', 'https://github.com/neslinesli93/qpdf-wasm', 'ISC']],
+    seoTitle: 'Desbloquear PDF gratis: quitar contraseña y restricciones',
+    seoDesc: 'Quita la contraseña de un PDF y las restricciones para imprimir, copiar o editar, gratis y sin subirlo a ningún servidor. Todo ocurre en tu navegador.',
+    steps: [
+      'Suelta o elige el PDF protegido.',
+      'Si pide contraseña para abrirlo, escríbela. Si solo tiene restricciones, no hace falta.',
+      'Descarga el PDF desbloqueado, sin contraseña ni restricciones.'
+    ],
+    faq: [
+      ['¿Es gratis?', 'Sí. Sin registro y sin límite de archivos.'],
+      ['¿Mi PDF se sube a internet?', 'No. qpdf funciona dentro de tu navegador y el archivo nunca sale de tu dispositivo.'],
+      ['¿Puede adivinar una contraseña que no conozco?', 'No. Si el PDF pide contraseña para abrirse, necesitas conocerla. Las restricciones de imprimir, copiar o editar sí se quitan sin contraseña.'],
+      ['¿Se pierde calidad?', 'No. El contenido del PDF queda igual; solo se elimina el cifrado.'],
+      ['¿Puedo usarlo con cualquier PDF?', 'Úsalo solo con documentos tuyos o con permiso de su autor. Sirve para recuperar el control de tus propios archivos, por ejemplo un extracto bancario o un PDF al que le pusiste restricciones y ya no las necesitas.']
+    ]
+  },
+  {
+    slug: 'dividir-pdf',
+    accepts: ['pdf'],
+    keywords: 'separar cortar extraer paginas partir split',
+    name: 'Dividir PDF',
+    task: 'Dividir',
+    cat: 'Documentos',
+    color: '#2bb3a3',
+    desc: 'Separa un PDF por rangos o extrae las páginas que necesites.',
+    weight: 'Motor ~3 MB',
+    feature: 'Por rangos o páginas',
+    credits: [['qpdf', 'https://github.com/qpdf/qpdf', 'Apache-2.0'], ['qpdf-wasm', 'https://github.com/neslinesli93/qpdf-wasm', 'ISC'], ['PDF.js', 'https://github.com/mozilla/pdf.js', 'Apache-2.0']],
+    seoTitle: 'Dividir PDF gratis: separa por rangos o extrae páginas',
+    seoDesc: 'Divide un PDF por rangos de páginas, cada cierto número de páginas o extrae las páginas que elijas, gratis y sin subirlo a ningún servidor. Descarga cada parte o todo en un ZIP.',
+    steps: [
+      'Suelta o elige el PDF que quieres dividir y mira sus páginas en miniatura.',
+      'Elige rangos personalizados, partes de un número fijo de páginas, o las páginas a extraer.',
+      'Pulsa Dividir y descarga cada parte, todas en un ZIP o unidas en un solo PDF.'
+    ],
+    faq: [
+      ['¿Es gratis?', 'Sí. Sin registro, sin límite de páginas y sin marcas de agua.'],
+      ['¿Mi PDF se sube a internet?', 'No. La división ocurre en tu navegador con qpdf: el archivo nunca sale de tu dispositivo.'],
+      ['¿Puedo sacar solo algunas páginas?', 'Sí. En «Páginas», escribe las que quieres (por ejemplo 1, 3, 5-8) o haz clic en sus miniaturas. Puedes descargarlas por separado o unidas en un solo PDF.'],
+      ['¿Qué pasa con la calidad?', 'Nada cambia: las páginas se copian tal cual, con su texto, imágenes y enlaces.']
     ]
   },
   {
@@ -215,31 +215,45 @@ export const LAB_TOOLS = [
     ]
   },
   {
-    slug: 'desbloquear-pdf',
+    slug: 'comprimir-pdf',
     accepts: ['pdf'],
-    keywords: 'quitar contraseña clave proteccion restricciones imprimir copiar',
-    name: 'Desbloquear PDF',
-    task: 'Seguridad',
+    keywords: 'comprimir reducir peso tamaño achicar optimizar pdf liviano enviar correo whatsapp',
+    name: 'Comprimir PDF',
+    task: 'Optimizar',
     cat: 'Documentos',
-    color: '#f2b84b',
-    desc: 'Quita la contraseña y las restricciones de imprimir, copiar o editar.',
-    weight: 'Motor ~1.4 MB',
-    feature: 'Sin adivinar claves',
-    credits: [['qpdf', 'https://github.com/qpdf/qpdf', 'Apache-2.0'], ['qpdf-wasm', 'https://github.com/neslinesli93/qpdf-wasm', 'ISC']],
-    seoTitle: 'Desbloquear PDF gratis: quitar contraseña y restricciones',
-    seoDesc: 'Quita la contraseña de un PDF y las restricciones para imprimir, copiar o editar, gratis y sin subirlo a ningún servidor. Todo ocurre en tu navegador.',
+    color: '#e5484d',
+    desc: 'Reduce el peso de un PDF para enviarlo por correo o WhatsApp.',
+    weight: 'Motor ~2 MB',
+    feature: 'Tres niveles',
+    credits: [['qpdf', 'https://github.com/qpdf/qpdf', 'Apache-2.0'], ['pdf-lib', 'https://github.com/Hopding/pdf-lib', 'MIT']],
+    seoTitle: 'Comprimir PDF gratis: reduce el peso sin subirlo',
+    seoDesc: 'Comprime un PDF gratis y sin subirlo a ningún servidor. Reduce el peso de las imágenes y optimiza el archivo para enviarlo por correo o WhatsApp, con tres niveles de compresión.',
     steps: [
-      'Suelta o elige el PDF protegido.',
-      'Si pide contraseña para abrirlo, escríbela. Si solo tiene restricciones, no hace falta.',
-      'Descarga el PDF desbloqueado, sin contraseña ni restricciones.'
+      'Suelta el PDF que quieres comprimir.',
+      'Elige el nivel: sin pérdida, recomendado o fuerte.',
+      'Compara el peso antes y después, y descarga el PDF comprimido.'
     ],
     faq: [
-      ['¿Es gratis?', 'Sí. Sin registro y sin límite de archivos.'],
-      ['¿Mi PDF se sube a internet?', 'No. qpdf funciona dentro de tu navegador y el archivo nunca sale de tu dispositivo.'],
-      ['¿Puede adivinar una contraseña que no conozco?', 'No. Si el PDF pide contraseña para abrirse, necesitas conocerla. Las restricciones de imprimir, copiar o editar sí se quitan sin contraseña.'],
-      ['¿Se pierde calidad?', 'No. El contenido del PDF queda igual; solo se elimina el cifrado.'],
-      ['¿Puedo usarlo con cualquier PDF?', 'Úsalo solo con documentos tuyos o con permiso de su autor. Sirve para recuperar el control de tus propios archivos, por ejemplo un extracto bancario o un PDF al que le pusiste restricciones y ya no las necesitas.']
+      ['¿Es gratis?', 'Sí. Sin registro, sin límite de archivos y sin marcas de agua.'],
+      ['¿Mi PDF se sube a internet?', 'No. La compresión ocurre en tu navegador: el archivo nunca sale de tu dispositivo.'],
+      ['¿Cuánto se reduce?', 'Depende del contenido. Los PDF con fotos o escaneados suelen bajar entre un 40 % y un 80 % en el nivel recomendado. Los que son solo texto ya pesan poco y bajan menos.'],
+      ['¿Se pierde calidad?', '«Sin pérdida» solo reorganiza el archivo. «Recomendado» reduce las fotos a una resolución buena para pantalla e impresión normal, y «Fuerte» prioriza el peso. El texto siempre queda nítido.'],
+      ['¿Y si el resultado pesa más?', 'La herramienta te lo dice y te deja el original: nunca descargas un archivo más grande.']
     ]
+  },
+  {
+    slug: 'descargar-videos',
+    accepts: [],
+    keywords: 'bajar video youtube instagram tiktok facebook x mp4',
+    name: 'Descargar videos',
+    task: 'Video',
+    cat: 'Externo',
+    color: '#5b8def',
+    desc: 'Pega el enlace de YouTube, Instagram, Facebook o X y guarda el video.',
+    // Mientras se construye la herramienta propia, se abre SaveFrom en una pestaña nueva.
+    external: 'https://es.savefrom.net/267hP/',
+    weight: 'Enlace externo',
+    feature: 'SaveFrom.net'
   },
   {
     slug: 'quitar-fondo',
@@ -271,6 +285,32 @@ export const LAB_TOOLS = [
     ]
   },
   {
+    slug: 'generador-qr',
+    accepts: [],
+    keywords: 'qr codigo qr generar crear wifi enlace url contacto vcard menu',
+    name: 'Generador de QR',
+    task: 'Crear',
+    cat: 'Texto',
+    color: '#ffab00',
+    desc: 'Crea códigos QR para enlaces, WiFi o contactos, con tus colores y logo.',
+    weight: 'Sin descarga',
+    feature: 'PNG y SVG',
+    credits: [['qrcode-generator', 'https://github.com/kazuhikoarase/qrcode-generator', 'MIT']],
+    seoTitle: 'Generador de códigos QR gratis: enlaces, WiFi y contactos',
+    seoDesc: 'Crea códigos QR gratis para enlaces, texto, redes WiFi o contactos. Personaliza colores, añade tu logo y descárgalo en PNG o SVG. Sin registro y sin caducidad.',
+    steps: [
+      'Elige qué quieres compartir: un enlace, un texto, tu WiFi o un contacto.',
+      'Personaliza los colores y, si quieres, añade tu logo en el centro.',
+      'Descarga el QR en PNG o SVG.'
+    ],
+    faq: [
+      ['¿Es gratis?', 'Sí, sin registro ni límites.'],
+      ['¿El QR caduca?', 'No. El contenido va dentro del propio código, sin pasar por ningún servidor ni redirección, así que funciona para siempre.'],
+      ['¿Se guardan mis datos, como la clave del WiFi?', 'No. El QR se genera en tu navegador y nada se envía a internet.'],
+      ['¿El logo afecta la lectura?', 'Al añadir un logo el QR usa la máxima corrección de errores para seguir leyéndose. Prueba siempre con tu celular antes de imprimirlo.']
+    ]
+  },
+  {
     slug: 'convertir-imagen',
     accepts: ['image'],
     keywords: 'cambiar formato jpg png webp avif heic iphone',
@@ -294,32 +334,6 @@ export const LAB_TOOLS = [
       ['¿Mis fotos se suben a internet?', 'No. La conversión ocurre en tu navegador y las imágenes nunca salen de tu dispositivo.'],
       ['¿Puedo convertir fotos HEIC del iPhone?', 'Sí. Suelta las fotos .heic y elige JPG, PNG, WebP o AVIF como salida.'],
       ['¿Qué pasa con la transparencia al pasar a JPG?', 'JPG no admite transparencia, así que las zonas transparentes se rellenan con blanco. PNG, WebP y AVIF la conservan.']
-    ]
-  },
-  {
-    slug: 'comprimir-imagen',
-    accepts: ['image'],
-    keywords: 'reducir peso optimizar foto mas liviana tamaño',
-    name: 'Comprimir imágenes',
-    task: 'Optimizar',
-    cat: 'Imagen',
-    color: '#ef6f9b',
-    desc: 'Reduce el peso de tus fotos sin que se note la diferencia.',
-    weight: 'Motor < 1 MB',
-    feature: 'Varias a la vez',
-    credits: [['jSquash', 'https://github.com/jamsinclair/jSquash', 'Apache-2.0'], ['MozJPEG', 'https://github.com/mozilla/mozjpeg', 'BSD'], ['OxiPNG', 'https://github.com/shssoichiro/oxipng', 'MIT']],
-    seoTitle: 'Comprimir imágenes gratis: reduce el peso de JPG, PNG y WebP',
-    seoDesc: 'Comprime fotos JPG, PNG y WebP gratis y sin perder calidad visible. Sin subirlas a ningún servidor, varias a la vez y con descarga en ZIP.',
-    steps: [
-      'Suelta o elige una o varias imágenes.',
-      'Ajusta la calidad y, si quieres, el tamaño máximo.',
-      'Compara el antes y el después, y descarga cada imagen o todas en un ZIP.'
-    ],
-    faq: [
-      ['¿Es gratis?', 'Sí. Sin registro, sin límite de imágenes y sin marcas de agua.'],
-      ['¿Mis fotos se suben a internet?', 'No. La compresión ocurre en tu navegador con MozJPEG, WebP y OxiPNG: tus fotos no salen de tu dispositivo.'],
-      ['¿Cuánto se reduce el peso?', 'Depende de la foto. Con la calidad por defecto, una foto de cámara suele pesar entre un 50 % y un 80 % menos.'],
-      ['¿Y si la imagen ya estaba optimizada?', 'Si el resultado pesa más que el original, la herramienta conserva el original y te lo indica.']
     ]
   },
   {
@@ -410,29 +424,29 @@ export const LAB_TOOLS = [
     ]
   },
   {
-    slug: 'generador-qr',
-    accepts: [],
-    keywords: 'qr codigo qr generar crear wifi enlace url contacto vcard menu',
-    name: 'Generador de QR',
-    task: 'Crear',
-    cat: 'Texto',
-    color: '#ffab00',
-    desc: 'Crea códigos QR para enlaces, WiFi o contactos, con tus colores y logo.',
-    weight: 'Sin descarga',
-    feature: 'PNG y SVG',
-    credits: [['qrcode-generator', 'https://github.com/kazuhikoarase/qrcode-generator', 'MIT']],
-    seoTitle: 'Generador de códigos QR gratis: enlaces, WiFi y contactos',
-    seoDesc: 'Crea códigos QR gratis para enlaces, texto, redes WiFi o contactos. Personaliza colores, añade tu logo y descárgalo en PNG o SVG. Sin registro y sin caducidad.',
+    slug: 'comprimir-imagen',
+    accepts: ['image'],
+    keywords: 'reducir peso optimizar foto mas liviana tamaño',
+    name: 'Comprimir imágenes',
+    task: 'Optimizar',
+    cat: 'Imagen',
+    color: '#ef6f9b',
+    desc: 'Reduce el peso de tus fotos sin que se note la diferencia.',
+    weight: 'Motor < 1 MB',
+    feature: 'Varias a la vez',
+    credits: [['jSquash', 'https://github.com/jamsinclair/jSquash', 'Apache-2.0'], ['MozJPEG', 'https://github.com/mozilla/mozjpeg', 'BSD'], ['OxiPNG', 'https://github.com/shssoichiro/oxipng', 'MIT']],
+    seoTitle: 'Comprimir imágenes gratis: reduce el peso de JPG, PNG y WebP',
+    seoDesc: 'Comprime fotos JPG, PNG y WebP gratis y sin perder calidad visible. Sin subirlas a ningún servidor, varias a la vez y con descarga en ZIP.',
     steps: [
-      'Elige qué quieres compartir: un enlace, un texto, tu WiFi o un contacto.',
-      'Personaliza los colores y, si quieres, añade tu logo en el centro.',
-      'Descarga el QR en PNG o SVG.'
+      'Suelta o elige una o varias imágenes.',
+      'Ajusta la calidad y, si quieres, el tamaño máximo.',
+      'Compara el antes y el después, y descarga cada imagen o todas en un ZIP.'
     ],
     faq: [
-      ['¿Es gratis?', 'Sí, sin registro ni límites.'],
-      ['¿El QR caduca?', 'No. El contenido va dentro del propio código, sin pasar por ningún servidor ni redirección, así que funciona para siempre.'],
-      ['¿Se guardan mis datos, como la clave del WiFi?', 'No. El QR se genera en tu navegador y nada se envía a internet.'],
-      ['¿El logo afecta la lectura?', 'Al añadir un logo el QR usa la máxima corrección de errores para seguir leyéndose. Prueba siempre con tu celular antes de imprimirlo.']
+      ['¿Es gratis?', 'Sí. Sin registro, sin límite de imágenes y sin marcas de agua.'],
+      ['¿Mis fotos se suben a internet?', 'No. La compresión ocurre en tu navegador con MozJPEG, WebP y OxiPNG: tus fotos no salen de tu dispositivo.'],
+      ['¿Cuánto se reduce el peso?', 'Depende de la foto. Con la calidad por defecto, una foto de cámara suele pesar entre un 50 % y un 80 % menos.'],
+      ['¿Y si la imagen ya estaba optimizada?', 'Si el resultado pesa más que el original, la herramienta conserva el original y te lo indica.']
     ]
   },
   {
@@ -463,20 +477,6 @@ export const LAB_TOOLS = [
       ['¿Mi foto se sube a un servidor?', 'No. Todo el cálculo ocurre en tu navegador.'],
       ['¿Funciona sin conexión?', 'Sí, después de la primera descarga del modelo.']
     ]
-  },
-  {
-    slug: 'descargar-videos',
-    accepts: [],
-    keywords: 'bajar video youtube instagram tiktok facebook x mp4',
-    name: 'Descargar videos',
-    task: 'Video',
-    cat: 'Externo',
-    color: '#5b8def',
-    desc: 'Pega el enlace de YouTube, Instagram, Facebook o X y guarda el video.',
-    // Mientras se construye la herramienta propia, se abre SaveFrom en una pestaña nueva.
-    external: 'https://es.savefrom.net/267hP/',
-    weight: 'Enlace externo',
-    feature: 'SaveFrom.net'
   }
 ];
 
