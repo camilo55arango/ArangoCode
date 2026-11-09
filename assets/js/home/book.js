@@ -34,6 +34,15 @@ export function initBook() {
   });
   flip.loadFromHTML(pages);
 
+  // page-flip se mide al crearse y luego solo con el resize de la ventana. Abierta desde el inicio del iPhone,
+  // la página arranca antes de tener su ancho final y el resize no llega: el libro quedaba en 0 hasta girar el celular.
+  let width = stage.clientWidth;
+  new ResizeObserver(() => {
+    if (stage.clientWidth === width) return;
+    width = stage.clientWidth;
+    flip.getUI().update();
+  }).observe(stage);
+
   const CONTROLS = 'a, button, input, textarea, select, label, canvas, .nb-draw';
 
   if (touch) {
